@@ -7,11 +7,13 @@ import Firebase, { FirebaseContext } from './components/Firebase';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-    <FirebaseContext.Provider value={new Firebase()}>
-        <UserContext>
-            <App />
-        </UserContext>
-    </FirebaseContext.Provider>,
+    <React.StrictMode>
+        <FirebaseContext.Provider value={new Firebase()}>
+            <UserContext>
+                <App />
+            </UserContext>
+        </FirebaseContext.Provider>
+    </React.StrictMode>,
   document.getElementById('root')
 );
 

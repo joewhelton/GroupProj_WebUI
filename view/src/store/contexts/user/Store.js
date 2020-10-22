@@ -2,7 +2,8 @@ import React, { createContext, useReducer } from 'react';
 import Reducer from './Reducer';
 
 const initialState = {
-    authUser: null
+    authUser: null,
+    userData: null
 };
 
 // eslint-disable-next-line react/prop-types
