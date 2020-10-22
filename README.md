@@ -1,4 +1,4 @@
-##Project initialisation
+## Project initialisation
 **Required Software**
 - Node.js and NPM
 
@@ -22,19 +22,19 @@ npm install
 
 Contact me for the contents of the Config and .env files (added these to .gitignore for security)
 
-###To run Firebase emulators locally
+### To run Firebase emulators locally
 From the root directory:
 ```shell script
 firebase serve
 ```
 
-###To run React front end locally
+### To run React front end locally
 From the `\view` directory:
 ```shell script
 npm start
 ```
 
-###To deploy all files (front end and API) to Firebase:
+### To deploy all files (front end and API) to Firebase:
 First, from the `\view` directory:
 ```shell script
 npm run-script build
