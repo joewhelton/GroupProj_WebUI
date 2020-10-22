@@ -19,7 +19,7 @@ class todo extends Component {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Typography paragraph>
-                    Hello I am todo
+                    House Prices go here
                 </Typography>
             </main>
         )

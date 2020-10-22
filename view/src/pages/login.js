@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, {useCallback, useContext, useState} from 'react';
+import {Context as UserContext} from "../store/contexts/user/Store";
+
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import * as ROUTES from "../constants/routes";
 
 import Logo from '../assets/images/mrtg-transp.svg';
 
 import axios from 'axios';
 
 const styles = (theme) => ({
+    flexCenter:{
+        display: 'flex',
+        justifyContent: 'center',
+        flexGrow: 1
+    },
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -49,64 +53,86 @@ const styles = (theme) => ({
     }
 });
 
-class login extends Component {
-    constructor(props) {
-        super(props);
+const Login = ({history, firebase, classes}) => {
+    // eslint-disable-next-line no-unused-vars
+    const [userState, userDispatch] = useContext(UserContext);
+    // eslint-disable-next-line no-unused-vars
+    const { authUser, userDetails } = userState;
 
-        this.state = {
-            email: '',
-            password: '',
-            errors: [],
-            loading: false
-        };
-    }
+    const [accountDetails, setAccountDetails] = useState({
+        email: '',
+        password: ''
+    });
+    const [errors, setErrors] = useState([]);
+    const [loading, setLoading ] = useState(false);
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.UI.errors) {
-    //         this.setState({
-    //             errors: nextProps.UI.errors
-    //         });
-    //     }
-    // }
-
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
+    const handleChange = useCallback((e) => {
+        const {target} = e;
+        const { name, value } = target;
+        setAccountDetails({
+            ...accountDetails,
+            [name]: value
         });
-    };
+    }, [accountDetails]);
 
-    handleSubmit = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        const apiUrl = process.env.REACT_APP_API_URL + 'login';
-        this.setState({ loading: true });
-        const userData = {
-            email: this.state.email,
-            password: this.state.password
-        };
+        const apiUrl = process.env.REACT_APP_API_URL;
+        setLoading(true );
+        const userData = accountDetails;
         axios
-            .post(apiUrl, userData)
+            .post(apiUrl + 'login', userData)
             .then((response) => {
                 localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-                this.setState({
-                    loading: false,
+                userDispatch({
+                    type: 'SET_AUTH_USER',
+                    payload: {
+                        authUser: response.data.token
+                    }
                 });
-                this.props.history.push('/');
+                axios.defaults.headers.common = { Authorization: `Bearer ${response.data.token}` };
+                axios
+                    .get(apiUrl + 'user')
+                    .then((response) => {
+                        console.log(response.data);
+                        const userData = {
+                            firstName: response.data.userCredentials.firstName,
+                            lastName: response.data.userCredentials.lastName,
+                            email: response.data.userCredentials.email,
+                            phoneNumber: response.data.userCredentials.phoneNumber,
+                            country: response.data.userCredentials.country,
+                            username: response.data.userCredentials.username,
+                            uiLoading: false,
+                            imageUrl: response.data.userCredentials.imageUrl,
+                        };
+                        userDispatch({
+                            type: 'SET_USER_DATA',
+                            payload: {
+                                userData
+                            }
+                        });
+                        history.push('/home');
+                        //this.loadImage(response.data.userCredentials.imageUrl);
+                    })
+                    .catch((error) => {
+                        if(error.response.status === 403) {
+                            history.push('/login')
+                        }
+                        console.log(error);
+                        setErrors('Error in retrieving the data');
+                    });
+                setLoading(false );
+                history.push(ROUTES.HOME);
             })
             .catch((error) => {
-                this.setState({
-                    errors: error.response.data,
-                    loading: false
-                });
+                setLoading(false );
+                setErrors(error.response.data);
             });
     };
 
-    render() {
-        const { classes } = this.props;
-        const { errors, loading } = this.state;
-        return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
+    return (
+            <div className={classes.flexCenter}>
+                <div className={classes.paper} maxWidth="xs">
                     <img className={classes.logo} src={Logo} />
                     <Typography component="h1" variant="h5">
                         Login
@@ -124,7 +150,7 @@ class login extends Component {
                             autoFocus
                             helperText={errors.email}
                             error={errors.email ? true : false}
-                            onChange={this.handleChange}
+                            onChange={handleChange}
                         />
                         <TextField
                             variant="outlined"
@@ -138,7 +164,7 @@ class login extends Component {
                             autoComplete="current-password"
                             helperText={errors.password}
                             error={errors.password ? true : false}
-                            onChange={this.handleChange}
+                            onChange={handleChange}
                         />
                         <Button
                             type="submit"
@@ -146,8 +172,8 @@ class login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={this.handleSubmit}
-                            disabled={loading || !this.state.email || !this.state.password}
+                            onClick={handleSubmit}
+                            disabled={loading || !accountDetails.email || !accountDetails.password}
                         >
                             Sign In
                             {loading && <CircularProgress size={30} className={classes.progess} />}
@@ -166,9 +192,8 @@ class login extends Component {
                         )}
                     </form>
                 </div>
-            </Container>
-        );
-    }
+            </div>
+    );
 }
 
-export default withStyles(styles)(login);
+export default withStyles(styles)(Login);
