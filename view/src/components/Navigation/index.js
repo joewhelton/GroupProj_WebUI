@@ -95,13 +95,13 @@ const Navigation = ({firebase, classes}) => {
                 >
                     <div className={classes.toolbar}/>
                     <Divider/>
-                    <center>
-                        <Avatar src={userData === null ? '' : userData.imageUrl} className={classes.userAvatar}/>
-                        <p>
-                            {' '}
-                            {userData === null ? '' : userData.firstName} {userData === null ? '' : userData.lastName}
-                        </p>
-                    </center>
+                        <center>
+                            <Avatar src={userData === null ? '' : userData.imageUrl} className={classes.userAvatar}/>
+                            <p>
+                                {' '}
+                                {userData === null ? '' : userData.firstName} {userData === null ? '' : userData.lastName}
+                            </p>
+                        </center>
                     <Divider/>
                     <List>
                         <ListItem>

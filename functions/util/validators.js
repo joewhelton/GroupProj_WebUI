@@ -43,3 +43,25 @@ exports.validateSignUpData = (data) => {
         valid: Object.keys(errors).length === 0
     };
 };
+
+exports.validateNewLoanOfficer = (data) => {
+    let errors = {};
+
+    if (isEmpty(data.email)) {
+        errors.email = 'Must not be empty';
+    } else if (!isEmail(data.email)) {
+        errors.email = 'Must be valid email address';
+    }
+
+    if (isEmpty(data.firstName)) errors.firstName = 'Must not be empty';
+    if (isEmpty(data.surname)) errors.surname = 'Must not be empty';
+    if (isEmpty(data.profile.phoneNumber)) errors.phoneNumber = 'Must not be empty';
+
+    if (isEmpty(data.password)) errors.password = 'Must not be empty';
+    if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passowrds must be the same';
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    };
+};
