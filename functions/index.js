@@ -9,36 +9,9 @@ const authorize = require('./util/authorize');
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE");
     next();
 });
-
-// const {
-//     getAllTodos,
-//     postOneTodo,
-//     deleteTodo,
-//     editTodo
-// } = require('./APIs/todos');
-//
-// app.get('/todos', auth, getAllTodos);
-// app.post('/todos', auth, postOneTodo);
-// app.delete('/todo/:todoId', auth, deleteTodo);
-// app.put('/todo/:todoId', auth, editTodo);
-
-// const {
-//     loginUser,
-//     signUpUser,
-//     uploadProfilePhoto,
-//     getUserDetail,
-//     updateUserDetails
-// } = require('./APIs/users');
-//
-// app.post('/login', loginUser);
-//
-// app.post('/signup', signUpUser);
-//
-// app.get('/user', auth, getUserDetail);
-// app.post('/user', auth, updateUserDetails);
-// app.post('/user/image', auth, uploadProfilePhoto);
 
 //General user endpoints
 const {
@@ -63,8 +36,14 @@ const {
     app.post('/v2/loanofficer/image/:userId', authenticate, authorize, uploadProfilePhotoById);
     app.post('/v2/loanofficer/image', authenticate, authorize, uploadProfilePhoto);
     app.get('/v2/loanofficer/:userId', authenticate, authorize, getById);
-    app.put('/V2/loanofficer/:userId', authenticate, authorize, updateLoanOfficerById);
-    app.put('/V2/loanofficer', authenticate, authorize, updateLoanOfficer);
+    app.put('/v2/loanofficer/:userId', authenticate, authorize, updateLoanOfficerById);
+    app.put('/v2/loanofficer', authenticate, authorize, updateLoanOfficer);
 
+// Financial Institution Endpoints
+const {
+    getAllFinancialInstitutions
+} = require('./APIs/v2/financialinstitution');
+
+    app.get('/v2/financialinstitution', authenticate, getAllFinancialInstitutions)
 
 exports.api = functions.https.onRequest(app);

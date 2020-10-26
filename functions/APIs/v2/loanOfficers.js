@@ -114,6 +114,7 @@ exports.updateLoanOfficer = (request, response) => {
     }
     const userRef = rdb.ref(`/users/${request.user.user_id}`);
     const updateUser = createUpdateUser(request.body);
+    console.log(updateUser);
     userRef.update(updateUser)
         .then(() => {
             return response.json({message: 'Updated successfully'});
@@ -185,16 +186,18 @@ exports.uploadProfilePhoto = (request, response) => {
             .bucket()
             .upload(imageToBeUploaded.filePath, {
                 resumable: false,
+                destination: `loanOfficerImages/${imageFileName}`,
                 metadata: {
                     metadata: {
                         contentType: imageToBeUploaded.mimetype
                     }
                 }
             })
-            .then(() => {
-                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
-                const userRef = rdb.ref(`/users/${request.user.user_id}`);
-                return userRef.update({profile: {photo: imageUrl}});
+            .then((data) => {
+                console.log(data[0].id);
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${data[0].id}?alt=media`;
+                const userRef = rdb.ref(`/users/${request.user.user_id}/profile`);
+                return userRef.update({photo: imageUrl});
             })
             .then(() => {
                 return response.json({ message: 'Image uploaded successfully' });
@@ -238,6 +241,7 @@ exports.uploadProfilePhotoById = (request, response) => {
             .bucket()
             .upload(imageToBeUploaded.filePath, {
                 resumable: false,
+                destination: 'loanOfficerImages',
                 metadata: {
                     metadata: {
                         contentType: imageToBeUploaded.mimetype

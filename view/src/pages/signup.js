@@ -12,6 +12,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import axios from 'axios';
+import {authMiddleWare} from "../util/auth";
 
 const styles = (theme) => ({
     paper: {
@@ -43,7 +44,14 @@ const Signup = (props) => {
     const [errors, setErrors] = useState('');
     const [loading, setLoading ] = useState(false);
 
-    const { classes, } = props;
+    const { history, classes } = props;
+
+    useEffect(() => {
+        const authToken = localStorage.getItem('AuthToken');
+        if( authToken !== null ){
+            history.push('/home');
+        }
+    }, [history]);
 
     const updateAccount = useCallback((e) => {
         const {target} = e;
@@ -59,20 +67,18 @@ const Signup = (props) => {
         setLoading(true);
         const newUserData = {
             firstName: newAccount.firstName,
-            lastName: newAccount.lastName,
+            surname: newAccount.surname,
             phoneNumber: newAccount.phoneNumber,
-            country: newAccount.country,
-            username: newAccount.username,
             email: newAccount.email,
             password: newAccount.password,
             confirmPassword: newAccount.confirmPassword
         };
         axios
-            .post(apiUrl + 'signup', newUserData)
+            .post(apiUrl + 'loanofficer', newUserData)
             .then((response) => {
                 localStorage.setItem('AuthToken', `${response.data.token}`);
                 setLoading(false);
-                this.props.history.push('/');
+                history.push('/');
             })
             .catch((error) => {
                 setLoading(false);
@@ -111,32 +117,17 @@ const Signup = (props) => {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="lastName"
+                                    id="surname"
                                     label="Last Name"
-                                    name="lastName"
-                                    autoComplete="lastName"
-                                    helperText={errors.lastName}
-                                    error={errors.lastName ? true : false}
+                                    name="surname"
+                                    autoComplete="surname"
+                                    helperText={errors.surname}
+                                    error={errors.surname ? true : false}
                                     onChange={updateAccount}
                                 />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="User Name"
-                                    name="username"
-                                    autoComplete="username"
-                                    helperText={errors.username}
-                                    error={errors.username ? true : false}
-                                    onChange={updateAccount}
-                                />
-                            </Grid>
-
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
                                     required
@@ -172,21 +163,6 @@ const Signup = (props) => {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="country"
-                                    label="Country"
-                                    name="country"
-                                    autoComplete="country"
-                                    helperText={errors.country}
-                                    error={errors.country ? true : false}
-                                    onChange={updateAccount}
-                                />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
                                     name="password"
                                     label="Password"
                                     type="password"
@@ -197,6 +173,7 @@ const Signup = (props) => {
                                     onChange={updateAccount}
                                 />
                             </Grid>
+
                             <Grid item xs={12}>
                                 <TextField
                                     variant="outlined"
@@ -222,9 +199,7 @@ const Signup = (props) => {
                             !newAccount.email ||
                             !newAccount.password ||
                             !newAccount.firstName ||
-                            !newAccount.lastName ||
-                            !newAccount.country ||
-                            !newAccount.username ||
+                            !newAccount.surname ||
                             !newAccount.phoneNumber}
                         >
                             Sign Up

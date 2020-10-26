@@ -90,37 +90,28 @@ const Login = ({history, firebase, classes}) => {
                         authUser: response.data.token
                     }
                 });
-                axios.defaults.headers.common = { Authorization: `Bearer ${response.data.token}` };
-                axios
-                    .get(apiUrl + 'user')
-                    .then((response) => {
-                        console.log(response.data);
-                        const userData = {
-                            firstName: response.data.userCredentials.firstName,
-                            lastName: response.data.userCredentials.lastName,
-                            email: response.data.userCredentials.email,
-                            phoneNumber: response.data.userCredentials.phoneNumber,
-                            country: response.data.userCredentials.country,
-                            username: response.data.userCredentials.username,
-                            uiLoading: false,
-                            imageUrl: response.data.userCredentials.imageUrl,
-                        };
-                        userDispatch({
-                            type: 'SET_USER_DATA',
-                            payload: {
-                                userData
-                            }
-                        });
-                        history.push('/home');
-                        //this.loadImage(response.data.userCredentials.imageUrl);
-                    })
-                    .catch((error) => {
-                        if(error.response.status === 403) {
-                            history.push('/login')
-                        }
-                        console.log(error);
-                        setErrors('Error in retrieving the data');
-                    });
+                // axios.defaults.headers.common = { Authorization: `Bearer ${response.data.token}` };
+                // axios
+                //     .get(apiUrl + 'user')
+                //     .then((response) => {
+                //         console.log(response.data);
+                //         const userData = response.data;
+                //         userDispatch({
+                //             type: 'SET_USER_DATA',
+                //             payload: {
+                //                 userData
+                //             }
+                //         });
+                //         history.push('/home');
+                //         //this.loadImage(response.data.userCredentials.imageUrl);
+                //     })
+                //     .catch((error) => {
+                //         if(error.response.status === 403) {
+                //             history.push('/login')
+                //         }
+                //         console.log(error);
+                //         setErrors('Error in retrieving the data');
+                //     });
                 setLoading(false );
                 history.push(ROUTES.HOME);
             })
