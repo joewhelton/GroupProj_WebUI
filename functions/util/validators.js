@@ -10,6 +10,10 @@ const isEmail = (email) => {
     else return false;
 };
 
+const isInValidCategory = (category) => {
+    return !(category === 'BANK' || category === 'BROKER');
+}
+
 exports.validateLoginData = (data) => {
     let errors = {};
     if (isEmpty(data.email)) errors.email = 'Must not be empty';
@@ -65,3 +69,25 @@ exports.validateNewLoanOfficer = (data) => {
         valid: Object.keys(errors).length === 0
     };
 };
+
+exports.validateNewFinancialInstitution = (data) => {
+    let errors = {};
+
+    if (isEmpty(data.email)) {
+        errors.email = 'Must not be empty';
+    } else if (!isEmail(data.email)) {
+        errors.email = 'Must be valid email address';
+    }
+
+    if (isInValidCategory(data.category)){
+        errors.category = 'Invalid category'
+    }
+    if (isEmpty(data.name)) errors.name = 'Must not be empty';
+    if (isEmpty(data.address)) errors.address = 'Must not be empty';
+    if (isEmpty(data.phoneNumber)) errors.phoneNumber = 'Must not be empty';
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    };
+}

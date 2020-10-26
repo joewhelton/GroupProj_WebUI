@@ -114,7 +114,6 @@ exports.updateLoanOfficer = (request, response) => {
     }
     const userRef = rdb.ref(`/users/${request.user.user_id}`);
     const updateUser = createUpdateUser(request.body);
-    console.log(updateUser);
     userRef.update(updateUser)
         .then(() => {
             return response.json({message: 'Updated successfully'});
