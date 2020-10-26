@@ -330,4 +330,3 @@ class account extends Component {
     }
 }
 
-export default withStyles(styles)(account);

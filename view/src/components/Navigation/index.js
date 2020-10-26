@@ -60,19 +60,11 @@ const styles = (theme) => ({
     toolbar: theme.mixins.toolbar
 });
 
-const Navigation = ({firebase, classes}) => {
+const Navigation = ({firebase, classes, logout}) => {
     let history = useHistory();
     // eslint-disable-next-line no-unused-vars
     const [userState, userDispatch] = useContext(UserContext);
     let {authUser, userData} = userState;
-
-    const logout = () =>{
-        localStorage.removeItem('AuthToken');
-        userDispatch({
-            type: 'LOG_OUT_USER'
-        });
-        history.push(ROUTES.LOGIN);
-    }
 
     return (
         <React.Fragment>
@@ -95,13 +87,13 @@ const Navigation = ({firebase, classes}) => {
                 >
                     <div className={classes.toolbar}/>
                     <Divider/>
-                    <center>
-                        <Avatar src={userData === null ? '' : userData.imageUrl} className={classes.userAvatar}/>
-                        <p>
-                            {' '}
-                            {userData === null ? '' : userData.firstName} {userData === null ? '' : userData.lastName}
-                        </p>
-                    </center>
+                        <center>
+                            <Avatar src={userData === null ? '' : userData.profile.photo} className={classes.userAvatar}/>
+                            <p>
+                                {' '}
+                                {userData === null ? '' : userData.firstName} {userData === null ? '' : userData.surname}
+                            </p>
+                        </center>
                     <Divider/>
                     <List>
                         <ListItem>
