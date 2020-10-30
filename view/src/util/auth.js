@@ -4,3 +4,11 @@ export const authMiddleWare = (history) => {
         history.push('/login')
     }
 }
+
+export const authorizeMiddleware = (history, userData, level) => {
+    if(userData) {
+        if (!userData.userRoles[level]) {
+            history.push('/login')
+        }
+    }
+}
