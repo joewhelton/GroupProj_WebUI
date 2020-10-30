@@ -1,3 +1,5 @@
+const { admin, rdb } = require('./admin');
+
 const isEmpty = (string) => {
     if (string.trim() === '') return true;
     else return false;
@@ -39,7 +41,7 @@ exports.validateSignUpData = (data) => {
     if (isEmpty(data.country)) errors.country = 'Must not be empty';
 
     if (isEmpty(data.password)) errors.password = 'Must not be empty';
-    if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passowrds must be the same';
+    if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords must be the same';
     if (isEmpty(data.username)) errors.username = 'Must not be empty';
 
     return {
@@ -62,13 +64,29 @@ exports.validateNewLoanOfficer = (data) => {
     if (isEmpty(data.profile.phoneNumber)) errors.phoneNumber = 'Must not be empty';
 
     if (isEmpty(data.password)) errors.password = 'Must not be empty';
-    if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passowrds must be the same';
+    if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords must be the same';
 
     return {
         errors,
         valid: Object.keys(errors).length === 0
     };
 };
+
+exports.validateUpdateLoanOfficer = async (data) => {
+    let errors = {};
+
+    const fiRef = rdb.ref(`/financialInstitutions/${data.profile.financialInstitutionID}`);
+    const snapshot = await fiRef.once('value');
+    const value = snapshot.val();
+    if(value === null){
+        errors.financialInstitutionID = 'Not a valid FI ID';
+    }
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    };
+}
 
 exports.validateNewFinancialInstitution = (data) => {
     let errors = {};

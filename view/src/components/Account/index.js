@@ -35,6 +35,9 @@ const Account = (props) => {
         authMiddleWare(history);
         setAccountDetails(userData);
         setUiLoading(false);
+        if(userData && userData.profile && userData.profile.financialInstitutionID){
+            setSelectedFI(userData.profile.financialInstitutionID);
+        }
     }, [history, userData]);
 
     useEffect(()=>{
