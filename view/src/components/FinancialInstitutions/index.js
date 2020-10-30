@@ -21,59 +21,9 @@ import axios from 'axios';
 import { authMiddleWare, authorizeMiddleware } from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
+import {styles} from "../../styles/styles";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-
-const styles = (theme) => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3)
-    },
-    toolbar: theme.mixins.toolbar,
-    root: {},
-    details: {
-        display: 'flex'
-    },
-    fab: {
-        margin: theme.spacing.unit,
-        position: "fixed",
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-    locationText: {
-        paddingLeft: '15px'
-    },
-    buttonProperty: {
-        position: 'absolute',
-        top: '50%'
-    },
-    uiProgess: {
-        position: 'fixed',
-        zIndex: '1000',
-        height: '31px',
-        width: '31px',
-        left: '50%',
-        top: '35%'
-    },
-    progess: {
-        position: 'absolute'
-    },
-    uploadButton: {
-        marginLeft: '8px',
-        margin: theme.spacing(1)
-    },
-    customError: {
-        color: 'red',
-        fontSize: '0.8rem',
-        marginTop: 10
-    },
-    submitButton: {
-        marginTop: '10px'
-    },
-    iconLink: {
-        color: '#666'
-    }
-});
 
 const FinancialInstitutions = (props) => {
     // eslint-disable-next-line no-unused-vars
