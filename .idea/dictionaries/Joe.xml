@@ -2,6 +2,8 @@
   <dictionary name="Joe">
     <words>
       <w>axios</w>
+      <w>financialinstitutions</w>
+      <w>newfinancialinstitution</w>
     </words>
   </dictionary>
 </component>

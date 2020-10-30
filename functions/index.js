@@ -41,9 +41,17 @@ const {
 
 // Financial Institution Endpoints
 const {
-    getAllFinancialInstitutions
-} = require('./APIs/v2/financialinstitution');
+    getFinancialInstitution,
+    getAllFinancialInstitutions,
+    newFinancialInstitution,
+    updateFinancialInstitution,
+    deleteFinancialInstitution
+} = require('./APIs/v2/financialInstitution');
 
-    app.get('/v2/financialinstitution', authenticate, getAllFinancialInstitutions)
+    app.get('/v2/financialinstitution/:fiID', authenticate, getFinancialInstitution);
+    app.get('/v2/financialinstitution', authenticate, getAllFinancialInstitutions);
+    app.post('/v2/financialinstitution', authenticate, authorize, newFinancialInstitution);
+    app.put('/v2/financialinstitution/:fiID', authenticate, authorize, updateFinancialInstitution);
+    app.delete('/v2/financialinstitution/:fiID', authenticate, authorize, deleteFinancialInstitution);
 
 exports.api = functions.https.onRequest(app);

@@ -5,60 +5,13 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Card, CardActions, CardContent, Divider, Button, Grid, TextField } from '@material-ui/core';
-
+import { styles }  from '../../styles/styles';
 import clsx from 'clsx';
 
 import axios from 'axios';
 import { authMiddleWare } from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
-
-const styles = (theme) => ({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3)
-    },
-    toolbar: theme.mixins.toolbar,
-    root: {},
-    details: {
-        display: 'flex'
-    },
-    avatar: {
-        height: 110,
-        width: 100,
-        flexShrink: 0,
-        flexGrow: 0
-    },
-    locationText: {
-        paddingLeft: '15px'
-    },
-    buttonProperty: {
-        position: 'absolute',
-        top: '50%'
-    },
-    uiProgess: {
-        position: 'fixed',
-        zIndex: '1000',
-        height: '31px',
-        width: '31px',
-        left: '50%',
-        top: '35%'
-    },
-    progess: {
-        position: 'absolute'
-    },
-    uploadButton: {
-        marginLeft: '8px',
-        margin: theme.spacing(1)
-    },
-    customError: {
-        color: 'red',
-        fontSize: '0.8rem',
-        marginTop: 10
-    },
-    submitButton: {
-        marginTop: '10px'
-    }
-});
+import SelectFinancialInstitution from "../FinancialInstitutions/SelectFinancialInstitution";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -72,6 +25,8 @@ const Account = (props) => {
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [imageError, setImageError] = useState('');
+    const [financialInstitutions, setFinancialInstitutions] = useState([]);
+    const [selectedFI, setSelectedFI] = useState('');
 
     const { profileId } = useParams();
     const { history, classes, ...rest } = props;
@@ -80,7 +35,35 @@ const Account = (props) => {
         authMiddleWare(history);
         setAccountDetails(userData);
         setUiLoading(false);
+        if(userData && userData.profile && userData.profile.financialInstitutionID){
+            setSelectedFI(userData.profile.financialInstitutionID);
+        }
     }, [history, userData]);
+
+    useEffect(()=>{
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = {Authorization: `${authToken}`};
+        axios
+            .get(apiUrl + 'financialInstitution')
+            .then((data) => {
+                const fiArray = [];
+                const fiData = data.data.fiData;
+                for (const [key, value] of Object.entries(fiData)) {
+                    let item = value;
+                    item['id'] = key;
+                    fiArray.push(item);
+                }
+                console.log(fiArray);
+                setFinancialInstitutions(fiArray);
+            })
+            .catch((error) => {
+                if (error.response.status === 403) {
+                    history.push('/login');
+                }
+                console.log(error);
+            });
+
+    }, [history]);
 
     const updateAccount = useCallback((e) => {
         const {target} = e;
@@ -140,6 +123,7 @@ const Account = (props) => {
         const authToken = localStorage.getItem('AuthToken');
         axios.defaults.headers.common = { Authorization: `${authToken}` };
         const formRequest = accountDetails;
+        formRequest.profile.financialInstitutionID = selectedFI;
         axios
             .put(apiUrl + 'loanOfficer', formRequest)
             .then(() => {
@@ -160,6 +144,11 @@ const Account = (props) => {
                 setButtonLoading(false);
             });
     };
+
+    const onChangeFI = (e) => {
+        console.log(e);
+        setSelectedFI(e.target.value);
+    }
 
     return (
         <React.Fragment>
@@ -266,6 +255,19 @@ const Account = (props) => {
                                         onChange={updateProfile}
                                     />
                                 </Grid>
+                                {financialInstitutions.length > 0
+                                    ? (
+                                        <Grid item md={6} xs={12}>
+                                            <SelectFinancialInstitution
+                                                financialInstitutions={financialInstitutions}
+                                                classes={classes}
+                                                selectedFI={selectedFI}
+                                                onChange={onChangeFI}/>
+                                        </Grid>
+                                    ) : (
+                                        ''
+                                    )
+                                }
                             </Grid>
                         </CardContent>
                         <Divider />
@@ -293,61 +295,5 @@ const Account = (props) => {
         </React.Fragment>
     )
 }
-
-
-//     render() {
-//         const { classes, ...rest } = this.props;
-//         if (this.state.uiLoading === true) {
-//             return (
-//                 <main className={classes.content}>
-//                     <div className={classes.toolbar} />
-//                     {this.state.uiLoading && <CircularProgress size={150} className={classes.uiProgess} />}
-//                 </main>
-//             );
-//         } else {
-//             return (
-//                 <main className={classes.content}>
-//                     <div className={classes.toolbar} />
-//                     <Card {...rest} className={clsx(classes.root, classes)}>
-//                         <CardContent>
-//                             <div className={classes.details}>
-//                                 <div>
-//                                     <Typography className={classes.locationText} gutterBottom variant="h4">
-//                                         {this.state.firstName} {this.state.lastName}
-//                                     </Typography>
-//                                     <Button
-//                                         variant="outlined"
-//                                         color="primary"
-//                                         type="submit"
-//                                         size="small"
-//                                         startIcon={<CloudUploadIcon />}
-//                                         className={classes.uploadButton}
-//                                         onClick={this.profilePictureHandler}
-//                                     >
-//                                         Upload Photo
-//                                     </Button>
-//                                     <input type="file" onChange={this.handleImageChange} />
-//
-//                                     {this.state.imageError ? (
-//                                         <div className={classes.customError}>
-//                                             {' '}
-//                                             Wrong Image Format || Supported Format are PNG and JPG
-//                                         </div>
-//                                     ) : (
-//                                         false
-//                                     )}
-//                                 </div>
-//                             </div>
-//                             <div className={classes.progress} />
-//                         </CardContent>
-//                         <Divider />
-//                     </Card>
-//
-
-//                 </main>
-//             );
-//         }
-//     }
-// }
 
 export default withStyles(styles)(Account);

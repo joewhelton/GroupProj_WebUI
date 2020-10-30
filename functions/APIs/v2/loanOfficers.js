@@ -2,7 +2,7 @@ const { admin, rdb } = require('../../util/admin');
 const { getData } = require('../../util/databaseHelpers');
 const config = require('../../util/config');
 const firebase = require('firebase');
-const { validateNewLoanOfficer } = require('../../util/validators');
+const { validateNewLoanOfficer, validateUpdateLoanOfficer } = require('../../util/validators');
 
 exports.getById = (request, response) => {
     const userId = request.params.userId;
@@ -108,13 +108,21 @@ const createUpdateUser = (requestBody) => {
     return updateUser;
 }
 
-exports.updateLoanOfficer = (request, response) => {
+exports.updateLoanOfficer = async (request, response) => {
     if(!request.user.userRoles.loanOfficer){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
-    const userRef = rdb.ref(`/users/${request.user.user_id}`);
     const updateUser = createUpdateUser(request.body);
-    console.log(updateUser);
+    const { valid, errors } = await validateUpdateLoanOfficer(updateUser);
+    if (!valid) {
+        console.log(valid);
+        return response.status(400).json(errors);
+    }
+    const userRef = rdb.ref(`/users/${request.user.user_id}`);
+    const snapshot = await userRef.once('value');
+    const user = snapshot.val();
+    updateUser.profile = Object.assign(user.profile, updateUser.profile);
+
     userRef.update(updateUser)
         .then(() => {
             return response.json({message: 'Updated successfully'});

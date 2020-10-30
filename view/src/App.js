@@ -10,6 +10,8 @@ import Navigation from './components/Navigation'
 import login from './pages/login';
 import signup from './pages/signup';
 import Account from './components/Account';
+import FinancialInstitutions from "./components/FinancialInstitutions";
+import EditFinancialInstitution from "./components/FinancialInstitutions/EditFinancialInstitution";
 import todo from './components/todo';
 
 import {Context as UserContext} from "./store/contexts/user/Store";
@@ -18,6 +20,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from "axios";
+import NewFinancialInstitution from "./components/FinancialInstitutions/NewFinancialInstitution";
+
 
 const drawerWidth = 240;
 
@@ -63,8 +67,18 @@ function App( { firebase, classes } ){
         userDispatch({
             type: 'LOG_OUT_USER'
         });
+        console.log("Logged out");
+        window.location.replace(ROUTES.LOGIN);
         history.push(ROUTES.LOGIN);
     });
+
+    const authorisationCheck = (level) => {
+        if(userData) {
+            if (!userData.userRoles[level]) {
+                logout();
+            }
+        }
+    }
 
     useEffect(()=>{
         const authToken = localStorage.getItem('AuthToken');
@@ -110,6 +124,12 @@ function App( { firebase, classes } ){
                         {/*<Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage}/>*/}
                         {/*<Route path={ROUTES.HOME} component={HomePage}/>*/}
                         <Route path={ROUTES.HOME} render={(props) => <Home {...props} authUser={userState.authUser}/>}/>
+                        EditFinancialInstitution
+
+                        {/*<Route path={ROUTES.FINANCIALINSTITUTIONS} render={(props) => <FinancialInstitutions {...props} authorisationCheck={authorisationCheck}/>}/>*/}
+                        <Route path={`${ROUTES.FINANCIALINSTITUTIONS}/:fiID`} component={EditFinancialInstitution}/>
+                        <Route path={ROUTES.FINANCIALINSTITUTIONS} component={FinancialInstitutions}/>
+                        <Route path={ROUTES.NEWFINANCIALINSTITUTION} component={NewFinancialInstitution}/>
                         <Route path={`${ROUTES.ACCOUNT}/:profileId`} component={Account}/>
                         <Route path={ROUTES.ACCOUNT} component={Account}/>
                         <Route path={ROUTES.TODOS} component={todo}/>

@@ -120,6 +120,21 @@ const Navigation = ({firebase, classes, logout}) => {
                             <ListItemText primary="Logout"/>
                         </ListItem>
                     </List>
+                    {userData && userData.userRoles.sysAdmin ?
+                        <React.Fragment>
+                            <Divider/>
+                            <List>
+                                <ListItem>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <AccountBoxIcon/>{' '}
+                                    </ListItemIcon>
+                                    <Link to={ROUTES.FINANCIALINSTITUTIONS}>Financial Institutions</Link>
+                                </ListItem>
+                            </List>
+                        </React.Fragment>
+                    : ''
+                    }
                 </Drawer>
             </React.Fragment>
             }
