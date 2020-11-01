@@ -134,13 +134,22 @@ exports.updateLoanOfficer = async (request, response) => {
         });
 }
 
-exports.updateLoanOfficerById = (request, response) => {
+exports.updateLoanOfficerById = async (request, response) => {
     if(!request.user.userRoles.sysAdmin){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
     const updateUser = createUpdateUser(request.body);
+    const { valid, errors } = await validateUpdateLoanOfficer(updateUser);
+    if (!valid) {
+        console.log(valid);
+        return response.status(400).json(errors);
+    }
     const userId = request.params.userId;
     const userRef = rdb.ref(`/users/${userId}`);
+    const snapshot = await userRef.once('value');
+    const user = snapshot.val();
+    updateUser.profile = Object.assign(user.profile, updateUser.profile);
+
     userRef.update(updateUser)
         .then(() => {
             return response.json({message: 'Updated successfully'});

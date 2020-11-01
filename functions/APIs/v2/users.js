@@ -19,8 +19,15 @@ exports.loginUser = (request, response) => {
     firebase
         .auth()
         .signInWithEmailAndPassword(user.email, user.password)
-        .then((data) => {
-            return data.user.getIdToken();
+        .then(async (data) => {
+            console.log(data.user.uid);
+            const userRef = rdb.ref(`/users/${data.user.uid}`);
+            const snapshot = await userRef.once('value');
+            if(snapshot.val().userRoles.loanOfficer || snapshot.val().userRoles.sysAdmin) {
+                return data.user.getIdToken();
+            } else {
+                throw new Error('Insufficient access');
+            }
         })
         .then((token) => {
             return response.json({token});

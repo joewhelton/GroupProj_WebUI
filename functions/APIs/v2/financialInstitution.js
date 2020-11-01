@@ -2,6 +2,12 @@ const { rdb } = require('../../util/admin');
 
 const { validateNewFinancialInstitution } = require('../../util/validators');
 
+const getLoanOfficers = async (fiID) => {
+    const fiRef = rdb.ref('/users');
+    const query = fiRef.orderByChild("profile/financialInstitutionID").equalTo(fiID);
+    return await query.once('value');
+}
+
 exports.getAllFinancialInstitutions = (request, response) => {
     const fiRef = rdb.ref('/financialInstitutions');
     let results = {};
@@ -88,7 +94,9 @@ exports.deleteFinancialInstitution = (request, response) => {
     const fiID = request.params.fiID;
     const fiRef = rdb.ref(`/financialInstitutions/${fiID}`);
     fiRef.remove()
-        .then(() => {
+        .then( async () => {
+            const snapshot = await getLoanOfficers(fiID);
+
             return response.json({message: 'Deleted successfully'});
         })
         .catch((error) => {
@@ -96,4 +104,10 @@ exports.deleteFinancialInstitution = (request, response) => {
                 message: "Cannot delete the record"
             });
         });
+}
+
+exports.getLoanOfficersByFiID = async (request, response) => {
+    const fiID = request.params.fiID;
+    const snapshot = await getLoanOfficers(fiID);
+    return response.status(201).json(snapshot.val() || {});
 }

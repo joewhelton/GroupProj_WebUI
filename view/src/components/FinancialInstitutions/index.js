@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
@@ -14,8 +14,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-import clsx from 'clsx';
 
 import axios from 'axios';
 import { authMiddleWare, authorizeMiddleware } from '../../util/auth';
@@ -80,7 +78,7 @@ const FinancialInstitutions = (props) => {
                                         <TableCell>Address</TableCell>
                                         <TableCell>Email</TableCell>
                                         <TableCell>Contact Number</TableCell>
-                                        <TableCell width={100}></TableCell>
+                                        <TableCell width={100}/>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
