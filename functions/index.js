@@ -45,9 +45,11 @@ const {
     getAllFinancialInstitutions,
     newFinancialInstitution,
     updateFinancialInstitution,
-    deleteFinancialInstitution
+    deleteFinancialInstitution,
+    getLoanOfficersByFiID
 } = require('./APIs/v2/financialInstitution');
 
+    app.get('/v2/financialinstitution/:fiID/getLoanOfficers', authenticate, getLoanOfficersByFiID);
     app.get('/v2/financialinstitution/:fiID', authenticate, getFinancialInstitution);
     app.get('/v2/financialinstitution', authenticate, getAllFinancialInstitutions);
     app.post('/v2/financialinstitution', authenticate, authorize, newFinancialInstitution);

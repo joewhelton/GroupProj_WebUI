@@ -183,9 +183,7 @@ const Account = (props) => {
                                         {' '}
                                         Wrong Image Format || Supported Format are PNG and JPG
                                     </div>
-                                ) : (
-                                    false
-                                )}
+                                ) : false}
                             </div>
                         </div>
                         <div className={classes.progress} />
