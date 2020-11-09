@@ -14,6 +14,8 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@tensorflow/tfjs": "^2.7.0",
+    "@tensorflow/tfjs-node": "^2.7.0",
     "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",

@@ -6,5 +6,6 @@ export const ACCOUNT = '/account';
 export const TODOS = '/todos';
 export const FINANCIALINSTITUTIONS = '/financialinstitutions';
 export const NEWFINANCIALINSTITUTION = '/newfinancialinstitution';
+export const HOUSEPRICEQUERY = '/houseprice';
 // export const ADMIN = '/admin';
 // export const PASSWORD_FORGET = '/pw-forget';

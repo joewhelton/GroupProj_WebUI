@@ -56,4 +56,14 @@ const {
     app.put('/v2/financialinstitution/:fiID', authenticate, authorize, updateFinancialInstitution);
     app.delete('/v2/financialinstitution/:fiID', authenticate, authorize, deleteFinancialInstitution);
 
+//House Price endpoints
+// const {
+//     predict
+// } = require('./APIs/v2/model');
+const {
+    predict
+} = require('./APIs/v2/housePrices')
+
+    app.post('/v2/houseprice/predict', authenticate, predict);
+
 exports.api = functions.https.onRequest(app);
