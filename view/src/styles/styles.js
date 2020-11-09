@@ -69,5 +69,18 @@ export const styles = (theme) => ({
         marginTop: 20,
         height: 80,
         width: 80
+    },
+    switchHolder:{
+        display: 'flex',
+        alignSelf: 'flex-end'
+    },
+    rangeLabel:{
+        color: 'rgba(0, 0, 0, 0.54)',
+        fontSize: '0.8rem',
+        marginTop: '0.1rem',
+        marginBottom: '1rem'
+    },
+    rangeSlider:{
+        paddingBottom: 0
     }
 });

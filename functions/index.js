@@ -64,6 +64,6 @@ const {
     predict
 } = require('./APIs/v2/housePrices')
 
-    app.get('/v2/houseprice/predict', authenticate, predict);
+    app.post('/v2/houseprice/predict', authenticate, predict);
 
 exports.api = functions.https.onRequest(app);

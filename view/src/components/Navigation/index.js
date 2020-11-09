@@ -101,7 +101,7 @@ const Navigation = ({firebase, classes, logout}) => {
                                 {' '}
                                 <NotesIcon/>{' '}
                             </ListItemIcon>
-                            <Link to={ROUTES.TODOS}>House Prices</Link>
+                            <Link to={ROUTES.HOUSEPRICEQUERY}>House Prices</Link>
                         </ListItem>
 
                         <ListItem>

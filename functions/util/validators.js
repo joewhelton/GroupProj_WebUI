@@ -1,8 +1,12 @@
 const { admin, rdb } = require('./admin');
 
 const isEmpty = (string) => {
-    if (string.trim() === '') return true;
-    else return false;
+    try {
+        if (string.trim() === '') return true;
+        else return false;
+    } catch(err){
+        return false;   //Happens if we try to trim an empty or non-string value
+    }
 };
 
 const isEmail = (email) => {
