@@ -10,7 +10,6 @@ const getLoanOfficers = async (fiID) => {
 
 exports.getAllFinancialInstitutions = (request, response) => {
     const fiRef = rdb.ref('/financialInstitutions');
-    let results = {};
     fiRef.once("value")
         .then( (data) => {
             const fiData = data.val();
