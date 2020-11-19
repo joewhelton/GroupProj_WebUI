@@ -13,6 +13,7 @@ import Account from './components/Account';
 import FinancialInstitutions from "./components/FinancialInstitutions";
 import EditFinancialInstitution from "./components/FinancialInstitutions/EditFinancialInstitution";
 import HousePrices from "./components/HousePrices";
+import UploadHousePriceModel from './components/HousePrices/UploadHousePriceModel';
 import todo from './components/todo';
 
 import {Context as UserContext} from "./store/contexts/user/Store";
@@ -133,6 +134,7 @@ function App( { firebase, classes } ){
                         <Route path={ROUTES.NEWFINANCIALINSTITUTION} component={NewFinancialInstitution}/>
                         <Route path={`${ROUTES.ACCOUNT}/:profileId`} component={Account}/>
                         <Route path={ROUTES.HOUSEPRICEQUERY} component={HousePrices}/>
+                        <Route path={ROUTES.HOUSEPRICEUPLOAD} component={UploadHousePriceModel}/>
                         <Route path={ROUTES.ACCOUNT} component={Account}/>
                         <Route path={ROUTES.TODOS} component={todo}/>
                         {/*<Route path={ROUTES.ADMIN} component={AdminPage}/>*/}

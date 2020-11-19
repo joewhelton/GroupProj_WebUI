@@ -61,9 +61,11 @@ const {
 //     predict
 // } = require('./APIs/v2/model');
 const {
-    predict
+    predict,
+    upload
 } = require('./APIs/v2/housePrices')
 
     app.post('/v2/houseprice/predict', authenticate, predict);
+    app.post('/v2/houseprice/upload', authenticate, authorize, upload);
 
 exports.api = functions.https.onRequest(app);

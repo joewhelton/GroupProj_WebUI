@@ -27,6 +27,9 @@ exports.predict = async (request, response) => {
         sqft_lot15: request.body.sqft_lot15,
     }
 
+    if(!houseQuery.yr_renovated){
+        houseQuery.yr_renovated = 0;
+    }
     const { valid, errors } = validateHousePriceQuery(houseQuery);
     if (!valid) return response.status(400).json(errors);
 
@@ -72,7 +75,63 @@ exports.predict = async (request, response) => {
     return response.status(201).json({result});
 }
 
+exports.upload = async (request, response) => {
+    console.log("Uploading");
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+    const BusBoy = require('busboy');
+    const path = require('path');
+    const os = require('os');
+    const fs = require('fs');
+    const busboy = new BusBoy({ headers: request.headers });
 
+    let modelToBeUploaded = {};
+    let weightsToBeUploaded = {};
+
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        console.log("Busboy On")
+        if (fieldname === 'modelFile'){
+            if( mimetype !== 'application/json') {
+                return response.status(400).json({ error: 'Model file is not in JSON format' });
+            }
+            const filePath = path.join(os.tmpdir(), filename);
+            modelToBeUploaded = { filePath, mimetype };
+            file.pipe(fs.createWriteStream(filePath));
+        } else if (fieldname === 'weightsFile'){
+            if( mimetype !== 'application/octet-stream') {
+                return response.status(400).json({ error: 'Weights file is not in .bin format' });
+            }
+            const filePath = path.join(os.tmpdir(), filename);
+            weightsToBeUploaded = { filePath, mimetype, filename };
+            file.pipe(fs.createWriteStream(filePath));
+        }
+    });
+
+    busboy.on('finish', async () => {
+        if(!modelToBeUploaded.filePath || !weightsToBeUploaded.filePath){
+            return response.status(400).json({ error: 'Both files must be uploaded' });
+        }
+        const directory = './model';
+        //Remove existing files
+        await fs.readdir(directory,{}, (err, files) => {
+            if (err) throw err;
+            files.forEach((file) => {
+                fs.unlinkSync(`${directory}/${file}`);
+            })
+        });
+        console.log(modelToBeUploaded.filePath);
+        await fs.rename(modelToBeUploaded.filePath, `${directory}/model.json`, (err) => {
+            if (err) throw err;
+        });
+        await fs.rename(weightsToBeUploaded.filePath, `${directory}/${weightsToBeUploaded.filename}`, (err) => {
+            if (err) throw err;
+        });
+        return response.json({ message: 'Uploaded successfully' });
+    });
+
+    busboy.end(request.rawBody);
+}
 
 
 
