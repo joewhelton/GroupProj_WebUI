@@ -136,7 +136,7 @@ exports.validateHousePriceQuery = (data) => {
     if(isEmpty(data.sqft_above) || !isNumeric(data.sqft_above)) errors.sqft_above = 'Must be a non-empty number';
     if(isEmpty(data.sqft_basement) || !isNumeric(data.sqft_basement)) errors.sqft_basement = 'Must be a non-empty number';
     if(isEmpty(data.yr_built) || !isNumeric(data.yr_built)) errors.yr_built = 'Must be a non-empty number';
-    if(isEmpty(data.yr_renovated) || !isNumeric(data.yr_renovated)) errors.yr_renovated = 'Must be a non-empty number';
+    if(!isNumeric(data.yr_renovated)) errors.yr_renovated = 'Must be empty or a number';
     if(isEmpty(data.zipcode) || !isNumeric(data.zipcode)) errors.zipcode = 'Must be a non-empty number';
     if(isEmpty(data.lat) || !isNumeric(data.lat)) errors.lat = 'Must be a non-empty number';
     if(isEmpty(data.long) || !isNumeric(data.long)) errors.long = 'Must be a non-empty number';

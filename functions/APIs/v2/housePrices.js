@@ -27,6 +27,9 @@ exports.predict = async (request, response) => {
         sqft_lot15: request.body.sqft_lot15,
     }
 
+    if(!houseQuery.yr_renovated){
+        houseQuery.yr_renovated = 0;
+    }
     const { valid, errors } = validateHousePriceQuery(houseQuery);
     if (!valid) return response.status(400).json(errors);
 

@@ -94,7 +94,13 @@ const HousePrices = (props) => {
             ...housePriceQuery,
             [name]: value
         });
-    }, [housePriceQuery]);
+        if(errors[name]){
+            setErrors({
+                ...errors,
+                [name]: undefined
+            })
+        }
+    }, [errors, housePriceQuery]);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -120,7 +126,7 @@ const HousePrices = (props) => {
 
     return (
         <React.Fragment>
-            { uiLoading
+            { uiLoading || authUser === null
                 ? (
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
