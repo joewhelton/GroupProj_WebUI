@@ -131,6 +131,13 @@ const Navigation = ({firebase, classes, logout}) => {
                                     </ListItemIcon>
                                     <Link to={ROUTES.FINANCIALINSTITUTIONS}>Financial Institutions</Link>
                                 </ListItem>
+                                <ListItem>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <AccountBoxIcon/>{' '}
+                                    </ListItemIcon>
+                                    <Link to={ROUTES.HOUSEPRICEUPLOAD}>House Price Upload</Link>
+                                </ListItem>
                             </List>
                         </React.Fragment>
                     : ''

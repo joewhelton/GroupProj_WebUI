@@ -43,6 +43,11 @@ export const styles = (theme) => ({
         fontSize: '0.8rem',
         marginTop: 10
     },
+    customSuccess: {
+        color: '#119505',
+        fontSize: '0.8rem',
+        marginTop: 10
+    },
     submitButton: {
         marginTop: '10px'
     },
