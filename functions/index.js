@@ -57,15 +57,23 @@ const {
     app.delete('/v2/financialinstitution/:fiID', authenticate, authorize, deleteFinancialInstitution);
 
 //House Price endpoints
-// const {
-//     predict
-// } = require('./APIs/v2/model');
 const {
     predict,
     upload
-} = require('./APIs/v2/housePrices')
+} = require('./APIs/v2/housePrices');
 
     app.post('/v2/houseprice/predict', authenticate, predict);
     app.post('/v2/houseprice/upload', authenticate, authorize, upload);
 
 exports.api = functions.https.onRequest(app);
+
+//Client endpoints
+const {
+    getAllClients,
+    getOwnClients,
+    getClientById
+} = require('./APIs/v2/clients');
+
+    app.get('/v2/client/own', authenticate, getOwnClients);
+    app.get('/v2/client', authenticate, authorize, getAllClients);
+    app.get('/v2/client/:clID', authenticate, authorize, getClientById);
