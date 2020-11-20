@@ -20,6 +20,8 @@ import { authMiddleWare, authorizeMiddleware } from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
+import Grid from "@material-ui/core/Grid";
+import {TextField} from "@material-ui/core";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -30,7 +32,9 @@ const FinancialInstitutions = (props) => {
     const {authUser, userData} = userState;
     const {history, classes} = props;
     const [uiLoading, setUiLoading] = useState(true);
-    const [financialInstitutions, setFinancialInstitutions] = useState({});
+    const [financialInstitutions, setFinancialInstitutions] = useState([]);
+    const [financialInstitutionsDisplay, setFinancialInstitutionsDisplay] = useState([]);
+    const [filter, setFilter] = useState('');
 
     useEffect(() => {
         if(userData) {
@@ -50,6 +54,7 @@ const FinancialInstitutions = (props) => {
                     }
                     console.log(fiArray);
                     setFinancialInstitutions(fiArray);
+                    setFinancialInstitutionsDisplay(fiArray);
                     setUiLoading(false);
                 })
                 .catch((error) => {
@@ -62,6 +67,20 @@ const FinancialInstitutions = (props) => {
         }
     }, [history, userData]);
 
+    const filterChange = (e) => {
+        const {target} = e;
+        const { value } = target;
+        setFilter(value);
+        setFinancialInstitutionsDisplay(financialInstitutions.filter((fi) => {
+            return (
+                fi.name.toLowerCase().includes(value.toLowerCase())
+                || fi.address.toLowerCase().includes(value.toLowerCase())
+                || fi.email.toLowerCase().includes(value.toLowerCase())
+                || fi.phoneNumber.toLowerCase().includes(value.toLowerCase())
+            )
+        }));
+    }
+
     return(
         <React.Fragment>
             {uiLoading ? (<main className={classes.content}>
@@ -70,6 +89,19 @@ const FinancialInstitutions = (props) => {
                 </main>)
                 : (<main className={classes.content}>
                         <div className={classes.toolbar} />
+                        <Grid container direction={"row-reverse"}>
+                            <Grid item sm={6} md={4} lg={3}>
+                                <TextField
+                                    fullWidth
+                                    label="Search"
+                                    margin="dense"
+                                    name="filter"
+                                    variant="outlined"
+                                    value={!filter ? '' : filter}
+                                    onChange={filterChange}
+                                />
+                            </Grid>
+                        </Grid>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="Financial Institution table">
                                 <TableHead>
@@ -82,7 +114,7 @@ const FinancialInstitutions = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {financialInstitutions.map((fi) => (
+                                    {financialInstitutionsDisplay.map((fi) => (
                                         <TableRow key={fi.id}>
                                             <TableCell component="th" scope="row">{fi.name}</TableCell>
                                             <TableCell>{fi.address}</TableCell>
