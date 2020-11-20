@@ -1,5 +1,4 @@
 import React from "react";
-import '../../styles/landingPage.css';
 import Logo from '../../assets/images/mrtg-transp.svg';
 import facebookIcon from '../../assets/images/sm-icons/facebook.svg';
 import twitterIcon from '../../assets/images/sm-icons/twitter.svg';
@@ -11,7 +10,7 @@ import {Link} from "react-router-dom";
 import * as ROUTES from '../../constants/routes';
 
 const Index = (props) => {
-
+    require('../../styles/landingPage.css');
     return (
         <React.Fragment>
             <header>
