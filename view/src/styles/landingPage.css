@@ -1,0 +1,105 @@
+html, body{
+    height: 100%;
+}
+
+a{
+    color: #0065B3;
+    text-decoration: none;
+}
+
+div#root{
+    height: 100%;
+}
+
+main{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+}
+
+header{
+    display: flex;
+    flex-grow: 0;
+}
+
+img#logo{
+    width: 200px;
+}
+
+div.navbarHolder{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+div.loginHolder{
+    display: flex;
+    flex-grow: 8;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+div.loginLink{
+    display: flex;
+    align-items: center;
+    color: #0065B3;
+}
+
+div.loginLink svg{
+    margin-right: 0.5rem;
+}
+
+div.menuHolder{
+    border-top: 2px grey solid;
+    flex-grow: 1;
+}
+
+ul#menu{
+    list-style-type: none;
+    padding: 0;
+}
+
+ul#menu > li {
+    display: inline;
+    margin-left: 2rem;
+}
+
+ul#menu a {
+    font-size: 1.1rem;
+}
+
+section.middle{
+    flex-grow: 1;
+    background-image: url('../assets/images/houses.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+a.registerLink{
+    background-color: rgba(0,0,0,0.5);
+    align-self: flex-end;
+    padding: 1rem;
+    color: #ccc;
+    font-size: 1.3rem;
+}
+
+footer{
+    display: flex;
+    flex-grow: 0;
+    padding: 1rem;
+}
+
+div.sm-icons{
+    display: flex;
+}
+
+div.sm-icons img{
+    width: 50px;
+    margin-right: 3rem;
+}

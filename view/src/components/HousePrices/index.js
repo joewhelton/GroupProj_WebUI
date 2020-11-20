@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -31,11 +31,12 @@ const HousePrices = (props) => {
     const [buttonLoading, setButtonLoading] = useState(false);
     const [dateOfSale, setDateOfSale] = React.useState(new Date('2014-01-01T00:00:00'));
     const [errors, setErrors] = useState([]);
+    const [result, setResult] = useState('');
     const [housePriceQuery, setHousePriceQuery] = useState({
         sale_date: '',
-        sale_yr: '',
-        sale_month: '',
-        sale_day: '',
+        sale_yr: '2014',
+        sale_month: '01',
+        sale_day: '01',
         bedrooms: '',
         bathrooms: '',
         sqft_living: '',
@@ -56,6 +57,8 @@ const HousePrices = (props) => {
         sqft_living15: '',
         sqft_lot15: ''
     });
+
+    const queryResult = useRef('');
 
     useEffect(() => {
         authMiddleWare(history);
@@ -113,7 +116,8 @@ const HousePrices = (props) => {
             .post(apiUrl + 'houseprice/predict', formRequest)
             .then((data) => {
                 setButtonLoading(false);
-                console.log(data);
+                console.log(data.data.result);
+                setResult(data.data.result);
             })
             .catch((error) => {
                 if (error.response.status === 403) {
@@ -425,16 +429,31 @@ const HousePrices = (props) => {
                                 <CardActions />
                             </form>
                         </Card>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            type="submit"
-                            className={classes.submitButton}
-                            onClick={onSubmit}
-                        >
-                            Save details
-                            {buttonLoading && <CircularProgress size={30} className={classes.progess} />}
-                        </Button>
+                        <Grid container justify={"space-between"}>
+                            <Grid item>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    type="submit"
+                                    className={classes.submitButton}
+                                    onClick={onSubmit}
+                                >
+                                    Submit Query
+                                    {buttonLoading && <CircularProgress size={30} className={classes.progess} />}
+                                </Button>
+                            </Grid>
+                            {result ?
+                                <Grid item style={{display: 'flex'}}>
+                                    <Card ref={queryResult} style={{
+                                        marginTop: '0.4rem',
+                                        padding: '0 1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}>Result: <span style={{fontWeight: 'bold'}}>{result}</span></Card>
+                                </Grid>
+                                : ''
+                            }
+                        </Grid>
                     </main>
                 )}
         </React.Fragment>
