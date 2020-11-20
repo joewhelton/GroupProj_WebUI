@@ -18,6 +18,8 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Grid from "@material-ui/core/Grid";
+import {TextField} from "@material-ui/core";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -28,7 +30,9 @@ const Clients = (props) => {
     const {authUser, userData} = userState;
     const {history, classes} = props;
     const [uiLoading, setUiLoading] = useState(true);
-    const [clients, setClients] = useState({});
+    const [clients, setClients] = useState([]);
+    const [clientsDisplay, setClientsDisplay] = useState([]);
+    const [filter, setFilter] = useState('');
 
     useEffect(() => {
         if(userData) {
@@ -63,6 +67,19 @@ const Clients = (props) => {
         }
     }, [history, userData]);
 
+    const filterChange = (e) => {
+        const {target} = e;
+        const { value } = target;
+        setFilter(value);
+        setClientsDisplay(clients.filter((cl) => {
+            return (
+                cl.name.toLowerCase().includes(value.toLowerCase())
+                || cl.email.toLowerCase().includes(value.toLowerCase())
+                || cl.profile.mobile.toLowerCase().includes(value.toLowerCase())
+            )
+        }));
+    }
+
     return(
         <React.Fragment>
             {uiLoading ? (<main className={classes.content}>
@@ -71,6 +88,19 @@ const Clients = (props) => {
                 </main>)
                 : (<main className={classes.content}>
                         <div className={classes.toolbar} />
+                        <Grid container direction={"row-reverse"}>
+                            <Grid item sm={6} md={4} lg={3}>
+                                <TextField
+                                    fullWidth
+                                    label="Search"
+                                    margin="dense"
+                                    name="filter"
+                                    variant="outlined"
+                                    value={!filter ? '' : filter}
+                                    onChange={filterChange}
+                                />
+                            </Grid>
+                        </Grid>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="Financial Institution table">
                                 <TableHead>
