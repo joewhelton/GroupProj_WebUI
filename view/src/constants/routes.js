@@ -8,5 +8,6 @@ export const FINANCIALINSTITUTIONS = '/financialinstitutions';
 export const NEWFINANCIALINSTITUTION = '/newfinancialinstitution';
 export const HOUSEPRICEQUERY = '/houseprice';
 export const HOUSEPRICEUPLOAD = '/housepriceupload';
+export const CLIENTS = '/clients';
 // export const ADMIN = '/admin';
 // export const PASSWORD_FORGET = '/pw-forget';
