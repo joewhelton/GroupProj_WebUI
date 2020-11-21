@@ -118,9 +118,9 @@ const Clients = (props) => {
                             <Table className={classes.table} aria-label="Financial Institution table">
                                 <TableHead className={classes.tableHeading}>
                                     <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Contact Number</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Name</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Email</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Contact Number</TableCell>
                                         <TableCell width={100}/>
                                     </TableRow>
                                 </TableHead>

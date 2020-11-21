@@ -22,6 +22,8 @@ import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
 import Grid from "@material-ui/core/Grid";
 import {TextField} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import ConfirmDialog from "../ConfirmDialog";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -32,6 +34,8 @@ const FinancialInstitutions = (props) => {
     const {authUser, userData} = userState;
     const {history, classes} = props;
     const [uiLoading, setUiLoading] = useState(true);
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [targetID, setTargetID] = useState(null);
     const [financialInstitutions, setFinancialInstitutions] = useState([]);
     const [financialInstitutionsDisplay, setFinancialInstitutionsDisplay] = useState([]);
     const [filter, setFilter] = useState('');
@@ -66,6 +70,10 @@ const FinancialInstitutions = (props) => {
                 });
         }
     }, [history, userData]);
+
+    const deletePost = (id) => {
+        console.log(`Deleting FI #${id}`);
+    }
 
     const filterChange = (e) => {
         const {target} = e;
@@ -104,12 +112,12 @@ const FinancialInstitutions = (props) => {
                         </Grid>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="Financial Institution table">
-                                <TableHead>
+                                <TableHead className={classes.tableHeading}>
                                     <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Address</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Contact Number</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Name</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Address</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Email</TableCell>
+                                        <TableCell className={classes.tableHeadingCell}>Contact Number</TableCell>
                                         <TableCell width={100}/>
                                     </TableRow>
                                 </TableHead>
@@ -124,7 +132,12 @@ const FinancialInstitutions = (props) => {
                                                 <Link to={`${ROUTES.FINANCIALINSTITUTIONS}/${fi.id}`}>
                                                     <EditIcon className={classes.iconLink}/>
                                                 </Link>
-                                                <DeleteIcon/>
+                                                <IconButton onClick={() => {
+                                                    setConfirmOpen(true);
+                                                    setTargetID(fi.id);
+                                                }}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -134,6 +147,15 @@ const FinancialInstitutions = (props) => {
                         <Fab color="primary" aria-label="add" className={classes.fab} href={ROUTES.NEWFINANCIALINSTITUTION}>
                             <AddIcon />
                         </Fab>
+                        <ConfirmDialog
+                            title="Delete Post?"
+                            open={confirmOpen}
+                            setOpen={setConfirmOpen}
+                            onConfirm={deletePost}
+                            target={targetID}
+                        >
+                            Are you sure you want to delete this record?
+                        </ConfirmDialog>
                     </main>
                 )
             }
