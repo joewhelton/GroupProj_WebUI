@@ -18,6 +18,7 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Grid from "@material-ui/core/Grid";
 import {TextField} from "@material-ui/core";
 
@@ -28,20 +29,26 @@ const Clients = (props) => {
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
     const {authUser, userData} = userState;
-    const {history, classes} = props;
+    const {history, classes, mode} = props;
     const [uiLoading, setUiLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [clientsDisplay, setClientsDisplay] = useState([]);
     const [filter, setFilter] = useState('');
 
     useEffect(() => {
+        console.log(mode);
         if(userData) {
             authMiddleWare(history);
-            authorizeMiddleware(history, userData, 'loanOfficer');
+            if(mode === 'all'){
+                authorizeMiddleware(history, userData, 'sysAdmin');
+            } else {
+                authorizeMiddleware(history, userData, 'loanOfficer');
+            }
             const authToken = localStorage.getItem('AuthToken');
             axios.defaults.headers.common = {Authorization: `${authToken}`};
+            const endpoint = mode === 'all' ? 'client' : 'client/own';
             axios
-                .get(apiUrl + 'client/own')
+                .get(apiUrl + endpoint)
                 .then((data) => {
                     const clientArray = [];
                     const clientData = data.data.clientData;
@@ -54,6 +61,7 @@ const Clients = (props) => {
                     }
                     console.log(clientArray);
                     setClients(clientArray);
+                    setClientsDisplay(clientArray);
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
@@ -65,7 +73,7 @@ const Clients = (props) => {
                     setUiLoading(false)
                 );
         }
-    }, [history, userData]);
+    }, [history, mode, userData]);
 
     const filterChange = (e) => {
         const {target} = e;
@@ -73,9 +81,13 @@ const Clients = (props) => {
         setFilter(value);
         setClientsDisplay(clients.filter((cl) => {
             return (
-                cl.name.toLowerCase().includes(value.toLowerCase())
+                cl.firstName.toLowerCase().includes(value.toLowerCase())
+                || cl.surname.toLowerCase().includes(value.toLowerCase())
                 || cl.email.toLowerCase().includes(value.toLowerCase())
-                || cl.profile.mobile.toLowerCase().includes(value.toLowerCase())
+                || (cl.profile ?
+                        cl.profile.mobile.toLowerCase().includes(value.toLowerCase())
+                        : false
+                )
             )
         }));
     }
@@ -98,12 +110,13 @@ const Clients = (props) => {
                                     variant="outlined"
                                     value={!filter ? '' : filter}
                                     onChange={filterChange}
+                                    size="small"
                                 />
                             </Grid>
                         </Grid>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="Financial Institution table">
-                                <TableHead>
+                                <TableHead className={classes.tableHeading}>
                                     <TableRow>
                                         <TableCell>Name</TableCell>
                                         <TableCell>Email</TableCell>
@@ -112,16 +125,15 @@ const Clients = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {clients.map((client) => (
+                                    {clientsDisplay.map((client) => (
                                         <TableRow key={client.id}>
                                             <TableCell component="th" scope="row">{`${client.firstName} ${client.surname}`}</TableCell>
                                             <TableCell>{client.email}</TableCell>
-                                            <TableCell>{client.profile.mobile}</TableCell>
+                                            <TableCell>{client.profile ? client.profile.mobile : ''}</TableCell>
                                             <TableCell>
-                                                <Link to={`${ROUTES.FINANCIALINSTITUTIONS}/${client.id}`}>
-                                                    <EditIcon className={classes.iconLink}/>
+                                                <Link to={`${ROUTES.CLIENTS}/${client.id}`}>
+                                                    <MenuOpenIcon className={classes.iconLink}/>
                                                 </Link>
-                                                <DeleteIcon/>
                                             </TableCell>
                                         </TableRow>
                                     ))}

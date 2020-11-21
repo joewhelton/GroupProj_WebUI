@@ -154,6 +154,13 @@ const Navigation = ({firebase, classes, logout}) => {
                                     </ListItemIcon>
                                     <ListItemText primary="House Price Upload"/>
                                 </ListItem>
+                                <ListItem button component={Link} to={ROUTES.ALLCLIENTS}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <SupervisedUserCircleIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="All Clients"/>
+                                </ListItem>
                             </List>
                         </React.Fragment>
                     : ''

@@ -5,7 +5,7 @@ exports.getAllClients = (request, response) => {
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
     const clientRef = rdb.ref('/users');
-    const query = clientRef.orderByChild("userRole/client").equalTo(true);
+    const query = clientRef.orderByChild("userRole").equalTo("client");
     query.once("value")
         .then( (data) => {
             const clientData = data.val();
@@ -34,13 +34,14 @@ exports.getOwnClients = (request, response) => {
 
 exports.getClientById = async (request, response) => {
     const clID = request.params.clID;
-    const clRef = rdb.ref(`/financialInstitutions/${clID}`);
+    const clRef = rdb.ref(`/users/${clID}`);
     const snapshot = await clRef.once('value');
     let client = (snapshot.val() || {});
     if(!request.user.userRoles.sysAdmin && client.profile){
-        if(client.profile.loanOfficerID !== request.user.user_id){
+        if(client.profile.loanOfficerId !== request.user.user_id){
             return response.status(403).json({ error: 'Unauthorized operation' });
         }
     }
+    console.log(client);
     return response.status(201).json(client);
 }

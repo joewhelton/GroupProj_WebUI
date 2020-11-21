@@ -87,5 +87,8 @@ export const styles = (theme) => ({
     },
     rangeSlider:{
         paddingBottom: 0
+    },
+    tableHeading:{
+        fontWeight: 'bold'
     }
 });
