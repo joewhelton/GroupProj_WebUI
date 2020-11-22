@@ -13,39 +13,41 @@ const Index = (props) => {
     require('../../styles/landingPage.css');
     return (
         <React.Fragment>
-            <header>
-                <img id='logo' src={Logo} alt={'Logo'}/>
-                <div className='navbarHolder'>
-                    <div className='loginHolder'>
-                        <div className='loginLink'>
-                            <AccountBoxIcon/><a href='/login'> Broker Login</a>
+            <div className='landingFrame'>
+                <header>
+                    <img id='logo' src={Logo} alt={'Logo'}/>
+                    <div className='navbarHolder'>
+                        <div className='loginHolder'>
+                            <div className='loginLink'>
+                                <AccountBoxIcon/><a href='/login'> Broker Login</a>
+                            </div>
+                        </div>
+                        <div className='menuHolder'>
+                            <ul id='menu'>
+                                <li>
+                                    <a href='#'>About</a></li>
+                                <li>
+                                    <a href='#'>Home Loans</a></li>
+                                <li>
+                                    <a href='#'>Contact Us</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div className='menuHolder'>
-                        <ul id='menu'>
-                            <li>
-                                <a href='#'>About</a></li>
-                            <li>
-                                <a href='#'>Home Loans</a></li>
-                            <li>
-                                <a href='#'>Contact Us</a></li>
-                        </ul>
+                </header>
+                <section className='middle'>
+                    <Button className='registerLink' component={Link} to={ROUTES.SIGN_UP}>
+                        Register as a Broker
+                    </Button>
+                </section>
+                <footer>
+                    <div className='sm-icons'>
+                        <a href='#'><img src={facebookIcon} alt={'Social Media Icon'}/></a>
+                        <a href='#'><img src={twitterIcon} alt={'Social Media Icon'}/></a>
+                        <a href='#'><img src={linkedinIcon} alt={'Social Media Icon'}/></a>
+                        <a href='#'><img src={gplusIcon} alt={'Social Media Icon'}/></a>
                     </div>
-                </div>
-            </header>
-            <section className='middle'>
-                <Button className='registerLink' component={Link} to={ROUTES.SIGN_UP}>
-                    Register as a Broker
-                </Button>
-            </section>
-            <footer>
-                <div className='sm-icons'>
-                    <a href='#'><img src={facebookIcon} alt={'Social Media Icon'}/></a>
-                    <a href='#'><img src={twitterIcon} alt={'Social Media Icon'}/></a>
-                    <a href='#'><img src={linkedinIcon} alt={'Social Media Icon'}/></a>
-                    <a href='#'><img src={gplusIcon} alt={'Social Media Icon'}/></a>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </React.Fragment>
     )
 }

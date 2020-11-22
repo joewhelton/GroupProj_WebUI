@@ -2,12 +2,6 @@ const { rdb } = require('../../util/admin');
 
 const { validateNewFinancialInstitution } = require('../../util/validators');
 
-const getLoanOfficers = async (fiID) => {
-    const fiRef = rdb.ref('/users');
-    const query = fiRef.orderByChild("profile/financialInstitutionID").equalTo(fiID);
-    return await query.once('value');
-}
-
 exports.getAllFinancialInstitutions = (request, response) => {
     const fiRef = rdb.ref('/financialInstitutions');
     fiRef.once("value")
@@ -86,7 +80,7 @@ exports.updateFinancialInstitution = (request, response) => {
         });
 }
 
-exports.deleteFinancialInstitution = (request, response) => {
+exports.deleteFinancialInstitution = async (request, response) => {
     if(!request.user.userRoles.sysAdmin){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
@@ -95,7 +89,10 @@ exports.deleteFinancialInstitution = (request, response) => {
     fiRef.remove()
         .then( async () => {
             const snapshot = await getLoanOfficers(fiID);
-
+            await snapshot.forEach(async (loanOfficer) => {
+                const userRef = rdb.ref(`/users/${loanOfficer.key}/profile`);
+                await userRef.update({financialInstitutionID: ''});
+            });
             return response.json({message: 'Deleted successfully'});
         })
         .catch((error) => {
@@ -103,6 +100,13 @@ exports.deleteFinancialInstitution = (request, response) => {
                 message: "Cannot delete the record"
             });
         });
+    return response.json({message: 'Deleted successfully'});
+}
+
+const getLoanOfficers = async (fiID) => {
+    const fiRef = rdb.ref('/users');
+    const query = fiRef.orderByChild("profile/financialInstitutionID").equalTo(fiID);
+    return await query.once('value');
 }
 
 exports.getLoanOfficersByFiID = async (request, response) => {

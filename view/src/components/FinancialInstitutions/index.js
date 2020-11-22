@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
@@ -40,6 +40,33 @@ const FinancialInstitutions = (props) => {
     const [financialInstitutionsDisplay, setFinancialInstitutionsDisplay] = useState([]);
     const [filter, setFilter] = useState('');
 
+    const updateFromServer = useCallback(() => {
+        setUiLoading(true);
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = {Authorization: `${authToken}`};
+        axios
+            .get(apiUrl + 'financialInstitution')
+            .then((data) => {
+                const fiArray = [];
+                const fiData = data.data.fiData;
+                for (const [key, value] of Object.entries(fiData)) {
+                    let item = value;
+                    item['id'] = key;
+                    fiArray.push(item);
+                }
+                console.log(fiArray);
+                setFinancialInstitutions(fiArray);
+                setFinancialInstitutionsDisplay(fiArray);
+            })
+            .catch((error) => {
+                if (error.response.status === 403) {
+                    history.push('/login');
+                }
+                console.log(error);
+            }).finally(() => setUiLoading(false)
+        );
+    })
+
     useEffect(() => {
         if(userData) {
             authMiddleWare(history);
@@ -59,20 +86,31 @@ const FinancialInstitutions = (props) => {
                     console.log(fiArray);
                     setFinancialInstitutions(fiArray);
                     setFinancialInstitutionsDisplay(fiArray);
-                    setUiLoading(false);
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
-                    setUiLoading(false);
-                });
+                }).finally(() => setUiLoading(false)
+            );
         }
     }, [history, userData]);
 
     const deletePost = (id) => {
         console.log(`Deleting FI #${id}`);
+        const authToken = localStorage.getItem('AuthToken');
+        axios.defaults.headers.common = {Authorization: `${authToken}`};
+        axios
+            .delete(apiUrl + `financialInstitution/${id}`)
+            .then((data) => {
+                updateFromServer();
+            }).catch((error) => {
+            if (error.response.status === 403) {
+                history.push('/login');
+            }
+            console.log(error);
+        });
     }
 
     const filterChange = (e) => {
@@ -118,7 +156,7 @@ const FinancialInstitutions = (props) => {
                                         <TableCell className={classes.tableHeadingCell}>Address</TableCell>
                                         <TableCell className={classes.tableHeadingCell}>Email</TableCell>
                                         <TableCell className={classes.tableHeadingCell}>Contact Number</TableCell>
-                                        <TableCell width={100}/>
+                                        <TableCell width={130}/>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -129,9 +167,15 @@ const FinancialInstitutions = (props) => {
                                             <TableCell>{fi.email}</TableCell>
                                             <TableCell>{fi.phoneNumber}</TableCell>
                                             <TableCell>
-                                                <Link to={`${ROUTES.FINANCIALINSTITUTIONS}/${fi.id}`}>
+                                                {/*<Link to={`${ROUTES.FINANCIALINSTITUTIONS}/${fi.id}`}>*/}
+                                                {/*    <EditIcon className={classes.iconLink}/>*/}
+                                                {/*</Link>*/}
+                                                <IconButton
+                                                    component={Link}
+                                                    to={`${ROUTES.FINANCIALINSTITUTIONS}/${fi.id}`}
+                                                    >
                                                     <EditIcon className={classes.iconLink}/>
-                                                </Link>
+                                                </IconButton>
                                                 <IconButton onClick={() => {
                                                     setConfirmOpen(true);
                                                     setTargetID(fi.id);
@@ -148,7 +192,7 @@ const FinancialInstitutions = (props) => {
                             <AddIcon />
                         </Fab>
                         <ConfirmDialog
-                            title="Delete Post?"
+                            title="Delete Financial Institution"
                             open={confirmOpen}
                             setOpen={setConfirmOpen}
                             onConfirm={deletePost}

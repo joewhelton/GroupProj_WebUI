@@ -84,6 +84,18 @@ const ViewClient = (props) => {
                                 <Grid item lg={3} md={4} sm={12} xs={12}>
                                     <TextField
                                         fullWidth
+                                        label="Gender"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.gender : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
                                         label="Email"
                                         margin="dense"
                                         variant="standard"
@@ -184,6 +196,78 @@ const ViewClient = (props) => {
                                         margin="dense"
                                         variant="standard"
                                         value={client ? ( client.profile ? client.profile.marital : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Income"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.applicantincome : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Co-Applicant Income"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.coapplicantincome : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Credit History"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.credithistory : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Education"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.education : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Self Employed"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? client.profile.selfemployed : '' ) : ''}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item lg={3} md={4} sm={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Loan Officer"
+                                        margin="dense"
+                                        variant="standard"
+                                        value={client ? ( client.profile ? `${client.profile.loanOfficer.firstName} ${client.profile.loanOfficer.surname}` : '' ) : ''}
                                         InputProps={{
                                             readOnly: true,
                                         }}

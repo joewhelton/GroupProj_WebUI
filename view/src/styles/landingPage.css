@@ -13,17 +13,23 @@ div#root{
 
 main{
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 !important;
 }
 
-header{
+div.landingFrame{
+    height: 100%;
+    width: 110%;
+    display: flex;
+    flex-direction: column;
+    margin-left: -24px;
+    margin-right: -24px;
+}
+
+div.landingFrame header{
     display: flex;
     flex-grow: 0;
 }
 
-img#logo{
+div.landingFrame img#logo{
     width: 200px;
 }
 
@@ -89,7 +95,7 @@ a.registerLink{
     font-size: 1.3rem;
 }
 
-footer{
+div.landingFrame footer{
     display: flex;
     flex-grow: 0;
     padding: 1rem;

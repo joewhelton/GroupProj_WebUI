@@ -41,7 +41,18 @@ exports.getClientById = async (request, response) => {
         if(client.profile.loanOfficerId !== request.user.user_id){
             return response.status(403).json({ error: 'Unauthorized operation' });
         }
+    } else if(!request.user.userRoles.sysAdmin && !client.profile){
+        return response.status(403).json({ error: 'Unauthorized operation - No Client Profile' });
     }
+    if(client.profile){
+        if(client.profile.loanOfficerId){
+            const loRef = rdb.ref(`/users/${client.profile.loanOfficerId}`);
+            const loSnapshot = await loRef.once('value');
+            let lo = (loSnapshot.val() || {});
+            client.profile.loanOfficer = lo;
+        }
+    }
+
     console.log(client);
     return response.status(201).json(client);
 }
