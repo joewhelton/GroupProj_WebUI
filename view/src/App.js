@@ -14,6 +14,8 @@ import FinancialInstitutions from "./components/FinancialInstitutions";
 import EditFinancialInstitution from "./components/FinancialInstitutions/EditFinancialInstitution";
 import HousePrices from "./components/HousePrices";
 import UploadHousePriceModel from './components/HousePrices/UploadHousePriceModel';
+import Clients from './components/Clients/index';
+import ViewClient from "./components/Clients/ViewClient";
 import todo from './components/todo';
 
 import {Context as UserContext} from "./store/contexts/user/Store";
@@ -136,6 +138,9 @@ function App( { firebase, classes } ){
                         <Route path={ROUTES.HOUSEPRICEQUERY} component={HousePrices}/>
                         <Route path={ROUTES.HOUSEPRICEUPLOAD} component={UploadHousePriceModel}/>
                         <Route path={ROUTES.ACCOUNT} component={Account}/>
+                        <Route path={`${ROUTES.CLIENTS}/:clID`} component={ViewClient}/>
+                        <Route path={ROUTES.CLIENTS} component={Clients}/>
+                        <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
                         <Route path={ROUTES.TODOS} component={todo}/>
                         {/*<Route path={ROUTES.ADMIN} component={AdminPage}/>*/}
                     </Switch>

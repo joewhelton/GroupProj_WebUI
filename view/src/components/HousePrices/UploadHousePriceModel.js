@@ -74,7 +74,6 @@ const UploadHousePriceModel = (props) => {
             .finally(() =>
                 setButtonLoading(false)
         );
-
     }
 
     return (

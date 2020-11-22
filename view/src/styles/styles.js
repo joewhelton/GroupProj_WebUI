@@ -87,5 +87,14 @@ export const styles = (theme) => ({
     },
     rangeSlider:{
         paddingBottom: 0
+    },
+    tableHeading:{
+        backgroundColor: 'rgba(0, 101, 179, 0.8)'
+    },
+    tableHeadingCell:{
+        fontWeight: 'bold',
+        color: 'white',
+        paddingTop: '0.5rem',
+        paddingBottom: '0.5rem'
     }
 });

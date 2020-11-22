@@ -11,6 +11,9 @@ import NotesIcon from "@material-ui/icons/Notes";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import PublishIcon from '@material-ui/icons/Publish';
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import * as ROUTES from '../../constants/routes';
@@ -96,20 +99,26 @@ const Navigation = ({firebase, classes, logout}) => {
                         </center>
                     <Divider/>
                     <List>
-                        <ListItem>
+                        <ListItem button component={Link} to={ROUTES.HOUSEPRICEQUERY}>
                             <ListItemIcon>
                                 {' '}
                                 <NotesIcon/>{' '}
                             </ListItemIcon>
-                            <Link to={ROUTES.HOUSEPRICEQUERY}>House Prices</Link>
+                            <ListItemText primary="House Prices"/>
                         </ListItem>
-
-                        <ListItem>
+                        <ListItem button component={Link} to={ROUTES.CLIENTS}>
+                            <ListItemIcon>
+                                {' '}
+                                <SupervisedUserCircleIcon/>{' '}
+                            </ListItemIcon>
+                            <ListItemText primary="My Clients"/>
+                        </ListItem>
+                        <ListItem button component={Link} to={ROUTES.ACCOUNT}>
                             <ListItemIcon>
                                 {' '}
                                 <AccountBoxIcon/>{' '}
                             </ListItemIcon>
-                            <Link to={ROUTES.ACCOUNT}>Account</Link>
+                            <ListItemText primary="My Profile"/>
                         </ListItem>
 
                         <ListItem button key="Logout" onClick={logout}>
@@ -125,18 +134,32 @@ const Navigation = ({firebase, classes, logout}) => {
                             <Divider/>
                             <List>
                                 <ListItem>
-                                    <ListItemIcon>
-                                        {' '}
-                                        <AccountBoxIcon/>{' '}
-                                    </ListItemIcon>
-                                    <Link to={ROUTES.FINANCIALINSTITUTIONS}>Financial Institutions</Link>
+                                    <ListItemText
+                                        primary={
+                                            <Typography style={{fontWeight: 'bold'}}>Admin Menu</Typography>
+                                        }
+                                    />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem button component={Link} to={ROUTES.FINANCIALINSTITUTIONS}>
                                     <ListItemIcon>
                                         {' '}
-                                        <AccountBoxIcon/>{' '}
+                                        <AccountBalanceIcon/>{' '}
                                     </ListItemIcon>
-                                    <Link to={ROUTES.HOUSEPRICEUPLOAD}>House Price Upload</Link>
+                                    <ListItemText primary="Financial Institutions"/>
+                                </ListItem>
+                                <ListItem button component={Link} to={ROUTES.HOUSEPRICEUPLOAD}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <PublishIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="House Price Upload"/>
+                                </ListItem>
+                                <ListItem button component={Link} to={ROUTES.ALLCLIENTS}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <SupervisedUserCircleIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="All Clients"/>
                                 </ListItem>
                             </List>
                         </React.Fragment>
