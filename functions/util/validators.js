@@ -118,6 +118,22 @@ exports.validateNewFinancialInstitution = (data) => {
     };
 }
 
+exports.validateNewLoanApplication = (data) => {
+    let errors = {};
+
+    if (isEmpty(data.clientId)) {
+        errors.clientId = 'Must not be empty';
+    }
+    if (isEmpty(data.amount)) errors.amount = 'Must not be empty';
+    if (isEmpty(data.term)) errors.term = 'Must not be empty';
+    if (isEmpty(data.propertyArea)) errors.propertyArea = 'Must not be empty';
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    };
+}
+
 exports.validateHousePriceQuery = (data) => {
     let errors = {};
 
