@@ -3,6 +3,7 @@
     <words>
       <w>allclients</w>
       <w>axios</w>
+      <w>clsx</w>
       <w>financialinstitution</w>
       <w>financialinstitutions</w>
       <w>houseprice</w>
@@ -11,6 +12,8 @@
       <w>loanapplication</w>
       <w>loanofficer</w>
       <w>newfinancialinstitution</w>
+      <w>newloanapplication</w>
+      <w>progess</w>
       <w>sqft</w>
     </words>
   </dictionary>

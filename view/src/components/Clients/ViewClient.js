@@ -11,6 +11,7 @@ import {Card, CardContent, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import LoanApplications from "../LoanApplications";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -276,6 +277,7 @@ const ViewClient = (props) => {
                             </Grid>
                         </CardContent>
                     </Card>
+                    <LoanApplications history={history} classes={classes} clID={clID}/>
                     </main>
                 )
             }

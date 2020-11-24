@@ -1,6 +1,6 @@
 const { rdb } = require('../../util/admin');
 const clientCheck = require('../../util/clientCheck');
-const validateNewLoanApplication = require('../../util/validators');
+const { validateNewLoanApplication } = require('../../util/validators');
 
 exports.newLoanApplication = (request, response) => {
     if(!request.user.userRoles.sysAdmin){
@@ -18,7 +18,7 @@ exports.newLoanApplication = (request, response) => {
     const { valid, errors } = validateNewLoanApplication(newApplication);
     if (!valid) return response.status(400).json(errors);
 
-    newApplication.createdAt = new Date().toISOString();
+    newApplication.createdDate = new Date().toISOString();
     const applicationRef = rdb.ref('/loanApplications');
     const newApplicationRef = applicationRef.push();
     newApplicationRef
