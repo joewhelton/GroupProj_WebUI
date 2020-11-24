@@ -10,6 +10,7 @@ export const HOUSEPRICEQUERY = '/houseprice';
 export const HOUSEPRICEUPLOAD = '/housepriceupload';
 export const CLIENTS = '/clients';
 export const ALLCLIENTS = '/allclients';
+export const APPLICATION = '/loanapplication';
 export const NEWLOANAPPLICATION = '/newloanapplication';
 // export const ADMIN = '/admin';
 // export const PASSWORD_FORGET = '/pw-forget';

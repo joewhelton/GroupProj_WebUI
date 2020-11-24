@@ -16,12 +16,13 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
 import EditIcon from '@material-ui/icons/Edit';
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import {format} from "date-fns";
+import clsx from "clsx";
+import {Card, CardContent} from "@material-ui/core";
+import CardHeader from "@material-ui/core/CardHeader";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -73,36 +74,41 @@ const LoanApplications = (props) => {
                 ('')
                 : (
                     <React.Fragment>
-                        <Typography style={{fontWeight: 'bold'}}>Loan Applications</Typography>
-                        <Divider/>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="Loan Application table">
-                                <TableHead className={classes.tableHeading}>
-                                    <TableRow>
-                                        <TableCell className={classes.tableHeadingCell}>Date</TableCell>
-                                        <TableCell className={classes.tableHeadingCell}>Amount</TableCell>
-                                        <TableCell className={classes.tableHeadingCell}>Term</TableCell>
-                                        <TableCell className={classes.tableHeadingCell}>Area</TableCell>
-                                        <TableCell width={100}/>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {applications.map((application) => (
-                                        <TableRow key={application.id}>
-                                            <TableCell component="th" scope="row">{format(new Date(application.createdDate), 'yyyy-MM-dd')}</TableCell>
-                                            <TableCell>{application.amount}</TableCell>
-                                            <TableCell>{application.term}</TableCell>
-                                            <TableCell>{application.propertyArea}</TableCell>
-                                            <TableCell>
-                                                <IconButton component={Link} to={`${ROUTES.CLIENTS}/${application.id}`}>
-                                                    <EditIcon className={classes.iconLink}/>
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <Card mt={"1rem"} className={clsx(classes.root, classes)}>
+                            <CardHeader title="Loan Applications">
+
+                            </CardHeader>
+                            <CardContent>
+                                <TableContainer component={Paper}>
+                                    <Table className={classes.table} aria-label="Loan Application table">
+                                        <TableHead className={classes.tableHeading}>
+                                            <TableRow>
+                                                <TableCell className={classes.tableHeadingCell}>Date</TableCell>
+                                                <TableCell className={classes.tableHeadingCell}>Amount</TableCell>
+                                                <TableCell className={classes.tableHeadingCell}>Term</TableCell>
+                                                <TableCell className={classes.tableHeadingCell}>Area</TableCell>
+                                                <TableCell width={100}/>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {applications.map((application) => (
+                                                <TableRow key={application.id}>
+                                                    <TableCell component="th" scope="row">{format(new Date(application.createdDate), 'yyyy-MM-dd')}</TableCell>
+                                                    <TableCell>{application.amount}</TableCell>
+                                                    <TableCell>{application.term}</TableCell>
+                                                    <TableCell>{application.propertyArea}</TableCell>
+                                                    <TableCell>
+                                                        <IconButton component={Link} to={`${ROUTES.APPLICATION}/${application.id}`}>
+                                                            <EditIcon className={classes.iconLink}/>
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </CardContent>
+                        </Card>
                         <Fab color="primary" aria-label="add" className={classes.fab} href={`${ROUTES.NEWLOANAPPLICATION}/${clID}`}>
                             <AddIcon />
                         </Fab>

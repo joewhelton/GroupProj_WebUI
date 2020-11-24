@@ -62,3 +62,30 @@ exports.getLoanApplicationByClient = async (request, response) => {
 
     return response.status(201).json({applications});
 }
+
+exports.updateLoanApplicationById = async (request, response) => {
+    const apID = request.params.apID;
+
+    if(!request.user.userRoles.sysAdmin){
+        if(!clientCheck(request.body.clientId, request.user.user_id)) {
+            return response.status(403).json({error: 'Unauthorized operation'});
+        }
+    }
+
+    const updateApplication = {
+        amount: request.body.amount,
+        term: request.body.term,
+        propertyArea: request.body.propertyArea
+    }
+    console.log(apID);
+    const apRef = rdb.ref(`/loanApplications/${apID}`);
+    apRef.update(updateApplication)
+        .then(() => {
+            return response.json({message: 'Updated successfully'});
+        })
+        .catch((error) => {
+            return response.status(500).json({
+                message: "Cannot Update the value"
+            });
+        });
+}

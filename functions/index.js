@@ -71,11 +71,13 @@ exports.api = functions.https.onRequest(app);
 const {
     newLoanApplication,
     getLoanApplicationById,
+    updateLoanApplicationById,
     getLoanApplicationByClient  //This one actually gets used in the Client endpoint list further down
 } = require('./APIs/v2/loanApplications');
 
     app.post('/v2/loanapplication', authenticate, authorize, newLoanApplication);
-    app.get('/v2/loanapplication/:apId', authenticate, authorize, getLoanApplicationById);
+    app.get('/v2/loanapplication/:apID', authenticate, authorize, getLoanApplicationById);
+    app.put('/v2/loanapplication/:apID', authenticate, authorize, updateLoanApplicationById);
 
 //Client endpoints
 const {

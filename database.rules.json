@@ -4,6 +4,9 @@
     ".write": "true",
     "users": {
       ".indexOn": ["userRole", "profile/loanOfficerId"]
+    },
+    "loanApplication": {
+      ".indexOn": "clientId"
     }
   }
 }
