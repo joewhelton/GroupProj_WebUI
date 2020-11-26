@@ -23,6 +23,7 @@ import {format} from "date-fns";
 import clsx from "clsx";
 import {Card, CardContent} from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
+import {compose, spacing} from '@material-ui/system';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -74,7 +75,7 @@ const LoanApplications = (props) => {
                 ('')
                 : (
                     <React.Fragment>
-                        <Card mt={"1rem"} className={clsx(classes.root, classes)}>
+                        <Card mt="1rem" className={clsx(classes.root, classes)}>
                             <CardHeader title="Loan Applications">
 
                             </CardHeader>

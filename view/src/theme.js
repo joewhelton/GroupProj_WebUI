@@ -6,6 +6,9 @@ export default createMuiTheme({
             root: {
                 paddingTop: '0px',
                 paddingBottom: '0px'
+            },
+            titleTypographyProps: {
+                variant: 'h6'
             }
         },
         MuiTableCell: {

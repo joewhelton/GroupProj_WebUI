@@ -96,7 +96,7 @@ exports.validateUpdateLoanOfficer = async (data) => {
     };
 }
 
-exports.validateNewFinancialInstitution = (data) => {
+exports.validateFinancialInstitution = (data) => {
     let errors = {};
 
     if (isEmpty(data.email)) {
@@ -107,6 +107,10 @@ exports.validateNewFinancialInstitution = (data) => {
 
     if (isInValidCategory(data.category)){
         errors.category = 'Invalid category'
+    }
+    if (data.category === 'BROKER'){
+        if (isEmpty(data.paymentDetails.bic)) errors.paymentDetails.bic = 'Required for a Brokerage';
+        if (isEmpty(data.paymentDetails.iban)) errors.paymentDetails.iban = 'Required for a Brokerage';
     }
     if (isEmpty(data.name)) errors.name = 'Must not be empty';
     if (isEmpty(data.address)) errors.address = 'Must not be empty';

@@ -20,46 +20,42 @@ const FinancialInstitutionForm = ({fiState, onChange, onSubmit, classes, buttonL
                             <Divider />
                             <CardContent>
                                 <Grid container spacing={3}>
-                                    <Grid item md={6} xs={12}>
+                                    <Grid item lg={3} md={6} xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Name"
                                             margin="dense"
                                             name="name"
-                                            variant="outlined"
                                             value={!fiState ? '' : fiState.name}
                                             onChange={onChange}
                                         />
                                     </Grid>
-                                    <Grid item md={6} xs={12}>
+                                    <Grid item lg={3} md={6} xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Address"
                                             margin="dense"
                                             name="address"
-                                            variant="outlined"
                                             value={!fiState ? '' : fiState.address}
                                             onChange={onChange}
                                         />
                                     </Grid>
-                                    <Grid item md={6} xs={12}>
+                                    <Grid item lg={3} md={6} xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Email"
                                             margin="dense"
                                             name="email"
-                                            variant="outlined"
                                             value={!fiState ? '' : fiState.email}
                                             onChange={onChange}
                                         />
                                     </Grid>
-                                    <Grid item md={6} xs={12}>
+                                    <Grid item lg={3} md={6} xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Phone Number"
                                             margin="dense"
                                             name="phoneNumber"
-                                            variant="outlined"
                                             value={!fiState ? '' : fiState.phoneNumber}
                                             onChange={onChange}
                                         />
