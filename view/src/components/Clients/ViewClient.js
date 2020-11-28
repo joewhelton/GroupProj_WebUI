@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {styles} from "../../styles/styles";
@@ -9,8 +9,7 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Card, CardContent, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
-import {MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+import LoanApplications from "../LoanApplications";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -54,7 +53,7 @@ const ViewClient = (props) => {
                 </main>)
                 : (<main className={classes.content}>
                     <div className={classes.toolbar} />
-                    <Card {...rest} className={clsx(classes.root, classes)}>
+                    <Card className={clsx(classes.root, classes)}>
                         <CardContent>
                             <Grid container spacing={3}>
                                 <Grid item lg={3} md={4} sm={12} xs={12}>
@@ -276,6 +275,7 @@ const ViewClient = (props) => {
                             </Grid>
                         </CardContent>
                     </Card>
+                    <LoanApplications history={history} classes={classes} clID={clID}/>
                     </main>
                 )
             }

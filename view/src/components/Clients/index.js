@@ -21,6 +21,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Grid from "@material-ui/core/Grid";
 import {TextField} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -131,9 +132,9 @@ const Clients = (props) => {
                                             <TableCell>{client.email}</TableCell>
                                             <TableCell>{client.profile ? client.profile.mobile : ''}</TableCell>
                                             <TableCell>
-                                                <Link to={`${ROUTES.CLIENTS}/${client.id}`}>
+                                                <IconButton component={Link} to={`${ROUTES.CLIENTS}/${client.id}`}>
                                                     <MenuOpenIcon className={classes.iconLink}/>
-                                                </Link>
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     ))}

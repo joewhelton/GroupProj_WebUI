@@ -1,6 +1,6 @@
 const { rdb } = require('../../util/admin');
 
-const { validateNewFinancialInstitution } = require('../../util/validators');
+const { validateFinancialInstitution } = require('../../util/validators');
 
 exports.getAllFinancialInstitutions = (request, response) => {
     const fiRef = rdb.ref('/financialInstitutions');
@@ -38,9 +38,17 @@ exports.newFinancialInstitution = (request, response) => {
         address: request.body.address,
         phoneNumber: request.body.phoneNumber,
         email: request.body.email,
-        category: request.body.category
+        category: request.body.category,
     }
-    const { valid, errors } = validateNewFinancialInstitution(newInstitution);
+
+    newInstitution.paymentDetails = (newInstitution.category === 'BROKER')
+        ? {
+            bic: request.body.paymentDetails.bic,
+            iban: request.body.paymentDetails.iban
+        }
+        : {};
+
+    const { valid, errors } = validateFinancialInstitution(newInstitution);
     if (!valid) return response.status(400).json(errors);
 
     const fiRef = rdb.ref('/financialInstitutions');
@@ -66,8 +74,16 @@ exports.updateFinancialInstitution = (request, response) => {
         address: request.body.address,
         phoneNumber: request.body.phoneNumber,
         email: request.body.email,
-        category: request.body.category
+        category: request.body.category,
+        paymentDetails: {
+            bic: request.body.bic,
+            iban: request.body.iban
+        }
     }
+
+    const { valid, errors } = validateFinancialInstitution(updateInstitution);
+    if (!valid) return response.status(400).json(errors);
+
     const fiRef = rdb.ref(`/financialInstitutions/${fiID}`);
     fiRef.update(updateInstitution)
         .then(() => {

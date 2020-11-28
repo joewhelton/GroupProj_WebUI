@@ -6,11 +6,11 @@ import {styles} from "../../styles/styles";
 import axios from 'axios';
 import {authMiddleWare, authorizeMiddleware} from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
-import FinancialInstitutionForm from "./FinancialInstitutionForm";
+import LoanApplicationForm from "./LoanApplicationForm";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const EditFinancialInstitution = (props) => {
+const EditLoanApplication = (props) => {
     // eslint-disable-next-line no-unused-vars
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
@@ -18,51 +18,40 @@ const EditFinancialInstitution = (props) => {
     const {history, classes} = props;
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [financialInstitution, setFinancialInstitution] = useState({});
-    const { fiID } = useParams();
-    
+    const [loanApplication, setLoanApplication] = useState({});
+    const [errors, setErrors] = useState([]);
+    const { apID } = useParams();
+
     useEffect(() => {
         if(userData) {
             authMiddleWare(history);
-            authorizeMiddleware(history, userData, 'sysAdmin');
+            authorizeMiddleware(history, userData, 'loanOfficer');
             const authToken = localStorage.getItem('AuthToken');
             axios.defaults.headers.common = {Authorization: `${authToken}`};
             axios
-                .get(apiUrl + `financialInstitution/${fiID}`)
+                .get(apiUrl + `loanapplication/${apID}`)
                 .then((data) => {
-                    const fiData = data.data.fiData;
-                    setFinancialInstitution(fiData);
-                    setUiLoading(false);
+                    const applicationData = data.data.application;
+                    setLoanApplication(applicationData);
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
-                    setUiLoading(false);
-                });
+                })
+                .finally(() => setUiLoading(false));
         }
-    }, [fiID, history, userData]);
+    }, [apID, history, userData]);
 
     const onChange = useCallback((e) => {
         const {target} = e;
         const { name, value } = target;
-        setFinancialInstitution({
-            ...financialInstitution,
+        setLoanApplication({
+            ...loanApplication,
             [name]: value
         });
-    }, [financialInstitution]);
-
-    const onChangePaymentDetails = useCallback((e) => {
-        const {target} = e;
-        let { name, value } = target;
-        const newPaymentDetails = {...financialInstitution.paymentDetails, [name]: value};
-
-        setFinancialInstitution({
-            ...financialInstitution,
-            paymentDetails: newPaymentDetails
-        });
-    }, [financialInstitution]);
+    }, [loanApplication]);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -71,9 +60,9 @@ const EditFinancialInstitution = (props) => {
         const authToken = localStorage.getItem('AuthToken');
         axios.defaults.headers.common = { Authorization: `${authToken}` };
         axios
-            .put(apiUrl + `financialinstitution/${fiID}`, financialInstitution)
+            .put(apiUrl + `loanapplication/${apID}`, loanApplication)
             .then(() => {
-                setButtonLoading(false);
+
             })
             .catch((error) => {
                 console.log(error);
@@ -81,21 +70,21 @@ const EditFinancialInstitution = (props) => {
                     history.push('/login');
                 }
                 console.log(error);
-                setButtonLoading(false);
-            });
+                setErrors(error);
+            }).finally(() => setButtonLoading(false));
     }
 
     return (
-        <FinancialInstitutionForm
-            fiState={financialInstitution}
+        <LoanApplicationForm
+            laState={loanApplication}
             classes={classes}
             buttonLoading={buttonLoading}
             onChange={onChange}
-            onChangePaymentDetails={onChangePaymentDetails}
             onSubmit={onSubmit}
             uiLoading={uiLoading}
+            errors={errors}
         />
     )
 }
 
-export default withStyles(styles)(EditFinancialInstitution);
+export default withStyles(styles)(EditLoanApplication);

@@ -16,7 +16,9 @@ import HousePrices from "./components/HousePrices";
 import UploadHousePriceModel from './components/HousePrices/UploadHousePriceModel';
 import Clients from './components/Clients/index';
 import ViewClient from "./components/Clients/ViewClient";
-import todo from './components/todo';
+import NewLoanApplication from './components/LoanApplications/NewLoanApplication';
+import NewFinancialInstitution from "./components/FinancialInstitutions/NewFinancialInstitution";
+import EditLoanApplication from "./components/LoanApplications/EditLoanApplication";
 
 import {Context as UserContext} from "./store/contexts/user/Store";
 import { withFirebase } from './components/Firebase';
@@ -24,10 +26,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from "axios";
-import NewFinancialInstitution from "./components/FinancialInstitutions/NewFinancialInstitution";
-
-
-const drawerWidth = 240;
+import theme from "./theme";
+import {ThemeProvider} from "@material-ui/core/styles";
 
 const styles = (theme) => ({
     root: {
@@ -118,9 +118,10 @@ function App( { firebase, classes } ){
 
     return (
         <Router>
-            <Container width={1} maxWidth={false} component="main" className={classes.root}>
-                <CssBaseline />
-                <Navigation logout={logout} />
+            <ThemeProvider theme={theme}>
+                <Container width={1} maxWidth={false} component="main" className={classes.root}>
+                    <CssBaseline />
+                    <Navigation logout={logout} />
                     <Switch>
                         <Route exact path={ROUTES.LANDING} component={Landing}/>
                         <Route path={ROUTES.SIGN_UP} component={signup}/>
@@ -128,8 +129,6 @@ function App( { firebase, classes } ){
                         {/*<Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage}/>*/}
                         {/*<Route path={ROUTES.HOME} component={HomePage}/>*/}
                         <Route path={ROUTES.HOME} render={(props) => <Home {...props} authUser={userState.authUser}/>}/>
-                        EditFinancialInstitution
-
                         {/*<Route path={ROUTES.FINANCIALINSTITUTIONS} render={(props) => <FinancialInstitutions {...props} authorisationCheck={authorisationCheck}/>}/>*/}
                         <Route path={`${ROUTES.FINANCIALINSTITUTIONS}/:fiID`} component={EditFinancialInstitution}/>
                         <Route path={ROUTES.FINANCIALINSTITUTIONS} component={FinancialInstitutions}/>
@@ -140,11 +139,14 @@ function App( { firebase, classes } ){
                         <Route path={ROUTES.ACCOUNT} component={Account}/>
                         <Route path={`${ROUTES.CLIENTS}/:clID`} component={ViewClient}/>
                         <Route path={ROUTES.CLIENTS} component={Clients}/>
+                        <Route path={`${ROUTES.NEWLOANAPPLICATION}/:clID`} component={NewLoanApplication}/>
+                        <Route path={`${ROUTES.APPLICATION}/:apID`} component={EditLoanApplication}/>
                         <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
-                        <Route path={ROUTES.TODOS} component={todo}/>
+                        {/*<Route path={ROUTES.TODOS} component={todo}/>*/}
                         {/*<Route path={ROUTES.ADMIN} component={AdminPage}/>*/}
                     </Switch>
-            </Container>
+                </Container>
+            </ThemeProvider>
         </Router>
     )
 }
