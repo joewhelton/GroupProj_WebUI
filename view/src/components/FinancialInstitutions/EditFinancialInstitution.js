@@ -53,6 +53,17 @@ const EditFinancialInstitution = (props) => {
         });
     }, [financialInstitution]);
 
+    const onChangePaymentDetails = useCallback((e) => {
+        const {target} = e;
+        let { name, value } = target;
+        const newPaymentDetails = {...financialInstitution.paymentDetails, [name]: value};
+
+        setFinancialInstitution({
+            ...financialInstitution,
+            paymentDetails: newPaymentDetails
+        });
+    }, [financialInstitution]);
+
     const onSubmit = (e) => {
         e.preventDefault();
         setButtonLoading(true);
@@ -80,6 +91,7 @@ const EditFinancialInstitution = (props) => {
             classes={classes}
             buttonLoading={buttonLoading}
             onChange={onChange}
+            onChangePaymentDetails={onChangePaymentDetails}
             onSubmit={onSubmit}
             uiLoading={uiLoading}
         />

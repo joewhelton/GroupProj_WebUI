@@ -39,11 +39,15 @@ exports.newFinancialInstitution = (request, response) => {
         phoneNumber: request.body.phoneNumber,
         email: request.body.email,
         category: request.body.category,
-        paymentDetails: {
-            bic: request.body.bic,
-            iban: request.body.iban
-        }
     }
+
+    newInstitution.paymentDetails = (newInstitution.category === 'BROKER')
+        ? {
+            bic: request.body.paymentDetails.bic,
+            iban: request.body.paymentDetails.iban
+        }
+        : {};
+
     const { valid, errors } = validateFinancialInstitution(newInstitution);
     if (!valid) return response.status(400).json(errors);
 

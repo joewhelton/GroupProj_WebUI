@@ -22,7 +22,8 @@ const NewFinancialInstitution = (props) => {
         address: '',
         email: '',
         phoneNumber: '',
-        category: 'BANK'
+        category: 'BANK',
+        paymentDetails: {}
     });
 
     useEffect(() => {
@@ -35,10 +36,24 @@ const NewFinancialInstitution = (props) => {
 
     const onChange = useCallback((e) => {
         const {target} = e;
-        const { name, value } = target;
+        let { name, value, checked } = target;
+        if(name === 'category'){
+            value = checked ? 'BROKER' : 'BANK'
+        }
         setFinancialInstitution({
             ...financialInstitution,
             [name]: value
+        });
+    }, [financialInstitution]);
+
+    const onChangePaymentDetails = useCallback((e) => {
+        const {target} = e;
+        let { name, value } = target;
+        const newPaymentDetails = {...financialInstitution.paymentDetails, [name]: value};
+
+        setFinancialInstitution({
+            ...financialInstitution,
+            paymentDetails: newPaymentDetails
         });
     }, [financialInstitution]);
 
@@ -70,6 +85,7 @@ const NewFinancialInstitution = (props) => {
             classes={classes}
             buttonLoading={buttonLoading}
             onChange={onChange}
+            onChangePaymentDetails={onChangePaymentDetails}
             onSubmit={onSubmit}
             uiLoading={uiLoading}
         />
