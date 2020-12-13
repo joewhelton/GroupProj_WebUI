@@ -69,7 +69,7 @@ exports.validateNewLoanOfficer = (data) => {
 
     if (isEmpty(data.firstName)) errors.firstName = 'Must not be empty';
     if (isEmpty(data.surname)) errors.surname = 'Must not be empty';
-    if (isEmpty(data.profile.phoneNumber)) errors.phoneNumber = 'Must not be empty';
+    if (isEmpty(data.profile.mobile)) errors.mobile = 'Must not be empty';
 
     if (isEmpty(data.password)) errors.password = 'Must not be empty';
     if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords must be the same';
