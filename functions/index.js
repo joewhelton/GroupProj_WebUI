@@ -26,6 +26,7 @@ const {
 const {
     newLoanOfficer,
     getById,
+    getAll,
     updateLoanOfficer,
     updateLoanOfficerById,
     uploadProfilePhoto,
@@ -36,6 +37,7 @@ const {
     app.post('/v2/loanofficer/image/:userId', authenticate, authorize, uploadProfilePhotoById);
     app.post('/v2/loanofficer/image', authenticate, authorize, uploadProfilePhoto);
     app.get('/v2/loanofficer/:userId', authenticate, authorize, getById);
+    app.get('/v2/loanofficer/', authenticate, authorize, getAll);
     app.put('/v2/loanofficer/:userId', authenticate, authorize, updateLoanOfficerById);
     app.put('/v2/loanofficer', authenticate, authorize, updateLoanOfficer);
 
@@ -83,10 +85,19 @@ const {
 const {
     getAllClients,
     getOwnClients,
-    getClientById
+    getClientById,
+    setClientLoanOfficer
 } = require('./APIs/v2/clients');
 
     app.get('/v2/client/own', authenticate, getOwnClients);
     app.get('/v2/client', authenticate, authorize, getAllClients);
     app.get('/v2/client/:clID/loanapplication', authenticate, authorize, getLoanApplicationByClient);
     app.get('/v2/client/:clID', authenticate, authorize, getClientById);
+    app.put('/v2/client/:clID/setloanofficer', authenticate, authorize, setClientLoanOfficer);
+
+//Chatbot endpoints
+const {
+    chatbot
+} = require ('./APIs/v2/chatbot');
+
+    app.post('/v2/chatbot', chatbot);

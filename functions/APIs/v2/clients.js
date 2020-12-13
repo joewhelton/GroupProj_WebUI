@@ -56,3 +56,22 @@ exports.getClientById = async (request, response) => {
     console.log(client);
     return response.status(201).json(client);
 }
+
+exports.setClientLoanOfficer = (request, response) => {
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+    const clID = request.params.clID;
+    const updateClient = { loanOfficerId: request.body.loanOfficerId };
+
+    const clRef = rdb.ref(`/users/${clID}/profile`);
+    clRef.update(updateClient)
+        .then(() => {
+            return response.json({message: 'Updated successfully'});
+        })
+        .catch((error) => {
+            return response.status(500).json({
+                message: "Cannot Update the value"
+            });
+        });
+}

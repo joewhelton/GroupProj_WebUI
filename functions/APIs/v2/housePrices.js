@@ -33,7 +33,7 @@ exports.predict = async (request, response) => {
     const { valid, errors } = validateHousePriceQuery(houseQuery);
     if (!valid) return response.status(400).json(errors);
 
-    const model = await tf.loadLayersModel('file://./model/model.json')
+    const model = await tf.loadLayersModel('file://./AI_Models/House_Price/model.json')
         .catch((error) => {
             console.log(`Error - Model Loading - ${error}`);
             return response.status(503).json({message: `${error}`});
@@ -112,7 +112,7 @@ exports.upload = async (request, response) => {
         if(!modelToBeUploaded.filePath || !weightsToBeUploaded.filePath){
             return response.status(400).json({ error: 'Both files must be uploaded' });
         }
-        const directory = './model';
+        const directory = './AI_Models/House_Price';
         //Remove existing files
         await fs.readdir(directory,{}, (err, files) => {
             if (err) throw err;

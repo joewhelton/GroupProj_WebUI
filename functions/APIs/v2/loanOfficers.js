@@ -21,6 +21,17 @@ exports.getById = (request, response) => {
         });
 }
 
+exports.getAll = async (request, response) => {
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+    const userRef = rdb.ref(`/users/`);
+    const query = userRef.orderByChild("userRoles/loanOfficer").equalTo(true);
+
+    const snapshot = await query.once('value');
+    return response.status(201).json(snapshot.val() || {});
+}
+
 exports.newLoanOfficer = (request, response) => {
     const newOfficer = {
         firstName: request.body.firstName,
@@ -32,7 +43,7 @@ exports.newLoanOfficer = (request, response) => {
             sysAdmin: false
         },
         profile: {
-            phoneNumber: request.body.phoneNumber,
+            mobile: request.body.mobile,
             description: request.body.description || ''
         },
         password: request.body.password,
@@ -63,6 +74,7 @@ exports.newLoanOfficer = (request, response) => {
             userId = data.user.uid;
             return data.user.getIdToken();
         })
+        // eslint-disable-next-line promise/always-return
         .then((idtoken) => {
             token = idtoken;
             delete newOfficer.password;
@@ -95,8 +107,8 @@ const createUpdateUser = (requestBody) => {
     }
     if(requestBody.profile){
         updateUser.profile = {};
-        if(requestBody.profile.phoneNumber){
-            updateUser.profile.phoneNumber = requestBody.profile.phoneNumber;
+        if(requestBody.profile.mobile){
+            updateUser.profile.mobile = requestBody.profile.mobile;
         }
         if(requestBody.profile.description){
             updateUser.profile.description = requestBody.profile.description;

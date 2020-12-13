@@ -234,9 +234,9 @@ const Account = (props) => {
                                         fullWidth
                                         label="Phone Number"
                                         margin="dense"
-                                        name="phoneNumber"
+                                        name="mobile"
                                         variant="outlined"
-                                        value={!accountDetails ? '' : !accountDetails.profile ? '' : accountDetails.profile.phoneNumber}
+                                        value={!accountDetails ? '' : !accountDetails.profile ? '' : accountDetails.profile.mobile}
                                         onChange={updateProfile}
                                     />
                                 </Grid>
@@ -282,7 +282,7 @@ const Account = (props) => {
                         buttonLoading ||
                         (!accountDetails ? true : !accountDetails.firstName) ||
                         !accountDetails.surname ||
-                        (!accountDetails.profile && !accountDetails.profile.phoneNumber)
+                        (!accountDetails.profile && !accountDetails.profile.mobile)
                     }
                 >
                     Save details
