@@ -46,7 +46,10 @@ const EditFinancialInstitution = (props) => {
 
     const onChange = useCallback((e) => {
         const {target} = e;
-        const { name, value } = target;
+        let { name, value, checked } = target;
+        if(name === 'category'){
+            value = checked ? 'BROKER' : 'BANK'
+        }
         setFinancialInstitution({
             ...financialInstitution,
             [name]: value

@@ -28,6 +28,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from "axios";
 import theme from "./theme";
 import {ThemeProvider} from "@material-ui/core/styles";
+import UploadLoanApplicationModel from "./components/LoanApplications/UploadLoanApplicationModel";
+import Feedback from "./components/Feedback";
+import EditFeedback from "./components/Feedback/EditFeedback";
 
 const styles = (theme) => ({
     root: {
@@ -130,6 +133,8 @@ function App( { firebase, classes } ){
                         {/*<Route path={ROUTES.HOME} component={HomePage}/>*/}
                         <Route path={ROUTES.HOME} render={(props) => <Home {...props} authUser={userState.authUser}/>}/>
                         {/*<Route path={ROUTES.FINANCIALINSTITUTIONS} render={(props) => <FinancialInstitutions {...props} authorisationCheck={authorisationCheck}/>}/>*/}
+                        <Route path={`${ROUTES.FEEDBACK}/:feedbackID`} component={EditFeedback}/>
+                        <Route path={ROUTES.FEEDBACK} component={Feedback}/>
                         <Route path={`${ROUTES.FINANCIALINSTITUTIONS}/:fiID`} component={EditFinancialInstitution}/>
                         <Route path={ROUTES.FINANCIALINSTITUTIONS} component={FinancialInstitutions}/>
                         <Route path={ROUTES.NEWFINANCIALINSTITUTION} component={NewFinancialInstitution}/>
@@ -140,6 +145,7 @@ function App( { firebase, classes } ){
                         <Route path={`${ROUTES.CLIENTS}/:clID`} component={ViewClient}/>
                         <Route path={ROUTES.CLIENTS} component={Clients}/>
                         <Route path={`${ROUTES.NEWLOANAPPLICATION}/:clID`} component={NewLoanApplication}/>
+                        <Route path={ROUTES.LOANAPPLICATIONUPLOAD} component={UploadLoanApplicationModel}/>
                         <Route path={`${ROUTES.APPLICATION}/:apID`} component={EditLoanApplication}/>
                         <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
                         {/*<Route path={ROUTES.TODOS} component={todo}/>*/}

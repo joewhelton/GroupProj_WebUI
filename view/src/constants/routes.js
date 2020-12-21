@@ -12,5 +12,7 @@ export const CLIENTS = '/clients';
 export const ALLCLIENTS = '/allclients';
 export const APPLICATION = '/loanapplication';
 export const NEWLOANAPPLICATION = '/newloanapplication';
+export const LOANAPPLICATIONUPLOAD = '/loanapplicationupload';
+export const FEEDBACK = '/feedback';
 // export const ADMIN = '/admin';
 // export const PASSWORD_FORGET = '/pw-forget';

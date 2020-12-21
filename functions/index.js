@@ -74,9 +74,11 @@ const {
     newLoanApplication,
     getLoanApplicationById,
     updateLoanApplicationById,
-    getLoanApplicationByClient  //This one actually gets used in the Client endpoint list further down
+    getLoanApplicationByClient,  //This one actually gets used in the Client endpoint list further down
+    uploadModel
 } = require('./APIs/v2/loanApplications');
 
+    app.post('/v2/loanapplication/upload', authenticate, authorize, uploadModel);
     app.post('/v2/loanapplication', authenticate, authorize, newLoanApplication);
     app.get('/v2/loanapplication/:apID', authenticate, authorize, getLoanApplicationById);
     app.put('/v2/loanapplication/:apID', authenticate, authorize, updateLoanApplicationById);
@@ -101,3 +103,17 @@ const {
 } = require ('./APIs/v2/chatbot');
 
     app.post('/v2/chatbot', chatbot);
+
+
+//Feedback Endpoints
+const {
+    getAllFeedback,
+    getFeedbackById,
+    updateFeedbackById,
+    deleteFeedbackById
+} = require('./APIs/v2/feedback');
+
+    app.get('/v2/feedback', authenticate, authorize, getAllFeedback);
+    app.get('/v2/feedback/:feedbackID', authenticate, authorize, getFeedbackById);
+    app.put('/v2/feedback/:feedbackID', authenticate, authorize, updateFeedbackById);
+    app.delete('/v2/feedback/:feedbackID', authenticate, authorize, deleteFeedbackById);
