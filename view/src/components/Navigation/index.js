@@ -14,6 +14,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import PublishIcon from '@material-ui/icons/Publish';
+import Feedback from '@material-ui/icons/Feedback';
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import * as ROUTES from '../../constants/routes';
@@ -154,12 +155,26 @@ const Navigation = ({firebase, classes, logout}) => {
                                     </ListItemIcon>
                                     <ListItemText primary="House Price Upload"/>
                                 </ListItem>
+                                <ListItem button component={Link} to={ROUTES.LOANAPPLICATIONUPLOAD}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <PublishIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="Loan Application Upload"/>
+                                </ListItem>
                                 <ListItem button component={Link} to={ROUTES.ALLCLIENTS}>
                                     <ListItemIcon>
                                         {' '}
                                         <SupervisedUserCircleIcon/>{' '}
                                     </ListItemIcon>
                                     <ListItemText primary="All Clients"/>
+                                </ListItem>
+                                <ListItem button component={Link} to={ROUTES.FEEDBACK}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <Feedback/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="Manage Feedback"/>
                                 </ListItem>
                             </List>
                         </React.Fragment>
