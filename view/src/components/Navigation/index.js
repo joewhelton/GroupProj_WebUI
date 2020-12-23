@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import NotesIcon from "@material-ui/icons/Notes";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -161,6 +162,13 @@ const Navigation = ({firebase, classes, logout}) => {
                                         <PublishIcon/>{' '}
                                     </ListItemIcon>
                                     <ListItemText primary="Loan Application Upload"/>
+                                </ListItem>
+                                <ListItem button component={Link} to={ROUTES.HOUSEPRICEDOWNLOAD}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <CloudDownloadIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="Export Dataset"/>
                                 </ListItem>
                                 <ListItem button component={Link} to={ROUTES.ALLCLIENTS}>
                                     <ListItemIcon>

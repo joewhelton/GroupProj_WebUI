@@ -8,6 +8,7 @@ export const FINANCIALINSTITUTIONS = '/financialinstitutions';
 export const NEWFINANCIALINSTITUTION = '/newfinancialinstitution';
 export const HOUSEPRICEQUERY = '/houseprice';
 export const HOUSEPRICEUPLOAD = '/housepriceupload';
+export const HOUSEPRICEDOWNLOAD = '/housepricedownload';
 export const CLIENTS = '/clients';
 export const ALLCLIENTS = '/allclients';
 export const APPLICATION = '/loanapplication';

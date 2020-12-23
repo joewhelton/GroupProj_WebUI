@@ -61,11 +61,13 @@ const {
 //House Price endpoints
 const {
     predict,
-    upload
+    upload,
+    exportCSV
 } = require('./APIs/v2/housePrices');
 
     app.post('/v2/houseprice/predict', authenticate, predict);
     app.post('/v2/houseprice/upload', authenticate, authorize, upload);
+    app.get('/v2/houseprice/export', authenticate, authorize, exportCSV);
 
 exports.api = functions.https.onRequest(app);
 

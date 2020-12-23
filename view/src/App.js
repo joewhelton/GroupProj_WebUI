@@ -31,6 +31,7 @@ import {ThemeProvider} from "@material-ui/core/styles";
 import UploadLoanApplicationModel from "./components/LoanApplications/UploadLoanApplicationModel";
 import Feedback from "./components/Feedback";
 import EditFeedback from "./components/Feedback/EditFeedback";
+import ExportHousePrice from "./components/HousePrices/ExportHousePrice";
 
 const styles = (theme) => ({
     root: {
@@ -148,6 +149,7 @@ function App( { firebase, classes } ){
                         <Route path={ROUTES.LOANAPPLICATIONUPLOAD} component={UploadLoanApplicationModel}/>
                         <Route path={`${ROUTES.APPLICATION}/:apID`} component={EditLoanApplication}/>
                         <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
+                        <Route path={ROUTES.HOUSEPRICEDOWNLOAD} component={ExportHousePrice}/>
                         {/*<Route path={ROUTES.TODOS} component={todo}/>*/}
                         {/*<Route path={ROUTES.ADMIN} component={AdminPage}/>*/}
                     </Switch>

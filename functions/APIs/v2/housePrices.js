@@ -149,5 +149,28 @@ exports.upload = async (request, response) => {
     busboy.end(request.rawBody);
 }
 
+exports.exportCSV = (request, response) => {
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+
+    const hpRef = rdb.ref('/houseData');
+    hpRef.once("value")
+        .then( (data) => {
+            const fiData = data.val();
+            const json2csv = require("json2csv").parse;
+            const csv = json2csv(fiData);
+            response.setHeader(
+                "Content-disposition",
+                "attachment; filename=housePriceQueries.csv"
+            )
+            response.set("Content-Type", "text/csv");
+            return response.status(201).send(csv);
+        })
+        .catch((error) => {
+            console.log(error);
+            response.status(500).json({ error });
+        });
+}
 
 
