@@ -1,4 +1,5 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import {Link} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -18,6 +19,7 @@ import {styles} from "../../styles/styles";
 import {Button, Card, CardActions, CardContent, Divider, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
+import * as ROUTES from "../../constants/routes";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -460,6 +462,30 @@ const HousePrices = (props) => {
                                     }}>Result: <span style={{fontWeight: 'bold'}}>{result}</span></Card>
                                 </Grid>
                                 : ''
+                            }
+                            {
+                                result && clientData ?
+                                    <Grid item>
+                                        <Button
+                                            color="primary"
+                                            variant="outlined"
+                                            type="button"
+                                            component={Link}
+                                            className={classes.submitButton}
+                                            to={{
+                                                pathname: `${ROUTES.NEWLOANAPPLICATION}/${clientData.uid}`,
+                                                loanInfo: {
+                                                    amount: result,
+                                                    firstName: clientData.firstName,
+                                                    surname: clientData.surname,
+                                                    gender: clientData.gender
+                                                }
+                                            }}
+                                        >
+                                            Make loan application
+                                        </Button>
+                                    </Grid>
+                                    : ''
                             }
                         </Grid>
                     </main>

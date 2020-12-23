@@ -1,4 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
+import * as ROUTES from '../../constants/routes';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import axios from 'axios';
@@ -17,7 +18,8 @@ const NewLoanApplication = (props) => {
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
     const {authUser, userData} = userState;
-    const {history, classes} = props;
+    const {history, classes, location, clientInfo} = props;
+    const {loanInfo} = location;
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState([]);
@@ -26,12 +28,26 @@ const NewLoanApplication = (props) => {
         term: null,
         propertyArea: null
     });
+    const [clientDetails, setClientDetails] = useState(clientInfo);
     const { clID } = useParams();
 
     useEffect(() => {
         if(userData) {
             authMiddleWare(history);
             setUiLoading(false);
+        }
+        if(loanInfo){
+            if(loanInfo.amount) {
+                setLoanApplication({
+                    ...loanApplication,
+                    amount: loanInfo.amount
+                });
+            }
+            setClientDetails({
+                firstName: loanInfo.firstName,
+                surname: loanInfo.surname,
+                gender: loanInfo.gender
+            })
         }
     }, [ history, userData]);
 
@@ -54,7 +70,16 @@ const NewLoanApplication = (props) => {
         formRequest.clientId = clID;
         axios
             .post(apiUrl + 'loanapplication', formRequest)
-            .then(() => {
+            .then((data) => {
+                console.log(data.data.key);
+                history.push({
+                    pathname: `${ROUTES.APPLICATIONREVIEW}/${data.data.key}`,
+                    clientData: {
+                        firstName: clientDetails.firstName,
+                        surname: clientDetails.surname,
+                        gender: clientDetails.gender
+                    }
+                });
                 setButtonLoading(false);
             })
             .catch((error) => {

@@ -369,7 +369,8 @@ const ViewClient = (props) => {
                                     clientData: {
                                         uid: clID,
                                         firstName: client.firstName,
-                                        surname: client.surname
+                                        surname: client.surname,
+                                        gender: client.profile.gender
                                     }
                                 }}
                                 params={{ clientData: {

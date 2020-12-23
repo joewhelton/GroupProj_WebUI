@@ -25,6 +25,7 @@ import clsx from "clsx";
 import {Button, Card, CardContent} from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import {compose, spacing} from '@material-ui/system';
+import Chip from "@material-ui/core/Chip";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -89,6 +90,7 @@ const LoanApplications = (props) => {
                                                 <TableCell className={classes.tableHeadingCell}>Amount</TableCell>
                                                 <TableCell className={classes.tableHeadingCell}>Term</TableCell>
                                                 <TableCell className={classes.tableHeadingCell}>Area</TableCell>
+                                                <TableCell width={150} className={classes.tableHeadingCell}>Status</TableCell>
                                                 <TableCell width={130}/>
                                             </TableRow>
                                         </TableHead>
@@ -99,6 +101,18 @@ const LoanApplications = (props) => {
                                                     <TableCell>{application.amount}</TableCell>
                                                     <TableCell>{application.term}</TableCell>
                                                     <TableCell>{application.propertyArea}</TableCell>
+                                                    <TableCell>
+                                                        {application.approvedByLoanOfficer === 1 ?
+                                                            <Chip size="small" label="Approved" color="primary" />
+                                                            :
+                                                            (
+                                                                application.approvedByLoanOfficer === 0 ?
+                                                                    <Chip size="small" label="Declined" color="secondary" />
+                                                                    :
+                                                                    <Chip size="small" label="Pending" />
+                                                            )
+                                                        }
+                                                    </TableCell>
                                                     <TableCell>
                                                         <IconButton component={Link} to={`${ROUTES.APPLICATION}/${application.id}`}>
                                                             <EditIcon className={classes.iconLink}/>
@@ -132,7 +146,22 @@ const LoanApplications = (props) => {
                                 </TableContainer>
                             </CardContent>
                         </Card>
-                        <Fab color="primary" aria-label="add" className={classes.fab} href={`${ROUTES.NEWLOANAPPLICATION}/${clID}`}>
+                        {/*<Fab color="primary" aria-label="add" className={classes.fab} href={`${ROUTES.NEWLOANAPPLICATION}/${clID}`}>*/}
+                        {/*    <AddIcon />*/}
+                        {/*</Fab>*/}
+                        <Fab color="primary"
+                             aria-label="add"
+                             className={classes.fab}
+                             component={Link}
+                             to={{
+                                 pathname: `${ROUTES.NEWLOANAPPLICATION}/${clID}`,
+                                 loanInfo: {
+                                     firstName: clientData.firstName,
+                                     surname: clientData.surname,
+                                     gender: clientData.gender
+                                 }
+                             }}
+                        >
                             <AddIcon />
                         </Fab>
                     </React.Fragment>
