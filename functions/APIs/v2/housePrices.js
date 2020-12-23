@@ -1,3 +1,5 @@
+const { rdb } = require('../../util/admin');
+
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 const { validateHousePriceQuery } = require('../../util/validators');
@@ -30,6 +32,11 @@ exports.predict = async (request, response) => {
     if(!houseQuery.yr_renovated){
         houseQuery.yr_renovated = 0;
     }
+
+    if(request.body.userID){
+        houseQuery.userID = request.body.userID
+    }
+
     const { valid, errors } = validateHousePriceQuery(houseQuery);
     if (!valid) return response.status(400).json(errors);
 
@@ -72,6 +79,15 @@ exports.predict = async (request, response) => {
     let buffer = await prediction.data();
 //    console.log(buffer[0]);
     const result = buffer[0];
+
+    if(request.body.userID){
+        houseQuery.predictedPrice = result;
+        houseQuery.createdDate = new Date().toISOString();
+        const hpRef = rdb.ref('/houseData');
+        const newHpRef = hpRef.push();
+        await newHpRef.set(houseQuery);
+    }
+
     return response.status(201).json({result});
 }
 

@@ -91,6 +91,7 @@ exports.updateLoanApplicationById = async (request, response) => {
 }
 
 exports.uploadModel = async (request, response) => {
+    console.log("Uploading loan applications");
     if(!request.user.userRoles.sysAdmin){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
@@ -127,21 +128,28 @@ exports.uploadModel = async (request, response) => {
             return response.status(400).json({ error: 'Both files must be uploaded' });
         }
         const directory = './AI_Models/Loan_Approval';
-        //Remove existing files
-        await fs.readdir(directory,{}, (err, files) => {
-            if (err) throw err;
-            files.forEach((file) => {
-                fs.unlinkSync(`${directory}/${file}`);
-            })
-        });
-        console.log(modelToBeUploaded.filePath);
-        await fs.rename(modelToBeUploaded.filePath, `${directory}/model.json`, (err) => {
-            if (err) throw err;
-        });
-        await fs.rename(weightsToBeUploaded.filePath, `${directory}/${weightsToBeUploaded.filename}`, (err) => {
-            if (err) throw err;
-        });
-        return response.json({ message: 'Uploaded successfully' });
+        try {
+            //Remove existing files
+            await fs.readdir(directory,{}, (err, files) => {
+                if (err) throw err;
+                files.forEach((file) => {
+                    fs.unlinkSync(`${directory}/${file}`);
+                })
+            });
+
+            await fs.rename(modelToBeUploaded.filePath, `${directory}/model.json`, (err) => {
+                if (err) throw err;
+            });
+            await fs.rename(weightsToBeUploaded.filePath, `${directory}/${weightsToBeUploaded.filename}`, (err) => {
+                if (err) throw err;
+            });
+            return response.json({ message: 'Uploaded successfully' });
+        } catch (err) {
+            return response.status(500).json({
+                message: e
+            });
+        }
+
     });
 
     busboy.end(request.rawBody);
