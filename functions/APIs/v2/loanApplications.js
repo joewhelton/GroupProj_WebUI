@@ -31,6 +31,7 @@ exports.newLoanApplication = async (request, response) => {
     newApplication.education = client.profile.education;
     newApplication.married = client.profile.marital;
     newApplication.selfemployed = client.profile.selfemployed;
+    newApplication.credithistory = client.profile.credithistory;
 
     newApplication.createdDate = new Date().toISOString();
     const applicationRef = rdb.ref('/loanApplications');
@@ -203,7 +204,7 @@ exports.predictLoan = async (request, response) => {
         coappIncome: request.body.coappIncome,
         amount: request.body.amount || 0,
         term: request.body.term,
-        history: request.body.history || 0,
+        credithistory: request.body.credithistory || 0,
     }
 
     switch(request.body.propertyArea){
@@ -255,6 +256,14 @@ exports.predictLoan = async (request, response) => {
         loanQuery.selfemployed = 0
     }
 
+    if(request.body.credithistory === 'Yes'){
+        loanQuery.credithistory = 1
+    } else {
+        loanQuery.credithistory = 0
+    }
+
+    console.log(loanQuery);
+
     const model = await tf.loadLayersModel('file://./AI_Models/Loan_Approval/model.json')
         .catch((error) => {
             console.log(`Error - Model Loading - ${error}`);
@@ -273,7 +282,7 @@ exports.predictLoan = async (request, response) => {
             parseFloat(loanQuery.coappIncome),
             parseFloat(loanQuery.amount),
             parseFloat(loanQuery.term),
-            parseFloat(loanQuery.history),
+            parseFloat(loanQuery.credithistory),
             parseFloat(loanQuery.propertyarea),
         ], [1, 11]));
     } catch (error){

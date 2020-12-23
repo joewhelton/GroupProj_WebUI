@@ -142,6 +142,13 @@ const Navigation = ({firebase, classes, logout}) => {
                                         }
                                     />
                                 </ListItem>
+                                <ListItem button component={Link} to={ROUTES.LOANOFFICERS}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <SupervisedUserCircleIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="Loan Officers"/>
+                                </ListItem>
                                 <ListItem button component={Link} to={ROUTES.FINANCIALINSTITUTIONS}>
                                     <ListItemIcon>
                                         {' '}

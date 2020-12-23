@@ -34,6 +34,8 @@ import EditFeedback from "./components/Feedback/EditFeedback";
 import ExportHousePrice from "./components/HousePrices/ExportHousePrice";
 import ReviewLoanApplication from "./components/LoanApplications/ReviewLoanApplication";
 import ExportLoanData from "./components/LoanApplications/ExportLoanData";
+import LoanOfficers from "./components/LoanOfficers";
+import EditLoanOfficer from "./components/LoanOfficers/EditLoanOfficer";
 
 const styles = (theme) => ({
     root: {
@@ -154,6 +156,8 @@ function App( { firebase, classes } ){
                         <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
                         <Route path={ROUTES.HOUSEPRICEDOWNLOAD} component={ExportHousePrice}/>
                         <Route path={ROUTES.LOANINFODOWNLOAD} component={ExportLoanData}/>
+                        <Route path={`${ROUTES.LOANOFFICERS}/:loID`} component={EditLoanOfficer}/>
+                        <Route path={ROUTES.LOANOFFICERS} component={LoanOfficers}/>
                         {/*<Route path={ROUTES.TODOS} component={todo}/>*/}
                         {/*<Route path={ROUTES.ADMIN} component={AdminPage}/>*/}
                     </Switch>
