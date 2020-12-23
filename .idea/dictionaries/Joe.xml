@@ -13,7 +13,9 @@
       <w>housepriceupload</w>
       <w>iban</w>
       <w>loanapplication</w>
+      <w>loanapplicationdownload</w>
       <w>loanapplicationupload</w>
+      <w>loaninfodownload</w>
       <w>loanofficer</w>
       <w>newfinancialinstitution</w>
       <w>newloanapplication</w>

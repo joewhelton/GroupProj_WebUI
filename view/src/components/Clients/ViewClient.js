@@ -369,7 +369,8 @@ const ViewClient = (props) => {
                                     clientData: {
                                         uid: clID,
                                         firstName: client.firstName,
-                                        surname: client.surname
+                                        surname: client.surname,
+                                        gender: client.profile.gender
                                     }
                                 }}
                                 params={{ clientData: {
@@ -384,7 +385,8 @@ const ViewClient = (props) => {
                     </Grid>
                     <LoanApplications history={history} classes={classes} clID={clID} clientData={{
                         firstName: client.firstName,
-                        surname: client.surname
+                        surname: client.surname,
+                        gender: (client.profile ? client.profile.gender : '')
                     }}/>
                     </main>
                 )
