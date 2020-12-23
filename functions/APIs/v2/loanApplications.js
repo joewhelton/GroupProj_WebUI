@@ -196,28 +196,66 @@ exports.uploadModel = async (request, response) => {
 }
 
 exports.predictLoan = async (request, response) => {
+    console.log("I'm predicting this LOAN");
+
     const loanQuery = {
         clientId: request.body.clientId,
         loanApplicationID: request.body.loanApplicationID,
-        gender: request.body.gender,
-        married: request.body.married,
-        dependents: request.body.dependents,
-        education: request.body.education,
-        selfemployed: request.body.selfemployed,
         applicantIncome: request.body.applicantIncome,
         coappIncome: request.body.coappIncome,
         amount: request.body.amount,
         term: request.body.term,
-        history: request.body.history,
-        propertyarea: request.body.propertyarea
+        history: request.body.history || 0,
     }
 
-    // if(!houseQuery.yr_renovated){
-    //     houseQuery.yr_renovated = 0;
-    // }
+    switch(request.body.propertyArea){
+        case 'rural':
+            loanQuery.propertyarea = 0;
+            break;
+        case 'semirural':
+            loanQuery.propertyarea = 1;
+            break;
+        default:
+            loanQuery.propertyarea = 2;
+    }
 
-    // const { valid, errors } = validateHousePriceQuery(houseQuery);
-    // if (!valid) return response.status(400).json(errors);
+    if(request.body.gender === 'Female'){
+        loanQuery.gender = 1
+    } else {
+        loanQuery.gender = 0
+    }
+
+    switch(request.body.dependents){
+        case "0":
+            loanQuery.dependents = 0;
+            break;
+        case "1":
+            loanQuery.dependents = 1;
+            break;
+        case "2":
+            loanQuery.dependents = 2;
+            break;
+        default:
+            loanQuery.dependents = 3;
+    }
+
+    if(request.body.education === 'Yes'){
+        loanQuery.education = 0
+    } else {
+        loanQuery.education = 1
+    }
+
+    if(request.body.married === 'Yes'){
+        loanQuery.married = 1
+    } else {
+        loanQuery.married = 0
+    }
+
+    if(request.body.selfemployed === 'Yes'){
+        loanQuery.selfemployed = 1
+    } else {
+        loanQuery.selfemployed = 0
+    }
 
     const model = await tf.loadLayersModel('file://./AI_Models/Loan_Approval/model.json')
         .catch((error) => {
@@ -249,13 +287,15 @@ exports.predictLoan = async (request, response) => {
     console.log(buffer);
     const result = buffer[0];
 
-    if(request.body.userID){
-        houseQuery.predictedPrice = result;
-        houseQuery.createdDate = new Date().toISOString();
-        const hpRef = rdb.ref('/houseData');
-        const newHpRef = hpRef.push();
-        await newHpRef.set(houseQuery);
-    }
+    let updatedResult = {};
+    updatedResult["Loan Model Answer"] = result;
 
-    return response.status(201).json({result});
+    const laRef = rdb.ref(`/loanApplications/${loanQuery.loanApplicationID}`);
+    laRef.update(updatedResult)
+        .then(() => {
+            return response.status(201).json({result});
+        })
+        .catch((error) => {
+            return response.status(201).json({result});
+        });
 }

@@ -110,14 +110,16 @@ const LoanApplications = (props) => {
                                                                 clientData: {
                                                                     uid: clID,
                                                                     firstName: clientData.firstName,
-                                                                    surname: clientData.surname
+                                                                    surname: clientData.surname,
+                                                                    gender: clientData.gender
                                                                 }
                                                             }}
 
                                                             params={{clientData: {
                                                                     uid: clID,
                                                                     firstName: clientData.firstName,
-                                                                    surname: clientData.surname
+                                                                    surname: clientData.surname,
+                                                                    gender: clientData.gender
                                                                 }}}
                                                         >
                                                             <RateReviewIcon className={classes.iconLink}/>

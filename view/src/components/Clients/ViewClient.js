@@ -384,7 +384,8 @@ const ViewClient = (props) => {
                     </Grid>
                     <LoanApplications history={history} classes={classes} clID={clID} clientData={{
                         firstName: client.firstName,
-                        surname: client.surname
+                        surname: client.surname,
+                        gender: (client.profile ? client.profile.gender : '')
                     }}/>
                     </main>
                 )
