@@ -27,9 +27,10 @@ exports.getAll = async (request, response) => {
     }
     const userRef = rdb.ref(`/users/`);
     const query = userRef.orderByChild("userRoles/loanOfficer").equalTo(true);
-
     const snapshot = await query.once('value');
-    return response.status(201).json(snapshot.val() || {});
+    const loData = snapshot.val() || {}
+
+    return response.status(201).json({loData});
 }
 
 exports.newLoanOfficer = (request, response) => {
@@ -98,7 +99,7 @@ exports.newLoanOfficer = (request, response) => {
         });
 }
 
-const createUpdateUser = (requestBody) => {
+const createUpdateUser = (requestBody, sysAdmin) => {
     let updateUser = {};
     if(requestBody.firstName){
         updateUser.firstName = requestBody.firstName;
@@ -118,6 +119,16 @@ const createUpdateUser = (requestBody) => {
             updateUser.profile.financialInstitutionID = requestBody.profile.financialInstitutionID;
         }
     }
+
+    if(sysAdmin){
+        if(requestBody.userRoles){
+            updateUser.userRoles = {};
+            updateUser.userRoles.client = requestBody.userRoles.client;
+            updateUser.userRoles.loanOfficer = requestBody.userRoles.loanOfficer;
+            updateUser.userRoles.sysAdmin = requestBody.userRoles.sysAdmin;
+        }
+    }
+
     return updateUser;
 }
 
@@ -125,7 +136,7 @@ exports.updateLoanOfficer = async (request, response) => {
     if(!request.user.userRoles.loanOfficer){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
-    const updateUser = createUpdateUser(request.body);
+    const updateUser = createUpdateUser(request.body, false);
     const { valid, errors } = await validateUpdateLoanOfficer(updateUser);
     if (!valid) {
         console.log(valid);
@@ -151,7 +162,7 @@ exports.updateLoanOfficerById = async (request, response) => {
     if(!request.user.userRoles.sysAdmin){
         return response.status(403).json({ error: 'Unauthorized operation' });
     }
-    const updateUser = createUpdateUser(request.body);
+    const updateUser = createUpdateUser(request.body, true);
     const { valid, errors } = await validateUpdateLoanOfficer(updateUser);
     if (!valid) {
         console.log(valid);

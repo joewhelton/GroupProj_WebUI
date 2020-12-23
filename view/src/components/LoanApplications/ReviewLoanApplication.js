@@ -237,6 +237,18 @@ const ReviewLoanApplication = (props) => {
                                     <Grid item lg={3} md={4} sm={12} xs={12}>
                                         <TextField
                                             fullWidth
+                                            label="Credit History"
+                                            margin="dense"
+                                            variant="standard"
+                                            value={loanApplication ? loanApplication.credithistory : ''}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item lg={3} md={4} sm={12} xs={12}>
+                                        <TextField
+                                            fullWidth
                                             label="Amount"
                                             margin="dense"
                                             variant="standard"

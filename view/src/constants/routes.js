@@ -17,5 +17,6 @@ export const NEWLOANAPPLICATION = '/newloanapplication';
 export const LOANAPPLICATIONUPLOAD = '/loanapplicationupload';
 export const LOANINFODOWNLOAD = '/loanapplicationdownload';
 export const FEEDBACK = '/feedback';
+export const LOANOFFICERS = '/loanofficers';
 // export const ADMIN = '/admin';
 // export const PASSWORD_FORGET = '/pw-forget';
