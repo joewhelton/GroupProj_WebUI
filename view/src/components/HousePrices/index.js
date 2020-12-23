@@ -26,7 +26,9 @@ const HousePrices = (props) => {
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
     const {authUser, userData} = userState;
-    const {history, classes} = props;
+    const {history, classes, location} = props;
+    const {clientData} = location;
+    //console.log(clientData);
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [dateOfSale, setDateOfSale] = React.useState(new Date('2014-01-01T00:00:00'));
@@ -112,6 +114,9 @@ const HousePrices = (props) => {
         const authToken = localStorage.getItem('AuthToken');
         axios.defaults.headers.common = { Authorization: `${authToken}` };
         const formRequest = housePriceQuery;
+        if(clientData){
+            formRequest.userID = clientData.uid;
+        }
         axios
             .post(apiUrl + 'houseprice/predict', formRequest)
             .then((data) => {
@@ -120,7 +125,7 @@ const HousePrices = (props) => {
                 setResult(data.data.result);
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 setErrors(error.response.data);
@@ -139,6 +144,9 @@ const HousePrices = (props) => {
                 : (
                     <main className={classes.content}>
                         <div className={classes.toolbar} />
+                        {
+                            clientData ? <Typography>Query on behalf of {clientData.firstName} {clientData.surname}</Typography> : ''
+                        }
                         <Card className={clsx(classes.root, classes)}>
                             <form autoComplete="off" noValidate>
                                 <Divider />

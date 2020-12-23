@@ -19,9 +19,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import IconButton from "@material-ui/core/IconButton";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import RateReviewIcon from '@material-ui/icons/RateReview';
 import {format} from "date-fns";
 import clsx from "clsx";
-import {Card, CardContent} from "@material-ui/core";
+import {Button, Card, CardContent} from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import {compose, spacing} from '@material-ui/system';
 
@@ -32,7 +33,7 @@ const LoanApplications = (props) => {
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
     const {authUser, userData} = userState;
-    const {history, classes, clID} = props;
+    const {history, classes, clID, clientData} = props;
     const [uiLoading, setUiLoading] = useState(true);
     const [applications, setApplications] = useState([]);
 
@@ -58,7 +59,7 @@ const LoanApplications = (props) => {
                     setApplications(applicationArray);
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -88,7 +89,7 @@ const LoanApplications = (props) => {
                                                 <TableCell className={classes.tableHeadingCell}>Amount</TableCell>
                                                 <TableCell className={classes.tableHeadingCell}>Term</TableCell>
                                                 <TableCell className={classes.tableHeadingCell}>Area</TableCell>
-                                                <TableCell width={100}/>
+                                                <TableCell width={130}/>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -101,6 +102,25 @@ const LoanApplications = (props) => {
                                                     <TableCell>
                                                         <IconButton component={Link} to={`${ROUTES.APPLICATION}/${application.id}`}>
                                                             <EditIcon className={classes.iconLink}/>
+                                                        </IconButton>
+                                                        <IconButton
+                                                            component={Link}
+                                                            to={{
+                                                                pathname: `${ROUTES.APPLICATIONREVIEW}/${application.id}`,
+                                                                clientData: {
+                                                                    uid: clID,
+                                                                    firstName: clientData.firstName,
+                                                                    surname: clientData.surname
+                                                                }
+                                                            }}
+
+                                                            params={{clientData: {
+                                                                    uid: clID,
+                                                                    firstName: clientData.firstName,
+                                                                    surname: clientData.surname
+                                                                }}}
+                                                        >
+                                                            <RateReviewIcon className={classes.iconLink}/>
                                                         </IconButton>
                                                     </TableCell>
                                                 </TableRow>

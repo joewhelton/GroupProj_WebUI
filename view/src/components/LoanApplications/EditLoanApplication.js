@@ -35,7 +35,7 @@ const EditLoanApplication = (props) => {
                     setLoanApplication(applicationData);
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -66,7 +66,7 @@ const EditLoanApplication = (props) => {
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 console.log(error);

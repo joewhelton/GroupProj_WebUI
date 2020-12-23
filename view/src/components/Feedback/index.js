@@ -57,7 +57,7 @@ const Feedback = (props) => {
                 setFeedbackListDisplay(feedbackArray);
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 console.log(error);
@@ -86,7 +86,7 @@ const Feedback = (props) => {
                     setFeedbackListDisplay(feedbackArray);
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -103,7 +103,7 @@ const Feedback = (props) => {
             .then((data) => {
                 updateFromServer();
             }).catch((error) => {
-            if (error.response.status === 403) {
+            if (error.response && error.response.status === 403) {
                 history.push('/login');
             }
             console.log(error);

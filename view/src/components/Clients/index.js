@@ -65,7 +65,7 @@ const Clients = (props) => {
                     setClientsDisplay(clientArray);
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);

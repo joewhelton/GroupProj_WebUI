@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {styles} from "../../styles/styles";
 
@@ -11,6 +11,7 @@ import {Button, Card, CardContent, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
 import LoanApplications from "../LoanApplications";
 import SelectLoanOfficer from "./SelectLoanOfficer";
+import * as ROUTES from '../../constants/routes';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -47,7 +48,7 @@ const ViewClient = (props) => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                 })
@@ -68,7 +69,7 @@ const ViewClient = (props) => {
                     //getLoanOfficers();
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -96,7 +97,7 @@ const ViewClient = (props) => {
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 console.log(error);
@@ -338,20 +339,53 @@ const ViewClient = (props) => {
                             </Grid>
                         </CardContent>
                     </Card>
-                    {userData && userData.userRoles.sysAdmin ?
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            type="submit"
-                            className={classes.submitButton}
-                            onClick={onSubmit}
-                            disabled={client ? (client.profile ? (client.profile.loanOfficerId === selectedLoanOfficer) : true) : true}
-                        >
-                            Save details
-                            {buttonLoading && <CircularProgress size={30} className={classes.progess} />}
-                        </Button>
-                        : ''}
-                    <LoanApplications history={history} classes={classes} clID={clID}/>
+                    <Grid
+                        justify="space-between"
+                        container
+                    >
+                        <Grid item>
+                            {userData && userData.userRoles.sysAdmin ?
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    type="submit"
+                                    className={classes.submitButton}
+                                    onClick={onSubmit}
+                                    disabled={client ? (client.profile ? (client.profile.loanOfficerId === selectedLoanOfficer) : true) : true}
+                                >
+                                    Save details
+                                    {buttonLoading && <CircularProgress size={30} className={classes.progess} />}
+                                </Button>
+                                : <div/>}
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                component={Link}
+                                color="primary"
+                                variant="outlined"
+                                className={classes.submitButton}
+                                to={{
+                                    pathname: ROUTES.HOUSEPRICEQUERY,
+                                    clientData: {
+                                        uid: clID,
+                                        firstName: client.firstName,
+                                        surname: client.surname
+                                    }
+                                }}
+                                params={{ clientData: {
+                                        uid: clID,
+                                        firstName: client.firstName,
+                                        surname: client.surname
+                                    } }}
+                            >
+                                House Price Query
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <LoanApplications history={history} classes={classes} clID={clID} clientData={{
+                        firstName: client.firstName,
+                        surname: client.surname
+                    }}/>
                     </main>
                 )
             }

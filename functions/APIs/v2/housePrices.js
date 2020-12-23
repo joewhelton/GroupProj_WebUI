@@ -1,3 +1,5 @@
+const { rdb } = require('../../util/admin');
+
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 const { validateHousePriceQuery } = require('../../util/validators');
@@ -30,6 +32,11 @@ exports.predict = async (request, response) => {
     if(!houseQuery.yr_renovated){
         houseQuery.yr_renovated = 0;
     }
+
+    if(request.body.userID){
+        houseQuery.userID = request.body.userID
+    }
+
     const { valid, errors } = validateHousePriceQuery(houseQuery);
     if (!valid) return response.status(400).json(errors);
 
@@ -72,6 +79,15 @@ exports.predict = async (request, response) => {
     let buffer = await prediction.data();
 //    console.log(buffer[0]);
     const result = buffer[0];
+
+    if(request.body.userID){
+        houseQuery.predictedPrice = result;
+        houseQuery.createdDate = new Date().toISOString();
+        const hpRef = rdb.ref('/houseData');
+        const newHpRef = hpRef.push();
+        await newHpRef.set(houseQuery);
+    }
+
     return response.status(201).json({result});
 }
 
@@ -133,5 +149,28 @@ exports.upload = async (request, response) => {
     busboy.end(request.rawBody);
 }
 
+exports.exportCSV = (request, response) => {
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+
+    const hpRef = rdb.ref('/houseData');
+    hpRef.once("value")
+        .then( (data) => {
+            const fiData = data.val();
+            const json2csv = require("json2csv").parse;
+            const csv = json2csv(fiData);
+            response.setHeader(
+                "Content-disposition",
+                "attachment; filename=housePriceQueries.csv"
+            )
+            response.set("Content-Type", "text/csv");
+            return response.status(201).send(csv);
+        })
+        .catch((error) => {
+            console.log(error);
+            response.status(500).json({ error });
+        });
+}
 
 

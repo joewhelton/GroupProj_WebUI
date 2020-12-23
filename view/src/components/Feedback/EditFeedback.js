@@ -40,7 +40,7 @@ const EditFeedback = (props) => {
                     setUiLoading(false);
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -75,7 +75,7 @@ const EditFeedback = (props) => {
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 console.log(error);

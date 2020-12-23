@@ -2,11 +2,13 @@
   <dictionary name="Joe">
     <words>
       <w>allclients</w>
+      <w>applicationreview</w>
       <w>axios</w>
       <w>clsx</w>
       <w>financialinstitution</w>
       <w>financialinstitutions</w>
       <w>houseprice</w>
+      <w>housepricedownload</w>
       <w>housepricequery</w>
       <w>housepriceupload</w>
       <w>iban</w>
@@ -16,6 +18,7 @@
       <w>newfinancialinstitution</w>
       <w>newloanapplication</w>
       <w>progess</w>
+      <w>reviewapplication</w>
       <w>signup</w>
       <w>sqft</w>
     </words>
