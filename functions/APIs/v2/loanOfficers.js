@@ -43,7 +43,7 @@ exports.newLoanOfficer = (request, response) => {
             sysAdmin: false
         },
         profile: {
-            mobile: request.body.mobile,
+            mobile: request.body.phoneNumber || '',
             description: request.body.description || ''
         },
         password: request.body.password,
@@ -72,6 +72,7 @@ exports.newLoanOfficer = (request, response) => {
         })
         .then((data) =>{
             userId = data.user.uid;
+            console.log(data.user.getIdToken());
             return data.user.getIdToken();
         })
         // eslint-disable-next-line promise/always-return

@@ -1,5 +1,8 @@
 const { rdb } = require('../../util/admin');
 const clientCheck = require('../../util/clientCheck');
+const tf = require('@tensorflow/tfjs');
+require('@tensorflow/tfjs-node');
+
 const { validateNewLoanApplication } = require('../../util/validators');
 
 exports.newLoanApplication = (request, response) => {
@@ -153,4 +156,69 @@ exports.uploadModel = async (request, response) => {
     });
 
     busboy.end(request.rawBody);
+}
+
+exports.predictLoan = async (request, response) => {
+    const loanQuery = {
+        clientId: request.body.clientId,
+        loanApplicationID: request.body.loanApplicationID,
+        gender: request.body.gender,
+        married: request.body.married,
+        dependents: request.body.dependents,
+        education: request.body.education,
+        selfemployed: request.body.selfemployed,
+        applicantIncome: request.body.applicantIncome,
+        coappIncome: request.body.coappIncome,
+        amount: request.body.amount,
+        term: request.body.term,
+        history: request.body.history,
+        propertyarea: request.body.propertyarea
+    }
+
+    // if(!houseQuery.yr_renovated){
+    //     houseQuery.yr_renovated = 0;
+    // }
+
+    // const { valid, errors } = validateHousePriceQuery(houseQuery);
+    // if (!valid) return response.status(400).json(errors);
+
+    const model = await tf.loadLayersModel('file://./AI_Models/Loan_Approval/model.json')
+        .catch((error) => {
+            console.log(`Error - Model Loading - ${error}`);
+            return response.status(503).json({message: `${error}`});
+        });
+
+    let prediction;
+    try {
+        prediction = model.predict(tf.tensor([
+            parseFloat(loanQuery.gender),
+            parseFloat(loanQuery.married),
+            parseFloat(loanQuery.dependents),
+            parseFloat(loanQuery.education),
+            parseFloat(loanQuery.selfemployed),
+            parseFloat(loanQuery.applicantIncome),
+            parseFloat(loanQuery.coappIncome),
+            parseFloat(loanQuery.amount),
+            parseFloat(loanQuery.term),
+            parseFloat(loanQuery.history),
+            parseFloat(loanQuery.propertyarea),
+        ], [1, 11]));
+    } catch (error){
+        console.log(`Error - Prediction failure - ${error}`);
+        return response.status(500).json({message: `${error}`});
+    }
+
+    let buffer = await prediction.data();
+    console.log(buffer);
+    const result = buffer[0];
+
+    if(request.body.userID){
+        houseQuery.predictedPrice = result;
+        houseQuery.createdDate = new Date().toISOString();
+        const hpRef = rdb.ref('/houseData');
+        const newHpRef = hpRef.push();
+        await newHpRef.set(houseQuery);
+    }
+
+    return response.status(201).json({result});
 }
