@@ -5,7 +5,7 @@ require('@tensorflow/tfjs-node');
 
 const { validateNewLoanApplication } = require('../../util/validators');
 
-exports.newLoanApplication = (request, response) => {
+exports.newLoanApplication = async (request, response) => {
     if(!request.user.userRoles.sysAdmin){
         if(!clientCheck(request.body.clientId, request.user.user_id)) {
             return response.status(403).json({error: 'Unauthorized operation'});
@@ -20,6 +20,17 @@ exports.newLoanApplication = (request, response) => {
     }
     const { valid, errors } = validateNewLoanApplication(newApplication);
     if (!valid) return response.status(400).json(errors);
+
+    const clRef = rdb.ref(`/users/${newApplication.clientId}`);
+    const snapshot = await clRef.once('value');
+    let client = (snapshot.val() || {});
+
+    newApplication.applicantIncome = client.profile.applicantincome;
+    newApplication.coappIncome = client.profile.coapplicantIncome || 0;
+    newApplication.dependents = client.profile.dependents;
+    newApplication.education = client.profile.education;
+    newApplication.married = client.profile.marital;
+    newApplication.selfemployed = client.profile.selfemployed;
 
     newApplication.createdDate = new Date().toISOString();
     const applicationRef = rdb.ref('/loanApplications');
@@ -91,6 +102,32 @@ exports.updateLoanApplicationById = async (request, response) => {
                 message: "Cannot Update the value"
             });
         });
+}
+
+exports.saveDecision = async (request, response) => {
+    const apID = request.params.apID;
+
+    if(!request.user.userRoles.sysAdmin){
+        if(!clientCheck(request.body.clientId, request.user.user_id)) {
+            return response.status(403).json({error: 'Unauthorized operation'});
+        }
+    }
+
+    const updateApplication = {
+        approvedByLoanOfficer: request.body.approved
+    }
+
+    const apRef = rdb.ref(`/loanApplications/${apID}`);
+    apRef.update(updateApplication)
+        .then(() => {
+            return response.json({message: 'Updated successfully'});
+        })
+        .catch((error) => {
+            return response.status(500).json({
+                message: "Cannot Update the value"
+            });
+        });
+
 }
 
 exports.uploadModel = async (request, response) => {

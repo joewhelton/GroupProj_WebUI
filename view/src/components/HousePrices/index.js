@@ -125,7 +125,7 @@ const HousePrices = (props) => {
                 setResult(data.data.result);
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 setErrors(error.response.data);

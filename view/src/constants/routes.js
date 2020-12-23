@@ -12,6 +12,7 @@ export const HOUSEPRICEDOWNLOAD = '/housepricedownload';
 export const CLIENTS = '/clients';
 export const ALLCLIENTS = '/allclients';
 export const APPLICATION = '/loanapplication';
+export const APPLICATIONREVIEW = '/reviewapplication';
 export const NEWLOANAPPLICATION = '/newloanapplication';
 export const LOANAPPLICATIONUPLOAD = '/loanapplicationupload';
 export const FEEDBACK = '/feedback';

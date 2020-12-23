@@ -48,7 +48,7 @@ const ViewClient = (props) => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                 })
@@ -69,7 +69,7 @@ const ViewClient = (props) => {
                     //getLoanOfficers();
                 })
                 .catch((error) => {
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         history.push('/login');
                     }
                     console.log(error);
@@ -97,7 +97,7 @@ const ViewClient = (props) => {
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     history.push('/login');
                 }
                 console.log(error);
@@ -382,7 +382,10 @@ const ViewClient = (props) => {
                             </Button>
                         </Grid>
                     </Grid>
-                    <LoanApplications history={history} classes={classes} clID={clID}/>
+                    <LoanApplications history={history} classes={classes} clID={clID} clientData={{
+                        firstName: client.firstName,
+                        surname: client.surname
+                    }}/>
                     </main>
                 )
             }

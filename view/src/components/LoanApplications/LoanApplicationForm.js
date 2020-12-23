@@ -2,6 +2,10 @@ import React from 'react';
 import {Button, Card, CardActions, CardContent, Divider, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const LoanApplicationForm = ({laState, onChange, onSubmit, classes, buttonLoading, uiLoading, errors}) => {
     return (
@@ -47,16 +51,20 @@ const LoanApplicationForm = ({laState, onChange, onSubmit, classes, buttonLoadin
                                             />
                                         </Grid>
                                         <Grid item md={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                label="Property Area"
-                                                margin="dense"
-                                                name="propertyArea"
-                                                value={laState.propertyArea}
-                                                onChange={onChange}
-                                                helperText={errors.propertyArea}
-                                                error={!!errors.propertyArea}
-                                            />
+                                            <FormControl className={classes.formControl} fullWidth>
+                                                <InputLabel id="propertyArea-label">Property Area</InputLabel>
+                                                <Select
+                                                    labelId="propertyArea-label"
+                                                    id="propertyArea"
+                                                    name="propertyArea"
+                                                    value={laState.propertyArea}
+                                                    onChange={onChange}
+                                                >
+                                                    <MenuItem value={'rural'}>rural</MenuItem>
+                                                    <MenuItem value={'semirural'}>semirural</MenuItem>
+                                                    <MenuItem value={'urban'}>urban</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                     </Grid>
                                 </CardContent>

@@ -99,7 +99,7 @@ class account extends Component {
                 });
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     this.props.history.push('/login');
                 }
                 console.log(error);
@@ -140,7 +140,7 @@ class account extends Component {
                 window.location.reload();
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     this.props.history.push('/login');
                 }
                 console.log(error);
@@ -168,7 +168,7 @@ class account extends Component {
                 this.setState({ buttonLoading: false });
             })
             .catch((error) => {
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     this.props.history.push('/login');
                 }
                 console.log(error);

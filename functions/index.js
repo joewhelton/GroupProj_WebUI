@@ -78,13 +78,15 @@ const {
     updateLoanApplicationById,
     getLoanApplicationByClient,  //This one actually gets used in the Client endpoint list further down
     uploadModel,
-    predictLoan
+    predictLoan,
+    saveDecision
 } = require('./APIs/v2/loanApplications');
 
     app.post('/v2/loanapplication/upload', authenticate, authorize, uploadModel);
     app.post('/v2/loanapplication', authenticate, authorize, newLoanApplication);
     app.get('/v2/loanapplication/:apID', authenticate, authorize, getLoanApplicationById);
     app.put('/v2/loanapplication/:apID', authenticate, authorize, updateLoanApplicationById);
+    app.put('/v2/loanapplication/approve/:apID', authenticate, authorize, saveDecision);
     app.post('/v2/loanapplication/predict', authenticate, predictLoan);
 
 //Client endpoints

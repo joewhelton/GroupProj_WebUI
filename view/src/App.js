@@ -32,6 +32,7 @@ import UploadLoanApplicationModel from "./components/LoanApplications/UploadLoan
 import Feedback from "./components/Feedback";
 import EditFeedback from "./components/Feedback/EditFeedback";
 import ExportHousePrice from "./components/HousePrices/ExportHousePrice";
+import ReviewLoanApplication from "./components/LoanApplications/ReviewLoanApplication";
 
 const styles = (theme) => ({
     root: {
@@ -113,7 +114,7 @@ function App( { firebase, classes } ){
                 })
                 .catch((error) => {
                     console.log(error);
-                    if (error.response.status === 403) {
+                    if (error.response && error.response.status === 403) {
                         logout();
                     }
                 });
@@ -146,6 +147,7 @@ function App( { firebase, classes } ){
                         <Route path={`${ROUTES.CLIENTS}/:clID`} component={ViewClient}/>
                         <Route path={ROUTES.CLIENTS} component={Clients}/>
                         <Route path={`${ROUTES.NEWLOANAPPLICATION}/:clID`} component={NewLoanApplication}/>
+                        <Route path={`${ROUTES.APPLICATIONREVIEW}/:apID`} component={ReviewLoanApplication}/>
                         <Route path={ROUTES.LOANAPPLICATIONUPLOAD} component={UploadLoanApplicationModel}/>
                         <Route path={`${ROUTES.APPLICATION}/:apID`} component={EditLoanApplication}/>
                         <Route path={ROUTES.ALLCLIENTS} render={(props) => <Clients {...props} mode={'all'}/>}/>
