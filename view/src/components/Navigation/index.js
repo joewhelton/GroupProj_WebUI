@@ -168,8 +168,16 @@ const Navigation = ({firebase, classes, logout}) => {
                                         {' '}
                                         <CloudDownloadIcon/>{' '}
                                     </ListItemIcon>
-                                    <ListItemText primary="Export Dataset"/>
+                                    <ListItemText primary="Export House Price Dataset"/>
                                 </ListItem>
+                                <ListItem button component={Link} to={ROUTES.LOANINFODOWNLOAD}>
+                                    <ListItemIcon>
+                                        {' '}
+                                        <CloudDownloadIcon/>{' '}
+                                    </ListItemIcon>
+                                    <ListItemText primary="Export Loan Dataset"/>
+                                </ListItem>
+
                                 <ListItem button component={Link} to={ROUTES.ALLCLIENTS}>
                                     <ListItemIcon>
                                         {' '}

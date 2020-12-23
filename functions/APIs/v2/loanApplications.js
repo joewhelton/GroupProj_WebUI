@@ -196,14 +196,12 @@ exports.uploadModel = async (request, response) => {
 }
 
 exports.predictLoan = async (request, response) => {
-    console.log("I'm predicting this LOAN");
-
     const loanQuery = {
         clientId: request.body.clientId,
         loanApplicationID: request.body.loanApplicationID,
         applicantIncome: request.body.applicantIncome,
         coappIncome: request.body.coappIncome,
-        amount: request.body.amount,
+        amount: request.body.amount || 0,
         term: request.body.term,
         history: request.body.history || 0,
     }
@@ -297,5 +295,31 @@ exports.predictLoan = async (request, response) => {
         })
         .catch((error) => {
             return response.status(201).json({result});
+        });
+}
+
+exports.exportLoanCSV = (request, response) => {
+    console.log('exporting');
+    if(!request.user.userRoles.sysAdmin){
+        return response.status(403).json({ error: 'Unauthorized operation' });
+    }
+
+    const hpRef = rdb.ref('/loanApplications');
+    hpRef.once("value")
+        .then( (data) => {
+            const fiData = data.val();
+            console.log(fiData);
+            const json2csv = require("json2csv").parse;
+            const csv = json2csv(fiData);
+            response.setHeader(
+                "Content-disposition",
+                "attachment; filename=loanData.csv"
+            )
+            response.set("Content-Type", "text/csv");
+            return response.status(201).send(csv);
+        })
+        .catch((error) => {
+            console.log(error);
+            response.status(500).json({ error });
         });
 }
