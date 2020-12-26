@@ -22,8 +22,12 @@
     "firebase": "^7.23.0",
     "firebase-admin": "^8.13.0",
     "firebase-functions": "^3.6.1",
+    "jpickle": "^0.4.1",
     "json2csv": "^4.5.4",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "natural": "^2.3.0",
+    "nltk": "0.0.1",
+    "pickle": "^0.2.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",

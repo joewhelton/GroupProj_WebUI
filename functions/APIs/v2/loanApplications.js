@@ -25,13 +25,13 @@ exports.newLoanApplication = async (request, response) => {
     const snapshot = await clRef.once('value');
     let client = (snapshot.val() || {});
 
-    newApplication.applicantIncome = client.profile.applicantincome;
+    newApplication.applicantIncome = client.profile.applicantincome || 0;
     newApplication.coappIncome = client.profile.coapplicantIncome || 0;
-    newApplication.dependents = client.profile.dependents;
-    newApplication.education = client.profile.education;
-    newApplication.married = client.profile.marital;
-    newApplication.selfemployed = client.profile.selfemployed;
-    newApplication.credithistory = client.profile.credithistory;
+    newApplication.dependents = client.profile.dependents || 0;
+    newApplication.education = client.profile.education || 0;
+    newApplication.married = client.profile.marital || 0;
+    newApplication.selfemployed = client.profile.selfemployed || 0;
+    newApplication.credithistory = client.profile.credithistory || 0;
 
     newApplication.createdDate = new Date().toISOString();
     const applicationRef = rdb.ref('/loanApplications');

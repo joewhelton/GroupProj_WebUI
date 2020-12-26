@@ -42,7 +42,7 @@ const ViewClient = (props) => {
                         loArray.push(item);
                     }
                     setLoanOfficers(loArray);
-                    if(client.profile) {
+                    if(client.profile && client.profile.loanOfficerId) {
                         setSelectedLoanOfficer(client.profile.loanOfficerId);
                     }
                 })
@@ -370,7 +370,7 @@ const ViewClient = (props) => {
                                         uid: clID,
                                         firstName: client.firstName,
                                         surname: client.surname,
-                                        gender: client.profile.gender
+                                        gender: client.profile ? client.profile.gender : ''
                                     }
                                 }}
                                 params={{ clientData: {
