@@ -318,8 +318,13 @@ exports.exportLoanCSV = (request, response) => {
         .then( (data) => {
             const fiData = data.val();
             console.log(fiData);
+            let array = [];
+            Object.keys(fiData).forEach((key) => {
+                array.push(fiData[key]);
+            })
+
             const json2csv = require("json2csv").parse;
-            const csv = json2csv(fiData);
+            const csv = json2csv(array);
             response.setHeader(
                 "Content-disposition",
                 "attachment; filename=loanData.csv"

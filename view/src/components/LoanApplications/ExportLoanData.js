@@ -29,7 +29,7 @@ const ExportLoanData = (props) => {
         axios.defaults.headers.common = {Authorization: `${authToken}`};
 
         axios({
-            url: apiUrl + 'loanapplication/export', //your url
+            url: apiUrl + 'exportloandata',
             method: 'GET',
             responseType: 'blob', // important
         }).then((response) => {
