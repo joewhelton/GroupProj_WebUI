@@ -1,0 +1,44 @@
+div.chatbotFrame {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  background: white;
+  border: 1px #0065B3 solid;
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  overflow: hidden;
+}
+div.chatbotFrame div.chatbotHeader {
+  background-color: #0065B3;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding: 0.2rem 0.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  font-weight: bold;
+}
+div.chatbotFrame div.chatbotBody {
+  height: 300px;
+  transition: all 0.25s linear;
+  flex-direction: column;
+}
+div.chatbotFrame div.chatbotBody textarea {
+  flex-grow: 1;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+div.chatbotFrame div.chatbotBody div.inputHolder {
+  display: flex;
+}
+div.chatbotFrame div.chatbotBody div.inputHolder input {
+  flex: 1 1 auto;
+}
+div.chatbotFrame div.chatbotBody div.inputHolder button {
+  margin-left: 0.5rem;
+}
+
+/*# sourceMappingURL=chatbot.css.map */

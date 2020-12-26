@@ -89,7 +89,7 @@ const {
     app.put('/v2/loanapplication/:apID', authenticate, authorize, updateLoanApplicationById);
     app.put('/v2/loanapplication/approve/:apID', authenticate, authorize, saveDecision);
     app.post('/v2/loanapplication/predict', authenticate, predictLoan);
-    app.get('/v2/loanapplication/export', authenticate, authorize, exportLoanCSV);
+    app.get('/v2/exportloandata', authenticate, authorize, exportLoanCSV);
 
 //Client endpoints
 const {

@@ -8,6 +8,7 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import Button from "@material-ui/core/Button";
 import {Link} from "react-router-dom";
 import * as ROUTES from '../../constants/routes';
+import Chatbot from "./Chatbot";
 
 const Index = (props) => {
     require('../../styles/landingPage.css');
@@ -47,6 +48,7 @@ const Index = (props) => {
                         <a href='#'><img src={gplusIcon} alt={'Social Media Icon'}/></a>
                     </div>
                 </footer>
+                <Chatbot></Chatbot>
             </div>
         </React.Fragment>
     )
