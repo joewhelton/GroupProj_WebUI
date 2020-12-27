@@ -2,7 +2,7 @@ div.chatbotFrame {
   position: absolute;
   bottom: 0;
   right: 1rem;
-  width: 250px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   padding: 0 0.5rem 0.5rem 0.5rem;
@@ -20,25 +20,76 @@ div.chatbotFrame div.chatbotHeader {
   margin-bottom: 0.5rem;
   color: white;
   font-weight: bold;
+  cursor: pointer;
+}
+div.chatbotFrame div.chatbotHeader div {
+  float: right;
+  font-size: 1.1rem;
+  margin-left: 0.3rem;
 }
 div.chatbotFrame div.chatbotBody {
   height: 300px;
   transition: all 0.25s linear;
   flex-direction: column;
 }
-div.chatbotFrame div.chatbotBody textarea {
+div.chatbotFrame div.chatbotBody div.chatLog {
   flex-grow: 1;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #888;
+  padding-right: 0.3rem;
   margin-bottom: 0.5rem;
+}
+div.chatbotFrame div.chatbotBody div.chatLog::-webkit-scrollbar {
+  width: 8px;
+}
+div.chatbotFrame div.chatbotBody div.chatLog::-webkit-scrollbar-track {
+  background: #ccc;
+}
+div.chatbotFrame div.chatbotBody div.chatLog::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 1px;
+}
+div.chatbotFrame div.chatbotBody div.chatLog div.chatText {
+  width: 80%;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  margin-bottom: 0.5rem;
+}
+div.chatbotFrame div.chatbotBody div.chatLog div.chatText.answer {
+  background-color: #0065B3;
+  color: white;
+}
+div.chatbotFrame div.chatbotBody div.chatLog div.chatText.question {
+  background-color: #dfdfdf;
+  float: right;
 }
 div.chatbotFrame div.chatbotBody div.inputHolder {
   display: flex;
 }
 div.chatbotFrame div.chatbotBody div.inputHolder input {
   flex: 1 1 auto;
+  font-size: 1rem;
+  border: 1px #0065B3 solid;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem 0 0 0.3rem;
+}
+div.chatbotFrame div.chatbotBody div.inputHolder input:focus {
+  outline: none;
 }
 div.chatbotFrame div.chatbotBody div.inputHolder button {
-  margin-left: 0.5rem;
+  background-color: #0065B3;
+  color: white;
+  font-weight: bold;
+  border: 1px #0065B3 solid;
+  border-radius: 0 0.3rem 0.3rem 0;
+  cursor: pointer;
+}
+div.chatbotFrame div.chatbotBody div.inputHolder button:focus {
+  border: 1px #22c2f2 solid;
+  outline: none;
 }
 
 /*# sourceMappingURL=chatbot.css.map */
