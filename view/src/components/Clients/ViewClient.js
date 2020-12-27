@@ -35,7 +35,7 @@ const ViewClient = (props) => {
                 .get(apiUrl + 'loanofficer')
                 .then((data) => {
                     const loArray = [];
-                    const loData = data.data;
+                    const loData = data.data.loData;
                     for (const [key, value] of Object.entries(loData)) {
                         let item = value;
                         item['userId'] = key;

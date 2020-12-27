@@ -199,11 +199,11 @@ exports.uploadModel = async (request, response) => {
 exports.predictLoan = async (request, response) => {
     const loanQuery = {
         clientId: request.body.clientId,
-        loanApplicationID: request.body.loanApplicationID,
-        applicantIncome: request.body.applicantIncome,
-        coappIncome: request.body.coappIncome,
+        loanApplicationID: request.body.loanApplicationID || 0,
+        applicantIncome: request.body.applicantIncome || 0,
+        coappIncome: request.body.coappIncome || 0,
         amount: request.body.amount || 0,
-        term: request.body.term,
+        term: request.body.term || 0,
         credithistory: request.body.credithistory || 0,
     }
 
