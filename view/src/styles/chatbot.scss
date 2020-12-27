@@ -2,7 +2,7 @@ div.chatbotFrame{
   position: absolute;
   bottom: 0;
   right: 1rem;
-  width: 250px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   padding: 0 0.5rem 0.5rem 0.5rem;
@@ -20,25 +20,81 @@ div.chatbotFrame{
     margin-bottom: 0.5rem;
     color: white;
     font-weight: bold;
+    cursor: pointer;
+    div{
+      float: right;
+      font-size: 1.1rem;
+      margin-left: 0.3rem;
+    }
   }
 
   div.chatbotBody {
     height: 300px;
     transition: all 0.25s linear;
     flex-direction: column;
-    textarea {
+    div.chatLog{
       flex-grow: 1;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: #888;
+      padding-right: 0.3rem;
       margin-bottom: 0.5rem;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #ccc;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #888 ;
+        border-radius: 1px;
+      }
+
+      div.chatText{
+        width: 80%;
+        border-radius: 0.3rem;
+        padding: 0.2rem 0.4rem;
+        margin-bottom: 0.5rem;
+
+        &.answer{
+          background-color: #0065B3;
+          color: white;
+        }
+        &.question{
+          background-color: #dfdfdf;
+          float: right;
+        }
+      }
     }
 
     div.inputHolder {
       display: flex;
       input {
         flex: 1 1 auto;
+        font-size: 1rem;
+        border: 1px #0065B3 solid;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.3rem 0 0 0.3rem;
+
+        &:focus{
+          outline: none;
+        }
       }
       button{
-        margin-left: 0.5rem;
+        background-color: #0065B3;
+        color: white;
+        font-weight: bold;
+        border: 1px #0065B3 solid;
+        border-radius: 0 0.3rem 0.3rem 0;
+        cursor: pointer;
+
+        &:focus{
+          border: 1px #22c2f2 solid;
+          outline: none;
+        }
       }
     }
   }

@@ -61,7 +61,7 @@ const bow = (sentence, words) => {
     let bag = Array(words.length).fill(0);
     sentenceWords.forEach((sw) => {
         words.forEach((w, index) => {
-            if(sw.toLowerCase() == w.toLowerCase()){
+            if(sw.toLowerCase() === w.toLowerCase()){
                 bag[index] = 1;
             }
         })
