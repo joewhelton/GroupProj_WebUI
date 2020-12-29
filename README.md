@@ -2,9 +2,10 @@
 **Required Software**
 - Node.js and NPM
 
-Install Firebase Tools globally with NPM:
+Install Firebase and Firebase Tools globally with NPM:
 ```javascript
 npm install -g firebase-tools
+npm install -g firebase
 ```
 Then log in to associate the Firebase CLI tools with your user account
 ```shell script
