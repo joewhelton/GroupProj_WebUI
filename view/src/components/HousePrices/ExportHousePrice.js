@@ -4,10 +4,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {Context as UserContext} from "../../store/contexts/user/Store";
 import {styles} from "../../styles/styles";
 import {authMiddleWare, authorizeMiddleware} from "../../util/auth";
-import {Button, Card, CardContent, Divider, Grid} from "@material-ui/core";
+import { Card, CardContent, Divider } from "@material-ui/core";
 import clsx from "clsx";
-import Typography from "@material-ui/core/Typography";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;

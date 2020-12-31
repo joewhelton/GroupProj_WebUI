@@ -9,7 +9,6 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Button, Card, CardContent, Divider, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 

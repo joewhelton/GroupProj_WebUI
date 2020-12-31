@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {format} from 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
 import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;

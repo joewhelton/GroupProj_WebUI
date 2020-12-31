@@ -22,9 +22,8 @@ import AddIcon from "@material-ui/icons/Add";
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import {format} from "date-fns";
 import clsx from "clsx";
-import {Button, Card, CardContent} from "@material-ui/core";
+import {Card, CardContent} from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
-import {compose, spacing} from '@material-ui/system';
 import Chip from "@material-ui/core/Chip";
 
 const apiUrl = process.env.REACT_APP_API_URL;

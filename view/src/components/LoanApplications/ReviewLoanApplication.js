@@ -1,5 +1,5 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import React, {useContext, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {styles} from "../../styles/styles";
 
@@ -9,8 +9,6 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Button, Card, CardContent, Grid, TextField} from "@material-ui/core";
 import clsx from "clsx";
-import * as ROUTES from "../../constants/routes";
-import LoanApplications from "./index";
 import Divider from "@material-ui/core/Divider";
 import CardHeader from "@material-ui/core/CardHeader";
 
@@ -24,7 +22,6 @@ const ReviewLoanApplication = (props) => {
     const {history, classes, location} = props;
     const {clientData} = location;
     const [uiLoading, setUiLoading] = useState(true);
-    // eslint-disable-next-line no-unused-vars
     const [buttonLoading, setButtonLoading] = useState(false);
     const [calculateButtonLoading, setCalculateButtonLoading] = useState(false);
     const [loanApplication, setLoanApplication] = useState({});
@@ -67,8 +64,6 @@ const ReviewLoanApplication = (props) => {
             .post(apiUrl + 'loanapplication/predict', loanApplication)
             .then((data) => {
                 const result = data.data.result;
-                //console.log(data.data.result);
-                //setLoanApplication(data.data.result);
                 setLoanApplication({...loanApplication, ["Loan Model Answer"]: result});
             })
             .catch((error) => {

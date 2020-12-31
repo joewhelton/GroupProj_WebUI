@@ -160,7 +160,6 @@ const HousePrices = (props) => {
                                                     fullWidth
                                                     disableToolbar
                                                     label="Sale Date"
-                                                    variant="inline"
                                                     format="dd/MM/yyyy"
                                                     margin="dense"
                                                     name="sale_date"

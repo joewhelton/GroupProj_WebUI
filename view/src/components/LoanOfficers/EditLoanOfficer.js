@@ -1,9 +1,7 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { Card, CardActions, CardContent, Divider, Button, Grid, TextField } from '@material-ui/core';
 import { styles }  from '../../styles/styles';
 import clsx from 'clsx';
