@@ -12,6 +12,8 @@ import {Button, Card, CardActions, CardContent, Divider, Grid, TextField} from "
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
 import * as ROUTES from "../../constants/routes";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -153,18 +155,26 @@ const HousePrices = (props) => {
                                             <Typography id="discrete-slider" className={classes.rangeLabel}>
                                                 Grade
                                             </Typography>
-                                            <Slider
-                                                value={housePriceQuery.grade}
-                                                className={classes.rangeSlider}
-                                                aria-labelledby="discrete-slider"
-                                                valueLabelDisplay="auto"
-                                                onChange={handleGradeSliderChange}
+                                            <InputLabel id="grade-label">Grade</InputLabel>
+                                            <Select
+                                                labelId="grade-label"
+                                                id="grade"
                                                 name="grade"
-                                                step={1}
-                                                marks
-                                                min={3}
-                                                max={13}
-                                            />
+                                                value={housePriceQuery.propertyArea}
+                                                onChange={onChange}
+                                            >
+                                                <MenuItem value={'3'}>Does not meet standards</MenuItem>
+                                                <MenuItem value={'4'}>Older low quality</MenuItem>
+                                                <MenuItem value={'5'}>Small simple design</MenuItem>
+                                                <MenuItem value={'6'}>Low quality, simple design</MenuItem>
+                                                <MenuItem value={'7'}>Average</MenuItem>
+                                                <MenuItem value={'8'}>Just above average</MenuItem>
+                                                <MenuItem value={'9'}>Good design & quality</MenuItem>
+                                                <MenuItem value={'10'}>High quality features</MenuItem>
+                                                <MenuItem value={'11'}>Custom design high quality</MenuItem>
+                                                <MenuItem value={'12'}>Custom design higher quality</MenuItem>
+                                                <MenuItem value={'13'}>Highest quality mansion</MenuItem>
+                                            </Select>
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
                                             <TextField

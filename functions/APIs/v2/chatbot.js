@@ -1,6 +1,7 @@
 const tf = require('@tensorflow/tfjs');
+const fs = require('fs');
 
-const words = ["'s", ',', 'a', 'all', 'anyone', 'are', 'available', 'awesome', 'be', 'bye', 'can', 'chatting', 'check', 'contact', 'could', 'day', 'do', 'for', 'give', 'good', 'goodbye', 'hello', 'help', 'helpful', 'helping', 'hey', 'hi', 'hola', 'how', 'i', 'is', 'later', 'list', 'loan', 'long', 'me', 'mortgage', 'next', 'nice', 'no', 'number', 'of', 'offered', 'phone', 'provide', 'see', 'short', 'sign', 'someone', 'speak', 'suitable', 'support', 'term', 'thank', 'thanks', 'that', 'there', 'till', 'time', 'to', 'up', 'want', 'what', 'where', 'which', 'who', 'you'];
+//const words = ["'s", ',', 'a', 'all', 'anyone', 'are', 'available', 'awesome', 'be', 'bye', 'can', 'chatting', 'check', 'contact', 'could', 'day', 'do', 'for', 'give', 'good', 'goodbye', 'hello', 'help', 'helpful', 'helping', 'hey', 'hi', 'hola', 'how', 'i', 'is', 'later', 'list', 'loan', 'long', 'me', 'mortgage', 'next', 'nice', 'no', 'number', 'of', 'offered', 'phone', 'provide', 'see', 'short', 'sign', 'someone', 'speak', 'suitable', 'support', 'term', 'thank', 'thanks', 'that', 'there', 'till', 'time', 'to', 'up', 'want', 'what', 'where', 'which', 'who', 'you'];
 const classes = ['Loan_type', 'goodbye', 'greeting', 'loan', 'options', 'thanks', 'type', 'who'];
 
 exports.chatbot = async (request, response) => {
@@ -15,6 +16,8 @@ exports.chatbot = async (request, response) => {
 }
 
 const predictClass = async (chatQuestion) => {
+    let rawWords = fs.readFileSync('./AI_Models/chatbot/words.json');
+    let words = JSON.parse(rawWords);
     const errorThreshold = 0.25;
     let p = bow(chatQuestion, words);
     const model = await tf.loadLayersModel('file://./AI_Models/chatbot/model.json')
@@ -71,8 +74,9 @@ const bow = (sentence, words) => {
 
 const getResponse = (ints) => {
     let result;
+    let rawClasses = fs.readFileSync('./AI_Models/chatbot/classes.json');
+    let classes = JSON.parse(rawClasses);
     let tag = classes[ints[0]['intent']];
-    const fs = require('fs');
     let rawData = fs.readFileSync('./AI_Models/chatbot/intents.json');
     let intents_json = JSON.parse(rawData);
     let list_of_intents = intents_json['intents'];
