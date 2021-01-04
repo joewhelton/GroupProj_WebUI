@@ -84,14 +84,6 @@ function App( { firebase, classes } ){
         history.push(ROUTES.LOGIN);
     });
 
-    const authorisationCheck = (level) => {
-        if(userData) {
-            if (!userData.userRoles[level]) {
-                logout();
-            }
-        }
-    }
-
     useEffect(()=>{
         const authToken = localStorage.getItem('AuthToken');
         if (authToken && !authUser) {

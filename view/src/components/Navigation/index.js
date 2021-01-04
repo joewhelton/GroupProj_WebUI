@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Context as UserContext } from '../../store/contexts/user/Store'
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -66,7 +66,7 @@ const styles = (theme) => ({
 });
 
 const Navigation = ({firebase, classes, logout}) => {
-    let history = useHistory();
+    //let history = useHistory();
     // eslint-disable-next-line no-unused-vars
     const [userState, userDispatch] = useContext(UserContext);
     let {authUser, userData} = userState;

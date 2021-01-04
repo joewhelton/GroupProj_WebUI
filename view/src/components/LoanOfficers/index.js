@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EditIcon from '@material-ui/icons/Edit';
 import * as ROUTES from '../../constants/routes';
 
 import Table from '@material-ui/core/Table';
@@ -17,7 +16,6 @@ import { authMiddleWare, authorizeMiddleware } from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
 import {Link} from "react-router-dom";
 import {styles} from "../../styles/styles";
-import DeleteIcon from "@material-ui/icons/Delete";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Grid from "@material-ui/core/Grid";
 import {TextField} from "@material-ui/core";

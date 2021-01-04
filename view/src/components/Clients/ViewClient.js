@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {styles} from "../../styles/styles";
 
 import axios from 'axios';
-import { authMiddleWare, authorizeMiddleware } from '../../util/auth';
+import { authMiddleWare } from '../../util/auth';
 import {Context as UserContext} from "../../store/contexts/user/Store";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Button, Card, CardContent, Grid, TextField} from "@material-ui/core";
@@ -20,7 +20,7 @@ const ViewClient = (props) => {
     const [userState, userDispatch] = useContext(UserContext);
     // eslint-disable-next-line no-unused-vars
     const {authUser, userData} = userState;
-    const { history, classes, ...rest } = props;
+    const { history, classes } = props;
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [client, setClient] = useState({});
@@ -35,7 +35,7 @@ const ViewClient = (props) => {
                 .get(apiUrl + 'loanofficer')
                 .then((data) => {
                     const loArray = [];
-                    const loData = data.data;
+                    const loData = data.data.loData;
                     for (const [key, value] of Object.entries(loData)) {
                         let item = value;
                         item['userId'] = key;

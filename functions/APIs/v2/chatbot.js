@@ -1,5 +1,4 @@
 const tf = require('@tensorflow/tfjs');
-require('@tensorflow/tfjs-node');
 
 const words = ["'s", ',', 'a', 'all', 'anyone', 'are', 'available', 'awesome', 'be', 'bye', 'can', 'chatting', 'check', 'contact', 'could', 'day', 'do', 'for', 'give', 'good', 'goodbye', 'hello', 'help', 'helpful', 'helping', 'hey', 'hi', 'hola', 'how', 'i', 'is', 'later', 'list', 'loan', 'long', 'me', 'mortgage', 'next', 'nice', 'no', 'number', 'of', 'offered', 'phone', 'provide', 'see', 'short', 'sign', 'someone', 'speak', 'suitable', 'support', 'term', 'thank', 'thanks', 'that', 'there', 'till', 'time', 'to', 'up', 'want', 'what', 'where', 'which', 'who', 'you'];
 const classes = ['Loan_type', 'goodbye', 'greeting', 'loan', 'options', 'thanks', 'type', 'who'];

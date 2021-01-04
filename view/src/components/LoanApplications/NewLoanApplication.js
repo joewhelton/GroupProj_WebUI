@@ -8,8 +8,6 @@ import {Context as UserContext} from "../../store/contexts/user/Store";
 import {styles} from "../../styles/styles";
 import LoanApplicationForm from "./LoanApplicationForm";
 import {useParams} from "react-router-dom";
-import {format} from 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
