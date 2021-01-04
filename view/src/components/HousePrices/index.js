@@ -2,15 +2,7 @@ import React, {useCallback, useContext, useEffect, useRef, useState} from 'react
 import {Link} from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
-import {format} from 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 import axios from 'axios';
 import { authMiddleWare } from '../../util/auth';
@@ -33,32 +25,14 @@ const HousePrices = (props) => {
     //console.log(clientData);
     const [uiLoading, setUiLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [dateOfSale, setDateOfSale] = React.useState(new Date('2014-01-01T00:00:00'));
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState('');
     const [housePriceQuery, setHousePriceQuery] = useState({
-        sale_date: '',
-        sale_yr: '2014',
-        sale_month: '01',
-        sale_day: '01',
         bedrooms: '',
-        bathrooms: '',
         sqft_living: '',
         sqft_lot: '',
-        floors: '',
-        waterfrontToggle: false,
-        waterfront: 0,
-        view: 0,
-        condition: 3,
         grade: 8,
         sqft_above: '',
-        sqft_basement: '',
-        yr_built: '',
-        yr_renovated: '',
-        zipcode: '',
-        lat: '',
-        long: '',
-        sqft_living15: '',
         sqft_lot15: ''
     });
 
@@ -68,27 +42,6 @@ const HousePrices = (props) => {
         authMiddleWare(history);
         setUiLoading(false);
     },[history]);
-
-    const handleDateChange = (date) => {
-        setDateOfSale(date);
-        setHousePriceQuery({ ...housePriceQuery,
-            sale_yr: format(date, 'yyyy'),
-            sale_month: format(date, 'MM'),
-            sale_day: format(date, 'dd')
-        });
-    };
-
-    const handleWaterfrontToggle = ((e)=> {
-        setHousePriceQuery({ ...housePriceQuery, [e.target.name]: e.target.checked ? 1 : 0, waterfrontToggle: e.target.checked });
-    })
-
-    const handleViewSliderChange = ((e, newValue) => {
-        setHousePriceQuery({ ...housePriceQuery, view: newValue });
-    })
-
-    const handleConditionSliderChange = ((e, newValue) => {
-        setHousePriceQuery({ ...housePriceQuery, condition: newValue });
-    })
 
     const handleGradeSliderChange = ((e, newValue) => {
         setHousePriceQuery({ ...housePriceQuery, grade: newValue });
@@ -154,24 +107,6 @@ const HousePrices = (props) => {
                                 <Divider />
                                 <CardContent>
                                     <Grid container spacing={3}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <Grid item lg={3} md={4} sm={12} xs={12}>
-                                                <KeyboardDatePicker
-                                                    fullWidth
-                                                    disableToolbar
-                                                    label="Sale Date"
-                                                    format="dd/MM/yyyy"
-                                                    margin="dense"
-                                                    name="sale_date"
-                                                    variant="outlined"
-                                                    value={dateOfSale}
-                                                    onChange={handleDateChange}
-                                                    KeyboardButtonProps={{
-                                                        'aria-label': 'change date',
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </MuiPickersUtilsProvider>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
                                             <TextField
                                                 fullWidth
@@ -184,20 +119,6 @@ const HousePrices = (props) => {
                                                 onChange={onChange}
                                                 helperText={errors.bedrooms}
                                                 error={errors.bedrooms ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Bathrooms"
-                                                margin="dense"
-                                                name="bathrooms"
-                                                variant="standard"
-                                                value={housePriceQuery.bathrooms}
-                                                onChange={onChange}
-                                                helperText={errors.bathrooms}
-                                                error={errors.bathrooms ? true : false}
                                             />
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -224,69 +145,8 @@ const HousePrices = (props) => {
                                                 variant="standard"
                                                 value={housePriceQuery.sqft_lot}
                                                 onChange={onChange}
-                                                helperText={errors.bathrooms}
-                                                error={errors.bathrooms ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Floors"
-                                                margin="dense"
-                                                name="floors"
-                                                variant="standard"
-                                                value={housePriceQuery.floors}
-                                                onChange={onChange}
-                                                helperText={errors.floors}
-                                                error={errors.floors ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12} className={classes.switchHolder}>
-                                            <FormControlLabel
-                                                control={
-                                                    <Switch
-                                                        checked={housePriceQuery.waterfrontToggle}
-                                                        onChange={handleWaterfrontToggle}
-                                                        name="waterfront"
-                                                        color="primary"
-                                                    />
-                                                }
-                                                label="Waterfront"
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <Typography id="discrete-slider" className={classes.rangeLabel}>
-                                                View
-                                            </Typography>
-                                            <Slider
-                                                value={housePriceQuery.view}
-                                                className={classes.rangeSlider}
-                                                aria-labelledby="discrete-slider"
-                                                valueLabelDisplay="auto"
-                                                onChange={handleViewSliderChange}
-                                                name="view"
-                                                step={1}
-                                                marks
-                                                min={0}
-                                                max={4}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <Typography id="discrete-slider" className={classes.rangeLabel}>
-                                                Condition
-                                            </Typography>
-                                            <Slider
-                                                value={housePriceQuery.condition}
-                                                className={classes.rangeSlider}
-                                                aria-labelledby="discrete-slider"
-                                                valueLabelDisplay="auto"
-                                                onChange={handleConditionSliderChange}
-                                                name="condition"
-                                                step={1}
-                                                marks
-                                                min={1}
-                                                max={5}
+                                                helperText={errors.sqft_lot}
+                                                error={errors.sqft_lot ? true : false}
                                             />
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -318,104 +178,6 @@ const HousePrices = (props) => {
                                                 onChange={onChange}
                                                 helperText={errors.sqft_above}
                                                 error={errors.sqft_above ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Sq Ft (Basement)"
-                                                margin="dense"
-                                                name="sqft_basement"
-                                                variant="standard"
-                                                value={housePriceQuery.sqft_basement}
-                                                onChange={onChange}
-                                                helperText={errors.sqft_basement}
-                                                error={errors.sqft_basement ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Year Built"
-                                                margin="dense"
-                                                name="yr_built"
-                                                variant="standard"
-                                                value={housePriceQuery.yr_built}
-                                                onChange={onChange}
-                                                helperText={errors.yr_built}
-                                                error={errors.yr_built ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Year Renovated"
-                                                margin="dense"
-                                                name="yr_renovated"
-                                                variant="standard"
-                                                value={housePriceQuery.yr_renovated}
-                                                onChange={onChange}
-                                                helperText={errors.yr_renovated}
-                                                error={errors.yr_renovated ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Zip Code"
-                                                margin="dense"
-                                                name="zipcode"
-                                                variant="standard"
-                                                value={housePriceQuery.zipcode}
-                                                onChange={onChange}
-                                                helperText={errors.zipcode}
-                                                error={errors.zipcode ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Latitude"
-                                                margin="dense"
-                                                name="lat"
-                                                variant="standard"
-                                                value={housePriceQuery.lat}
-                                                onChange={onChange}
-                                                helperText={errors.lat}
-                                                error={errors.lat ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Longitude"
-                                                margin="dense"
-                                                name="long"
-                                                variant="standard"
-                                                value={housePriceQuery.long}
-                                                onChange={onChange}
-                                                helperText={errors.long}
-                                                error={errors.long ? true : false}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <TextField
-                                                fullWidth
-                                                type="number"
-                                                label="Sq Ft (Living 15)"
-                                                margin="dense"
-                                                name="sqft_living15"
-                                                variant="standard"
-                                                value={housePriceQuery.sqft_living15}
-                                                onChange={onChange}
-                                                helperText={errors.sqft_living15}
-                                                error={errors.sqft_living15 ? true : false}
                                             />
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -458,7 +220,9 @@ const HousePrices = (props) => {
                                         padding: '0 1rem',
                                         display: 'flex',
                                         alignItems: 'center',
-                                    }}>Result: <span style={{fontWeight: 'bold'}}>{result}</span></Card>
+                                    }}>Result: <span style={{fontWeight: 'bold'}}>{result}</span><br/>
+                                    Mean Absolute Error - <span style={{fontStyle: 'italic'}}>15662</span>
+                                    </Card>
                                 </Grid>
                                 : ''
                             }

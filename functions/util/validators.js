@@ -141,26 +141,11 @@ exports.validateNewLoanApplication = (data) => {
 exports.validateHousePriceQuery = (data) => {
     let errors = {};
 
-    if(isEmpty(data.sale_yr) || !isNumeric(data.sale_yr)) errors.sale_yr = 'Must be a non-empty number';
-    if(isEmpty(data.sale_month) || !isNumeric(data.sale_month)) errors.sale_month = 'Must be a non-empty number';
-    if(isEmpty(data.sale_day) || !isNumeric(data.sale_day)) errors.sale_day = 'Must be a non-empty number';
     if(isEmpty(data.bedrooms) || !isNumeric(data.bedrooms)) errors.bedrooms = 'Must be a non-empty number';
-    if(isEmpty(data.bathrooms) || !isNumeric(data.bathrooms)) errors.bathrooms = 'Must be a non-empty number';
     if(isEmpty(data.sqft_living) || !isNumeric(data.sqft_living)) errors.sqft_living = 'Must be a non-empty number';
     if(isEmpty(data.sqft_lot) || !isNumeric(data.sqft_lot)) errors.sqft_lot = 'Must be a non-empty number';
-    if(isEmpty(data.floors) || !isNumeric(data.floors)) errors.floors = 'Must be a non-empty number';
-    if(isEmpty(data.waterfront) || !isNumeric(data.waterfront)) errors.waterfront = 'Must be a non-empty number';
-    if(isEmpty(data.view) || !isNumeric(data.view)) errors.view = 'Must be a non-empty number';
-    if(isEmpty(data.condition) || !isNumeric(data.condition)) errors.condition = 'Must be a non-empty number';
     if(isEmpty(data.grade) || !isNumeric(data.grade)) errors.grade = 'Must be a non-empty number';
     if(isEmpty(data.sqft_above) || !isNumeric(data.sqft_above)) errors.sqft_above = 'Must be a non-empty number';
-    if(isEmpty(data.sqft_basement) || !isNumeric(data.sqft_basement)) errors.sqft_basement = 'Must be a non-empty number';
-    if(isEmpty(data.yr_built) || !isNumeric(data.yr_built)) errors.yr_built = 'Must be a non-empty number';
-    if(!isNumeric(data.yr_renovated)) errors.yr_renovated = 'Must be empty or a number';
-    if(isEmpty(data.zipcode) || !isNumeric(data.zipcode)) errors.zipcode = 'Must be a non-empty number';
-    if(isEmpty(data.lat) || !isNumeric(data.lat)) errors.lat = 'Must be a non-empty number';
-    if(isEmpty(data.long) || !isNumeric(data.long)) errors.long = 'Must be a non-empty number';
-    if(isEmpty(data.sqft_living15) || !isNumeric(data.sqft_living15)) errors.sqft_living15 = 'Must be a non-empty number';
     if(isEmpty(data.sqft_lot15) || !isNumeric(data.sqft_lot15)) errors.sqft_lot15 = 'Must be a non-empty number';
 
     return {

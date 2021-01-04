@@ -169,28 +169,18 @@ exports.uploadModel = async (request, response) => {
             return response.status(400).json({ error: 'Both files must be uploaded' });
         }
         const directory = './AI_Models/Loan_Approval';
-        try {
-            //Remove existing files
-            await fs.readdir(directory,{}, (err, files) => {
-                if (err) throw err;
-                files.forEach((file) => {
-                    fs.unlinkSync(`${directory}/${file}`);
-                })
-            });
-
-            await fs.rename(modelToBeUploaded.filePath, `${directory}/model.json`, (err) => {
-                if (err) throw err;
-            });
-            await fs.rename(weightsToBeUploaded.filePath, `${directory}/${weightsToBeUploaded.filename}`, (err) => {
-                if (err) throw err;
-            });
-            return response.json({ message: 'Uploaded successfully' });
-        } catch (err) {
-            return response.status(500).json({
-                message: e
-            });
-        }
-
+        //Remove existing files
+        await fs.readdir(directory,{}, (err, files) => {
+            if (err) throw err;
+            files.forEach((file) => {
+                fs.unlinkSync(`${directory}/${file}`);
+            })
+            console.log(modelToBeUploaded.filePath);
+            fs.renameSync(modelToBeUploaded.filePath, `${directory}/model.json`);
+            console.log(weightsToBeUploaded.filePath);
+            fs.renameSync(weightsToBeUploaded.filePath, `${directory}/${weightsToBeUploaded.filename}`);
+        });
+        return response.json({ message: 'Uploaded successfully' });
     });
 
     busboy.end(request.rawBody);
@@ -206,6 +196,14 @@ exports.predictLoan = async (request, response) => {
         term: request.body.term || 0,
         credithistory: request.body.credithistory || 0,
     }
+
+    const logFields = ['applicantIncome', 'coappIncome', 'amount'];
+
+    logFields.forEach((field, index) => {
+        if (loanQuery[field] > 0) {
+            loanQuery[field] = Math.log(loanQuery[field]);
+        }
+    })
 
     switch(request.body.propertyArea){
         case 'rural':
