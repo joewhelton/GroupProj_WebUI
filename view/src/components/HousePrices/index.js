@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import * as ROUTES from "../../constants/routes";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -33,7 +35,7 @@ const HousePrices = (props) => {
         bedrooms: '',
         sqft_living: '',
         sqft_lot: '',
-        grade: 8,
+        grade: 7,
         sqft_above: '',
         sqft_lot15: ''
     });
@@ -133,8 +135,8 @@ const HousePrices = (props) => {
                                                 variant="standard"
                                                 value={housePriceQuery.sqft_living}
                                                 onChange={onChange}
-                                                helperText={errors.bathrooms}
-                                                error={errors.bathrooms ? true : false}
+                                                helperText={errors.sqft_living}
+                                                error={errors.sqft_living ? true : false}
                                             />
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -152,29 +154,31 @@ const HousePrices = (props) => {
                                             />
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
-                                            <Typography id="discrete-slider" className={classes.rangeLabel}>
-                                                Grade
-                                            </Typography>
-                                            <InputLabel id="grade-label">Grade</InputLabel>
-                                            <Select
-                                                labelId="grade-label"
-                                                id="grade"
-                                                name="grade"
-                                                value={housePriceQuery.propertyArea}
-                                                onChange={onChange}
-                                            >
-                                                <MenuItem value={'3'}>Does not meet standards</MenuItem>
-                                                <MenuItem value={'4'}>Older low quality</MenuItem>
-                                                <MenuItem value={'5'}>Small simple design</MenuItem>
-                                                <MenuItem value={'6'}>Low quality, simple design</MenuItem>
-                                                <MenuItem value={'7'}>Average</MenuItem>
-                                                <MenuItem value={'8'}>Just above average</MenuItem>
-                                                <MenuItem value={'9'}>Good design & quality</MenuItem>
-                                                <MenuItem value={'10'}>High quality features</MenuItem>
-                                                <MenuItem value={'11'}>Custom design high quality</MenuItem>
-                                                <MenuItem value={'12'}>Custom design higher quality</MenuItem>
-                                                <MenuItem value={'13'}>Highest quality mansion</MenuItem>
-                                            </Select>
+                                            <FormControl className={classes.formControl} fullWidth>
+                                                <InputLabel id="grade-label">Grade</InputLabel>
+                                                <Select
+                                                    labelId="grade-label"
+                                                    id="grade"
+                                                    name="grade"
+                                                    value={housePriceQuery.grade}
+                                                    onChange={onChange}
+                                                    helperText={errors.grade}
+                                                    error={errors.grade ? true : false}
+
+                                                >
+                                                    <MenuItem value={'3'}>3 - Does not meet standards</MenuItem>
+                                                    <MenuItem value={'4'}>4 - Older low quality</MenuItem>
+                                                    <MenuItem value={'5'}>5 - Small simple design</MenuItem>
+                                                    <MenuItem value={'6'}>6 - Low quality, simple design</MenuItem>
+                                                    <MenuItem value={'7'}>7 - Average</MenuItem>
+                                                    <MenuItem value={'8'}>8 - Just above average</MenuItem>
+                                                    <MenuItem value={'9'}>9 - Good design & quality</MenuItem>
+                                                    <MenuItem value={'10'}>10 - High quality features</MenuItem>
+                                                    <MenuItem value={'11'}>11 - Custom design high quality</MenuItem>
+                                                    <MenuItem value={'12'}>12 - Custom design higher quality</MenuItem>
+                                                    <MenuItem value={'13'}>13 - Highest quality mansion</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                         <Grid item lg={3} md={4} sm={6} xs={12}>
                                             <TextField
