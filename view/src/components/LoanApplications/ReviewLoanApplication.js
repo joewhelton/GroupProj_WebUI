@@ -106,7 +106,7 @@ const ReviewLoanApplication = (props) => {
                 </main>)
                 : (<main className={classes.content}>
                         <div className={classes.toolbar} />
-                        <Card className={clsx(classes.root, classes)}>
+                        <Card className={clsx(classes.root, classes)}  style={{marginBottom: '1rem'}}>
                             <CardContent>
                                 <Grid container spacing={3}>
                                     <Grid item lg={3} md={4} sm={12} xs={12}>
@@ -276,7 +276,20 @@ const ReviewLoanApplication = (props) => {
                             <CardContent>
                                 <Grid container>
                                     {loanApplication["Loan Model Answer"] ?
-                                        ''
+                                        <Grid item xs={12}>
+                                            <div style={{marginBottom: '1rem'}}>
+                                                The Loan Engine predicts the customer&nbsp;
+                                                {loanApplication["Loan Model Answer"] > 0.5 ?
+                                                    <span style={{fontWeight: 'bold'}}>will </span>
+                                                :
+                                                    <span style={{fontWeight: 'bold'}}>will not </span>
+                                                }
+                                                be able to meet repayments.  Certainty is&nbsp;
+                                                {
+                                                    (Math.abs(loanApplication["Loan Model Answer"] - 0.5) * 200).toFixed(2)
+                                                }%.
+                                            </div>
+                                        </Grid>
                                         :
                                         <Grid item xs={12}>
                                             <div className={classes.customError}>

@@ -234,8 +234,7 @@ const HousePrices = (props) => {
                                         padding: '0 1rem',
                                         display: 'flex',
                                         alignItems: 'center',
-                                    }}>Result: <span style={{fontWeight: 'bold'}}>{result}</span><br/>
-                                    Mean Absolute Error - <span style={{fontStyle: 'italic'}}>15662</span>
+                                    }}>Result: <span style={{fontWeight: 'bold'}}>€{parseFloat(result).toFixed(2)}</span>
                                     </Card>
                                 </Grid>
                                 : ''

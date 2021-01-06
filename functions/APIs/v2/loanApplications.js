@@ -58,6 +58,7 @@ exports.getLoanApplicationById = async (request, response) => {
             return response.status(403).json({error: 'Unauthorized operation'});
         }
     }
+    console.log(application);
     return response.status(201).json({application});
 }
 
@@ -190,11 +191,17 @@ exports.predictLoan = async (request, response) => {
     const loanQuery = {
         clientId: request.body.clientId,
         loanApplicationID: request.body.loanApplicationID || 0,
-        applicantIncome: request.body.applicantIncome || 0,
-        coappIncome: request.body.coappIncome || 0,
-        amount: request.body.amount || 0,
-        term: request.body.term || 0,
+        applicantIncome: request.body.applicantIncome / 12 || 0,
+        coappIncome: request.body.coappIncome / 12 || 0,
+        amount: request.body.amount / 1000 || 0,
+        term: request.body.term  || 0,
         credithistory: request.body.credithistory || 0,
+    }
+
+    if(loanQuery.term > 22){
+        loanQuery.term = 360
+    } else {
+        loanQuery.term = 180
     }
 
     const logFields = ['applicantIncome', 'coappIncome', 'amount'];
@@ -269,6 +276,21 @@ exports.predictLoan = async (request, response) => {
         });
 
     let prediction;
+
+    console.log({
+        gender: parseFloat(loanQuery.gender),
+        married: parseFloat(loanQuery.married),
+        dependents: parseFloat(loanQuery.dependents),
+        education: parseFloat(loanQuery.education),
+        selfemployed: parseFloat(loanQuery.selfemployed),
+        applicantIncome: parseFloat(loanQuery.applicantIncome),
+        coappIncome: parseFloat(loanQuery.coappIncome),
+        amount: parseFloat(loanQuery.amount),
+        term: parseFloat(loanQuery.term),
+        credithistory: parseFloat(loanQuery.credithistory),
+        propertyarea: parseFloat(loanQuery.propertyarea),
+    });
+
     try {
         prediction = model.predict(tf.tensor([
             parseFloat(loanQuery.gender),
