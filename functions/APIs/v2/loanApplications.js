@@ -1,5 +1,5 @@
 const { rdb } = require('../../util/admin');
-const clientCheck = require('../../util/clientCheck');
+const { clientCheck } = require('../../util/clientCheck');
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 
